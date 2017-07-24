@@ -1,0 +1,617 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9B9D0526-2F45-4A0C-A18D-19932BD4176B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heren.NurDoc.Frame</RootNamespace>
+    <AssemblyName>NurDoc.Frame</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\Debug\</OutputPath>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.DockSuite, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.DockSuite.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Report, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.VectorEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.VectorEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\LoadingCircle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\LoadingCircle.Designer.cs">
+      <DependentUpon>LoadingCircle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NursingHomePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NursingHomePage.Designer.cs">
+      <DependentUpon>NursingHomePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PatInfoCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\PatInfoList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\WhiteBoardControl.Designer.cs">
+      <DependentUpon>WhiteBoardControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftSpecialEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftSpecialEditForm.Designer.cs">
+      <DependentUpon>ShiftSpecialEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftStatusEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftStatusEditForm.Designer.cs">
+      <DependentUpon>ShiftStatusEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\QcNurRecForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\QcNurRecForm.Designer.cs">
+      <DependentUpon>QcNurRecForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\QcOrderRecForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\QcOrderRecForm.Designer.cs">
+      <DependentUpon>QcOrderRecForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\QcTemperature.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\QcTemperature.Designer.cs">
+      <DependentUpon>QcTemperature.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\QuestionTypeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\QuestionTypeForm.designer.cs">
+      <DependentUpon>QuestionTypeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SelectQuestionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SelectQuestionForm.designer.cs">
+      <DependentUpon>SelectQuestionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftRecFilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftRecFilterForm.Designer.cs">
+      <DependentUpon>ShiftRecFilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftRecEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftRecEditForm.Designer.cs">
+      <DependentUpon>ShiftRecEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\BatchRecFilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\BatchRecFilterForm.Designer.cs">
+      <DependentUpon>BatchRecFilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\AboutSystemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AboutSystemForm.Designer.cs">
+      <DependentUpon>AboutSystemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\BatchRecord\BatchRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\BatchRecord\BatchRecordForm.Designer.cs">
+      <DependentUpon>BatchRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\BatchRecord\BatchRecordHandler.cs" />
+    <Compile Include="DockForms\BatchRecord\NursingRecHandler.cs" />
+    <Compile Include="DockForms\BatchRecord\VitalSignsHandler.cs" />
+    <Compile Include="DockForms\Evaluation\EvaluationEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\Evaluation\EvaluationEditForm.Designer.cs">
+      <DependentUpon>EvaluationEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\Evaluation\EvaluationListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\Evaluation\EvaluationListForm.Designer.cs">
+      <DependentUpon>EvaluationListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\Evaluation\EvaluationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\Evaluation\EvaluationForm.Designer.cs">
+      <DependentUpon>EvaluationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NursingQCForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NursingQCForm.Designer.cs">
+      <DependentUpon>NursingQCForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftItemAliasForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NurseShift\ShiftItemAliasForm.Designer.cs">
+      <DependentUpon>ShiftItemAliasForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NursingTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NursingTaskForm.Designer.cs">
+      <DependentUpon>NursingTaskForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\DockContentBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\DockContentBase.Designer.cs">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\QCPatientListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\QCPatientListForm.Designer.cs">
+      <DependentUpon>QCPatientListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\QC\QCEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\QC\QCEditForm.Designer.cs">
+      <DependentUpon>QCEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\QC\QCForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\QC\QCForm.Designer.cs">
+      <DependentUpon>QCForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\QC\QCListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\QC\QCListForm.Designer.cs">
+      <DependentUpon>QCListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\QuestionListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\QuestionListForm.Designer.cs">
+      <DependentUpon>QuestionListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\SpecialPatientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\SpecialPatientForm.Designer.cs">
+      <DependentUpon>SpecialPatientForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\PatientCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\PatientCardForm.Designer.cs">
+      <DependentUpon>PatientCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\PatientListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\PatientListForm.Designer.cs">
+      <DependentUpon>PatientListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\PatientPageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\PatientPageForm.Designer.cs">
+      <DependentUpon>PatientPageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\PluginDocumentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\PluginDocumentForm.Designer.cs">
+      <DependentUpon>PluginDocumentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NursingStatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NursingStatForm.Designer.cs">
+      <DependentUpon>NursingStatForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NursingShiftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NursingShiftForm.Designer.cs">
+      <DependentUpon>NursingShiftForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainFrame.Designer.cs">
+      <DependentUpon>MainFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StatusBarControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MainFrame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\WhiteBoardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Dialogs\QcNurDocForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\QcNurDocForm.Designer.cs">
+      <DependentUpon>QcNurDocForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\RosteringCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\RosteringCardForm.Designer.cs">
+      <DependentUpon>RosteringCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\NursingShiftHandler.cs" />
+    <Compile Include="Utility\QcExamineHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NurDoc.DAL\NurDoc.DAL.csproj">
+      <Project>{B84CC211-4F0B-4DBC-9AC9-991E55933745}</Project>
+      <Name>NurDoc.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Data\NurDoc.Data.csproj">
+      <Project>{FD6FC5FE-6A7C-4C44-97DD-6C40A321F2D7}</Project>
+      <Name>NurDoc.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.PatPage\NurDoc.PatPage.csproj">
+      <Project>{FCA3DBA6-BE5E-4023-9192-DBA9F24184D2}</Project>
+      <Name>NurDoc.PatPage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Utilities\NurDoc.Utilities.csproj">
+      <Project>{FD8F827E-7CF0-4B61-9313-557D2563044D}</Project>
+      <Name>NurDoc.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\NursingHomePage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NursingHomePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WhiteBoardControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>WhiteBoardControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NurseShift\ShiftSpecialEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ShiftSpecialEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NurseShift\ShiftStatusEditForm.resx">
+      <DependentUpon>ShiftStatusEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\QcNurRecForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QcNurRecForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\QcOrderRecForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QcOrderRecForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\QcTemperature.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QcTemperature.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\QuestionTypeForm.resx">
+      <DependentUpon>QuestionTypeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SelectQuestionForm.resx">
+      <DependentUpon>SelectQuestionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NurseShift\ShiftRecFilterForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ShiftRecFilterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NurseShift\ShiftRecEditForm.resx">
+      <DependentUpon>ShiftRecEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\BatchRecFilterForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BatchRecFilterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\AboutSystemForm.resx">
+      <DependentUpon>AboutSystemForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\BatchRecord\BatchRecordForm.resx">
+      <DependentUpon>BatchRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\Evaluation\EvaluationEditForm.resx">
+      <DependentUpon>EvaluationEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\Evaluation\EvaluationListForm.resx">
+      <DependentUpon>EvaluationListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\Evaluation\EvaluationForm.resx">
+      <DependentUpon>EvaluationForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NursingQCForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NursingQCForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NurseShift\ShiftItemAliasForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ShiftItemAliasForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NursingTaskForm.resx">
+      <DependentUpon>NursingTaskForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\DockContentBase.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\QCPatientListForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QCPatientListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\QC\QCEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QCEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\QC\QCForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QCForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\QC\QCListForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QCListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\QuestionListForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QuestionListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\RosteringCardForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>RosteringCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\SpecialPatientForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SpecialPatientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\PatientCardForm.resx">
+      <DependentUpon>PatientCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\PatientListForm.resx">
+      <DependentUpon>PatientListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\PatientPageForm.resx">
+      <DependentUpon>PatientPageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\PluginDocumentForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PluginDocumentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NursingStatForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NursingStatForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NursingShiftForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NursingShiftForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainFrame.resx">
+      <DependentUpon>MainFrame.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\QcNurDocForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QcNurDocForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExitSys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PersonsIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Persons.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SysIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MoveDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MoveUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Templet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShiftIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Share.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShareLevel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LogoBig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mail_Warn_gif.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Toolbox.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,392 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FD8F827E-7CF0-4B61-9313-557D2563044D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heren.NurDoc.Utilities</RootNamespace>
+    <AssemblyName>NurDoc.Utilities</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleAssemblies>D:\Microsoft Visual Studio 8\Team Tools\Static Analysis Tools\FxCop\\rules</CodeAnalysisRuleAssemblies>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>none</ErrorReport>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugSymbols>false</DebugSymbols>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Report, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.VectorEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.VectorEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Office, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Interop.Office.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Word, Version=8.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Interop.Word.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dialogs\CheckBoxListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CheckBoxListForm.Designer.cs">
+      <DependentUpon>CheckBoxListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ReasonDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ReasonDialog.Designer.cs">
+      <DependentUpon>ReasonDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\UserSelectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\UserSelectDialog.Designer.cs">
+      <DependentUpon>UserSelectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OperationApplyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OperationApplyDialog.Designer.cs">
+      <DependentUpon>OperationApplyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SetPageNumberForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SetPageNumberForm.Designer.cs">
+      <DependentUpon>SetPageNumberForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SetDateTimeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SetDateTimeForm.Designer.cs">
+      <DependentUpon>SetDateTimeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DocumentReaderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DocumentReaderForm.Designer.cs">
+      <DependentUpon>DocumentReaderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormEditForm.Designer.cs">
+      <DependentUpon>FormEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DeptSelectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DeptSelectDialog.Designer.cs">
+      <DependentUpon>DeptSelectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\AntenatalInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\AntenatalInfoForm.Designer.cs">
+      <DependentUpon>AntenatalInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\ExamImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\ExamImportForm.Designer.cs">
+      <DependentUpon>ExamImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\FoodEleImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\FoodEleImportForm.Designer.cs">
+      <DependentUpon>FoodEleImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\TestImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\TestImportForm.Designer.cs">
+      <DependentUpon>TestImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\NurRecImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\NurRecImportForm.Designer.cs">
+      <DependentUpon>NurRecImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import\OrdersImportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import\OrdersImportForm.Designer.cs">
+      <DependentUpon>OrdersImportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\TempletEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\TempletEditForm.Designer.cs">
+      <DependentUpon>TempletEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\TempletTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\TempletTreeForm.Designer.cs">
+      <DependentUpon>TempletTreeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\TextTempletForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\TextTempletForm.Designer.cs">
+      <DependentUpon>TextTempletForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UtilitiesHandler.cs" />
+    <Compile Include="WordTemp\WinWordCtrl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WordTemp\WinWordCtrl.Designer.cs">
+      <DependentUpon>WinWordCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordTemp\WordTempEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordTemp\WordTempEditForm.Designer.cs">
+      <DependentUpon>WordTempEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordTemp\WordTempTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordTemp\WordTempTreeForm.Designer.cs">
+      <DependentUpon>WordTempTreeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordTemp\WordTempForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordTemp\WordTempForm.Designer.cs">
+      <DependentUpon>WordTempForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\CheckBoxListForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CheckBoxListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ReasonDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ReasonDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\UserSelectDialog.resx">
+      <DependentUpon>UserSelectDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OperationApplyDialog.resx">
+      <DependentUpon>OperationApplyDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SetPageNumberForm.resx">
+      <DependentUpon>SetPageNumberForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SetDateTimeForm.resx">
+      <DependentUpon>SetDateTimeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DocumentReaderForm.resx">
+      <DependentUpon>DocumentReaderForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormEditForm.resx">
+      <DependentUpon>FormEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DeptSelectDialog.resx">
+      <DependentUpon>DeptSelectDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\AntenatalInfoForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AntenatalInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\ExamImportForm.resx">
+      <DependentUpon>ExamImportForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\FoodEleImportForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FoodEleImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\TestImportForm.resx">
+      <DependentUpon>TestImportForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\NurRecImportForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NurRecImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import\OrdersImportForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OrdersImportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\TempletEditForm.resx">
+      <DependentUpon>TempletEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\TempletTreeForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TempletTreeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\TextTempletForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TextTempletForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordTemp\WordTempEditForm.resx">
+      <DependentUpon>WordTempEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordTemp\WordTempTreeForm.resx">
+      <DependentUpon>WordTempTreeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordTemp\WordTempForm.resx">
+      <DependentUpon>WordTempForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallTemplet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormEdit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Share.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShareLevel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NurDoc.DAL\NurDoc.DAL.csproj">
+      <Project>{b84cc211-4f0b-4dbc-9ac9-991e55933745}</Project>
+      <Name>NurDoc.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Data\NurDoc.Data.csproj">
+      <Project>{fd6fc5fe-6a7c-4c44-97dd-6c40a321f2d7}</Project>
+      <Name>NurDoc.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

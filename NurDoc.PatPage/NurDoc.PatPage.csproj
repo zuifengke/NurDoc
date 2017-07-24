@@ -1,0 +1,565 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FCA3DBA6-BE5E-4023-9192-DBA9F24184D2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heren.NurDoc.PatPage</RootNamespace>
+    <AssemblyName>NurDoc.PatPage</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\Debug\</OutputPath>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.DockSuite, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.DockSuite.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Report, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.VectorEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.VectorEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\PatientListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonitoringRecords\GraphDocumentEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MonitoringRecords\GraphDocumentEditForm.Designer.cs">
+      <DependentUpon>GraphDocumentEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MonitoringRecords\GraphDocumentListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MonitoringRecords\GraphDocumentListForm.Designer.cs">
+      <DependentUpon>GraphDocumentListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphNursingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphNursingForm.Designer.cs">
+      <DependentUpon>GraphNursingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NCP\CarePlanEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NCP\CarePlanEditForm.Designer.cs">
+      <DependentUpon>CarePlanEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NCP\NurCarePlanHandler.cs" />
+    <Compile Include="NCP\NursingCarePlanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NCP\NursingCarePlanForm.Designer.cs">
+      <DependentUpon>NursingCarePlanForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NursingAssessMentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NursingAssessMentForm.Designer.cs">
+      <DependentUpon>NursingAssessMentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockContentBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockContentBase.Designer.cs">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Document\ChildDocEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Document\ChildDocEditForm.Designer.cs">
+      <DependentUpon>ChildDocEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Document\DocumentListEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Document\DocumentListEditForm.Designer.cs">
+      <DependentUpon>DocumentListEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRecTableInput\NurRecordContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRecTableInput\NurRecordContent.Designer.cs">
+      <DependentUpon>NurRecordContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRecTableInput\NursingRecHandler.cs" />
+    <Compile Include="NurRecTableInput\NursingRecordTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRecTableInput\NursingRecordTableForm.Designer.cs">
+      <DependentUpon>NursingRecordTableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRec\NurRecSummaryInScForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRec\NurRecSummaryInScForm.Designer.cs">
+      <DependentUpon>NurRecSummaryInScForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRec\NurRecSummaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRec\NurRecSummaryForm.Designer.cs">
+      <DependentUpon>NurRecSummaryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Document\DocumentListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Document\DocumentListForm.Designer.cs">
+      <DependentUpon>DocumentListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Document\DocumentEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Document\DocumentEditForm.Designer.cs">
+      <DependentUpon>DocumentEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IntegrateQueryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegrateQueryForm.Designer.cs">
+      <DependentUpon>IntegrateQueryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRec\NursingRecHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRec\NursingRecHistory.Designer.cs">
+      <DependentUpon>NursingRecHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRec\RecordEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRec\RecordEditForm.Designer.cs">
+      <DependentUpon>RecordEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpecialNursingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SpecialNursingForm.Designer.cs">
+      <DependentUpon>SpecialNursingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Document\DocumentInfo.cs" />
+    <Compile Include="Document\DocumentControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Consult\ConsultEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consult\ConsultEditForm.Designer.cs">
+      <DependentUpon>ConsultEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Consult\NursingConsultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Consult\NursingConsultForm.Designer.cs">
+      <DependentUpon>NursingConsultForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EventArgs.cs" />
+    <Compile Include="Utility\NurApplyHandler.cs" />
+    <Compile Include="OrdersRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrdersRecordForm.Designer.cs">
+      <DependentUpon>OrdersRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NurRec\NursingRecordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NurRec\NursingRecordForm.Designer.cs">
+      <DependentUpon>NursingRecordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PatientInfoStrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PatientInfoStrip.Designer.cs">
+      <DependentUpon>PatientInfoStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PatientPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PatientPageControl.Designer.cs">
+      <DependentUpon>PatientPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PluginDocumentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PluginDocumentForm.Designer.cs">
+      <DependentUpon>PluginDocumentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VitalSignsGraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VitalSignsGraphForm.Designer.cs">
+      <DependentUpon>VitalSignsGraphForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordDocument\WordDocEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordDocument\WordDocEditForm.designer.cs">
+      <DependentUpon>WordDocEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordDocument\WordDocForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordDocument\WordDocForm.designer.cs">
+      <DependentUpon>WordDocForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordDocument\WordDocTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordDocument\WordDocTreeForm.designer.cs">
+      <DependentUpon>WordDocTreeForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NurDoc.DAL\NurDoc.DAL.csproj">
+      <Project>{b84cc211-4f0b-4dbc-9ac9-991e55933745}</Project>
+      <Name>NurDoc.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Data\NurDoc.Data.csproj">
+      <Project>{fd6fc5fe-6a7c-4c44-97dd-6c40a321f2d7}</Project>
+      <Name>NurDoc.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Utilities\NurDoc.Utilities.csproj">
+      <Project>{FD8F827E-7CF0-4B61-9313-557D2563044D}</Project>
+      <Name>NurDoc.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MonitoringRecords\GraphDocumentEditForm.resx">
+      <DependentUpon>GraphDocumentEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonitoringRecords\GraphDocumentListForm.resx">
+      <DependentUpon>GraphDocumentListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphNursingForm.resx">
+      <DependentUpon>GraphNursingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NCP\CarePlanEditForm.resx">
+      <DependentUpon>CarePlanEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NCP\NursingCarePlanForm.resx">
+      <DependentUpon>NursingCarePlanForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NursingAssessMentForm.resx">
+      <DependentUpon>NursingAssessMentForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Document\ChildDocEditForm.resx">
+      <DependentUpon>ChildDocEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRecTableInput\NurRecordContent.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NurRecordContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Document\DocumentListEditForm.resx">
+      <DependentUpon>DocumentListEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRecTableInput\NursingRecordTableForm.resx">
+      <DependentUpon>NursingRecordTableForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRec\NurRecSummaryInScForm.resx">
+      <DependentUpon>NurRecSummaryInScForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRec\NurRecSummaryForm.resx">
+      <DependentUpon>NurRecSummaryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Document\DocumentListForm.resx">
+      <DependentUpon>DocumentListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Document\DocumentEditForm.resx">
+      <DependentUpon>DocumentEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrateQueryForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>IntegrateQueryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRec\NursingRecHistory.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NursingRecHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRec\RecordEditForm.resx">
+      <DependentUpon>RecordEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SpecialNursingForm.resx">
+      <DependentUpon>SpecialNursingForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PatientInfoStrip.resx">
+      <DependentUpon>PatientInfoStrip.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consult\ConsultEditForm.resx">
+      <DependentUpon>ConsultEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consult\NursingConsultForm.resx">
+      <DependentUpon>NursingConsultForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginDocumentForm.resx">
+      <DependentUpon>PluginDocumentForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VitalSignsGraphForm.resx">
+      <DependentUpon>VitalSignsGraphForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockContentBase.resx">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrdersRecordForm.resx">
+      <DependentUpon>OrdersRecordForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NurRec\NursingRecordForm.resx">
+      <DependentUpon>NursingRecordForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatientPageControl.resx">
+      <DependentUpon>PatientPageControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordDocument\WordDocEditForm.resx">
+      <DependentUpon>WordDocEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordDocument\WordDocForm.resx">
+      <DependentUpon>WordDocForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordDocument\WordDocTreeForm.resx">
+      <DependentUpon>WordDocTreeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExitSys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Female.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Male.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Record.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MakeText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NursingDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormEdit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Backward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Option.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Commit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rollback.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_as.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\副本 Edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SubOrder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Statistic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShareLevel.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,311 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9B3F2261-0780-4EA8-B6AE-9F485A23CAA2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heren.NurDoc.InfoLib</RootNamespace>
+    <AssemblyName>InfoLib</AssemblyName>
+    <ApplicationIcon>Resources\SysInfoLib.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleAssemblies>C:\Program Files (x86)\Microsoft Visual Studio 8\Team Tools\Static Analysis Tools\FxCop\\rules</CodeAnalysisRuleAssemblies>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>none</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.DockSuite, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.DockSuite.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Office, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Interop.Office.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Word, Version=8.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Interop.Word.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dialogs\InfoLibRenameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\InfoLibRenameForm.Designer.cs">
+      <DependentUpon>InfoLibRenameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\DockContentBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\DockContentBase.Designer.cs">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\InfoLibEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\InfoLibEditForm.Designer.cs">
+      <DependentUpon>InfoLibEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\InfoLibForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\InfoLibForm.Designer.cs">
+      <DependentUpon>InfoLibForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\InfoLibMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\InfoLibMenuForm.Designer.cs">
+      <DependentUpon>InfoLibMenuForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\InfoLibTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\InfoLibTreeForm.Designer.cs">
+      <DependentUpon>InfoLibTreeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\InfoLibListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\InfoLibListForm.Designer.cs">
+      <DependentUpon>InfoLibListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\InfoLibRenameForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InfoLibRenameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\DockContentBase.resx">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\InfoLibEditForm.resx">
+      <DependentUpon>InfoLibEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\InfoLibForm.resx">
+      <DependentUpon>InfoLibForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\InfoLibMenuForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InfoLibMenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\InfoLibTreeForm.resx">
+      <DependentUpon>InfoLibTreeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\InfoLibListForm.resx">
+      <DependentUpon>InfoLibListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinWord\WinWordDocForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>WinWordDocForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="StartupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartupMain.cs" />
+    <Compile Include="StartupArgs.cs" />
+    <Compile Include="WinWord\WinWordCtrl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinWord\WinWordCtrl.Designer.cs">
+      <DependentUpon>WinWordCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinWord\WinWordDocForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinWord\WinWordDocForm.Designer.cs">
+      <DependentUpon>WinWordDocForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NurDoc.DAL\NurDoc.DAL.csproj">
+      <Project>{B84CC211-4F0B-4DBC-9AC9-991E55933745}</Project>
+      <Name>NurDoc.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Data\NurDoc.Data.csproj">
+      <Project>{FD6FC5FE-6A7C-4C44-97DD-6C40A321F2D7}</Project>
+      <Name>NurDoc.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SmallTemplet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormEdit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Share.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShareLevel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UpLoad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DownLoad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SplashImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginBgImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ModifyPwd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SysIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SysInfoLib.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arrow.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>XCopy ..\Include\*.*  $(OutDir) /d /e /r /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

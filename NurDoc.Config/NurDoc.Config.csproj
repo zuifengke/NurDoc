@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AFC40B8A-70CD-4A9C-B7D4-851025D84761}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heren.NurDoc.Config</RootNamespace>
+    <AssemblyName>NdsConfig</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <ApplicationIcon>Resources\SysIcon.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.DockSuite, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.DockSuite.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Report, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.ScriptEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.ScriptEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.TextEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.VectorEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.VectorEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dialogs\ColumnManageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ColumnManageForm.Designer.cs">
+      <DependentUpon>ColumnManageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ModifyPwdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ModifyPwdForm.Designer.cs">
+      <DependentUpon>ModifyPwdForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SqlConditionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SqlConditionForm.Designer.cs">
+      <DependentUpon>SqlConditionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EvaInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\EvaInfoForm.Designer.cs">
+      <DependentUpon>EvaInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\CarePlanEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\CarePlanEditForm.Designer.cs">
+      <DependentUpon>CarePlanEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\CommonDictForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\CommonDictForm.Designer.cs">
+      <DependentUpon>CommonDictForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\EvaluationTableManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\EvaluationTableManagementForm.Designer.cs">
+      <DependentUpon>EvaluationTableManagementForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NurseShift\ShiftConfigEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NurseShift\ShiftConfigEditForm.Designer.cs">
+      <DependentUpon>ShiftConfigEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NurseShift\ShiftItemEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NurseShift\ShiftItemEditForm.Designer.cs">
+      <DependentUpon>ShiftItemEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\UserGroupEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\UserGroupEditForm.Designer.cs">
+      <DependentUpon>UserGroupEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\NurseShift\ShiftRankEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\NurseShift\ShiftRankEditForm.Designer.cs">
+      <DependentUpon>ShiftRankEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindReplace\FindHandler.cs" />
+    <Compile Include="FindReplace\FindReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindReplace\FindReplaceForm.designer.cs">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindReplace\FindResult.cs" />
+    <Compile Include="FindReplace\FindResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindReplace\FindResultForm.designer.cs">
+      <DependentUpon>FindResultForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\SchemaManageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\SchemaManageForm.Designer.cs">
+      <DependentUpon>SchemaManageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\IDesignEditForm.cs" />
+    <Compile Include="DockForms\IScriptEditForm.cs" />
+    <Compile Include="Report\DesignEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\DesignEditForm.Designer.cs">
+      <DependentUpon>DesignEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\ErrorsListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\ErrorsListForm.Designer.cs">
+      <DependentUpon>ErrorsListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportTreeForm.designer.cs">
+      <DependentUpon>ReportTreeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ScriptEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ScriptEditForm.Designer.cs">
+      <DependentUpon>ScriptEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ScriptTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ScriptTestForm.Designer.cs">
+      <DependentUpon>ScriptTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportHandler.cs" />
+    <Compile Include="Report\ReportInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportInfoForm.designer.cs">
+      <DependentUpon>ReportInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\ReportSelectForm.designer.cs">
+      <DependentUpon>ReportSelectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\ScriptTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\ScriptTestForm.Designer.cs">
+      <DependentUpon>ScriptTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\LargeTextEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\LargeTextEditForm.Designer.cs">
+      <DependentUpon>LargeTextEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RightsSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\RightsSelectForm.Designer.cs">
+      <DependentUpon>RightsSelectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SystemLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SystemLoginForm.designer.cs">
+      <DependentUpon>SystemLoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\TempletSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\TempletSelectForm.Designer.cs">
+      <DependentUpon>TempletSelectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\ConfigDictForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\ConfigDictForm.Designer.cs">
+      <DependentUpon>ConfigDictForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\ScriptEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\ScriptEditForm.Designer.cs">
+      <DependentUpon>ScriptEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\TempletInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\TempletInfoForm.Designer.cs">
+      <DependentUpon>TempletInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\PropertyEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\PropertyEditForm.Designer.cs">
+      <DependentUpon>PropertyEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\DockContentBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\DockContentBase.Designer.cs">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\DesignEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\DesignEditForm.Designer.cs">
+      <DependentUpon>DesignEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\RightManageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\RightManageForm.Designer.cs">
+      <DependentUpon>RightManageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Templet\TempletTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Templet\TempletTreeForm.Designer.cs">
+      <DependentUpon>TempletTreeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DockForms\ToolboxListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DockForms\ToolboxListForm.Designer.cs">
+      <DependentUpon>ToolboxListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\ColumnManageForm.resx">
+      <DependentUpon>ColumnManageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ModifyPwdForm.resx">
+      <DependentUpon>ModifyPwdForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SqlConditionForm.resx">
+      <DependentUpon>SqlConditionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\EvaInfoForm.resx">
+      <DependentUpon>EvaInfoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\CarePlanEditForm.resx">
+      <DependentUpon>CarePlanEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\CommonDictForm.resx">
+      <DependentUpon>CommonDictForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\EvaluationTableManagementForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EvaluationTableManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NurseShift\ShiftConfigEditForm.resx">
+      <DependentUpon>ShiftConfigEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NurseShift\ShiftItemEditForm.resx">
+      <DependentUpon>ShiftItemEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\UserGroupEditForm.resx">
+      <DependentUpon>UserGroupEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\NurseShift\ShiftRankEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ShiftRankEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindReplace\FindReplaceForm.resx">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindReplace\FindResultForm.resx">
+      <DependentUpon>FindResultForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\SchemaManageForm.resx">
+      <DependentUpon>SchemaManageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\DesignEditForm.resx">
+      <DependentUpon>DesignEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\ErrorsListForm.resx">
+      <DependentUpon>ErrorsListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportTreeForm.resx">
+      <DependentUpon>ReportTreeForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ScriptEditForm.resx">
+      <DependentUpon>ScriptEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ScriptTestForm.resx">
+      <DependentUpon>ScriptTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportInfoForm.resx">
+      <DependentUpon>ReportInfoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReportSelectForm.resx">
+      <DependentUpon>ReportSelectForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\ScriptTestForm.resx">
+      <DependentUpon>ScriptTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\LargeTextEditForm.resx">
+      <DependentUpon>LargeTextEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\RightsSelectForm.resx">
+      <DependentUpon>RightsSelectForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SystemLoginForm.resx">
+      <DependentUpon>SystemLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\TempletSelectForm.resx">
+      <DependentUpon>TempletSelectForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\ConfigDictForm.resx">
+      <DependentUpon>ConfigDictForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\ScriptEditForm.resx">
+      <DependentUpon>ScriptEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\TempletInfoForm.resx">
+      <DependentUpon>TempletInfoForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\PropertyEditForm.resx">
+      <DependentUpon>PropertyEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\DockContentBase.resx">
+      <DependentUpon>DockContentBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\DesignEditForm.resx">
+      <DependentUpon>DesignEditForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\RightManageForm.resx">
+      <DependentUpon>RightManageForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templet\TempletTreeForm.resx">
+      <DependentUpon>TempletTreeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DockForms\ToolboxListForm.resx">
+      <DependentUpon>ToolboxListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="Templet\TempletHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NurDoc.DAL\NurDoc.DAL.csproj">
+      <Project>{B84CC211-4F0B-4DBC-9AC9-991E55933745}</Project>
+      <Name>NurDoc.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Data\NurDoc.Data.csproj">
+      <Project>{FD6FC5FE-6A7C-4C44-97DD-6C40A321F2D7}</Project>
+      <Name>NurDoc.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Utilities\NurDoc.Utilities.csproj">
+      <Project>{FD8F827E-7CF0-4B61-9313-557D2563044D}</Project>
+      <Name>NurDoc.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Templet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ScriptErrorIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenDoc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginBgImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoginIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Property.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Toolbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SendToBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BringToFront.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnComment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Comment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Script.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UIDesign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MakeText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SysIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Test.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DisplayColumn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MoveUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MoveDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Arraw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coordinate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Polygon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RoundRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PropertyIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReportsIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolboxIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FormsIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CheckBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadioBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PageSettings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MakeReport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RowColumn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TaskNode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TaskClass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TaskNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FreeCurve.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Barcode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>XCopy ..\Include\*.*  $(OutDir) /d /e /r /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>
