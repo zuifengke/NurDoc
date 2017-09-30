@@ -795,12 +795,12 @@ namespace Heren.NurDoc.PatPage.Document
             if (!row.IsNull("patient_id"))
                 nursingRecInfo.PatientID = row["patient_id"] as string;
             else if (PatientTable.Instance.ActivePatient != null)
-                nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientID;
+                nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientId;
 
             if (!row.IsNull("visit_id"))
                 nursingRecInfo.VisitID = row["patient_id"] as string;
             else if (PatientTable.Instance.ActivePatient != null)
-                nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+                nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitId;
 
             if (!row.IsNull("sub_id"))
                 nursingRecInfo.SubID = row["sub_id"] as string;

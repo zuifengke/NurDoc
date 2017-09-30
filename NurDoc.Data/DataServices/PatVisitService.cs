@@ -10,10 +10,11 @@ using System.Collections;
 using System.Text;
 using Heren.Common.Libraries;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class PatVisitService
+    public class PatVisitService : DBAccessBase
     {
         private static PatVisitService m_instance = null;
 
@@ -43,7 +44,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetPatientDeptList(string szPatientID, string szVisitID, ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetPatientDeptList(szPatientID, szVisitID, ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                return RestHandler.Instance.Get<DeptInfo>("PatVisitAccess/GetPatientDeptList", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetPatientDeptList(szPatientID, szVisitID, ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -60,7 +72,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetPatientTransferList(string szPatientID, string szVisitID, ref List<TransferInfo> lstTransferInfos)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetPatientTransferList(szPatientID, szVisitID, ref lstTransferInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                return RestHandler.Instance.Get<TransferInfo>("PatVisitAccess/GetPatientTransferList", ref lstTransferInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetPatientTransferList(szPatientID, szVisitID, ref lstTransferInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -77,7 +100,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetPatVisitInfo(string szPatientID, string szVisitID, ref PatVisitInfo patVisitInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetPatVisitInfo(szPatientID, szVisitID, ref patVisitInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                return RestHandler.Instance.Get<PatVisitInfo>("PatVisitAccess/GetPatVisitInfo", ref patVisitInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetPatVisitInfo(szPatientID, szVisitID, ref patVisitInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.FAILED;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -94,7 +128,18 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short GetInpLabTestList(string szPatientID, string szVisitID, ref List<LabTestInfo> lstLabTestInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetInpLabTestList(szPatientID, szVisitID, ref lstLabTestInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                return RestHandler.Instance.Get<LabTestInfo>("PatVisitAccess/GetInpLabTestList", ref lstLabTestInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetInpLabTestList(szPatientID, szVisitID, ref lstLabTestInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -112,7 +157,19 @@ namespace Heren.NurDoc.Data
         /// <returns>Common.CommonData.ReturnValu</returns>
         public short GetClinicLabTestList(string szPatientID, DateTime dtVisitTime, DateTime dtNextVisitTime, ref List<LabTestInfo> lstLabTestInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetClinicLabTestList(szPatientID, dtVisitTime, dtNextVisitTime, ref lstLabTestInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("dtVisitTime", dtVisitTime);
+                RestHandler.Instance.AddParameter("dtNextVisitTime", dtNextVisitTime);
+                return RestHandler.Instance.Get<LabTestInfo>("PatVisitAccess/GetClinicLabTestList", ref lstLabTestInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetClinicLabTestList(szPatientID, dtVisitTime, dtNextVisitTime, ref lstLabTestInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -128,7 +185,17 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short GetTestResultList(string szTestNo, ref List<TestResultInfo> lstTestResultInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetTestResultList(szTestNo, ref lstTestResultInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTestNo", szTestNo);
+                return RestHandler.Instance.Get<TestResultInfo>("PatVisitAccess/GetTestResultList", ref lstTestResultInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetTestResultList(szTestNo, ref lstTestResultInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -146,7 +213,19 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short GetClinicExamList(string szPatientID, DateTime dtVisitTime, DateTime dtNextVisitTime, ref List<ExamInfo> lstExamInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetClinicExamList(szPatientID, dtVisitTime, dtNextVisitTime, ref lstExamInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("dtVisitTime", dtVisitTime);
+                RestHandler.Instance.AddParameter("dtNextVisitTime", dtNextVisitTime);
+                return RestHandler.Instance.Get<ExamInfo>("PatVisitAccess/GetClinicExamList", ref lstExamInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetClinicExamList(szPatientID, dtVisitTime, dtNextVisitTime, ref lstExamInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -163,7 +242,18 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short GetInpExamList(string szPatientID, string szVisitID, ref List<ExamInfo> lstExamInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetInpExamList(szPatientID, szVisitID, ref lstExamInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                return RestHandler.Instance.Get<ExamInfo>("PatVisitAccess/GetInpExamList", ref lstExamInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetInpExamList(szPatientID, szVisitID, ref lstExamInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -179,7 +269,17 @@ namespace Heren.NurDoc.Data
         /// <returns>MedDocSys.Common.CommonData.ReturnValue</returns>
         public short GetExamResultInfo(string szExamNo, ref ExamResultInfo examReportInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetExamResultInfo(szExamNo, ref examReportInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szExamNo", szExamNo);
+                return RestHandler.Instance.Get<ExamResultInfo>("PatVisitAccess/GetExamResultInfo", ref examReportInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetExamResultInfo(szExamNo, ref examReportInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -198,7 +298,20 @@ namespace Heren.NurDoc.Data
         /// <returns>ReturnValue</returns>
         public short GetPerformOrderList(string szPatientID, string szVisitID, DateTime dtFrom, DateTime dtTo, ref List<OrderInfo> lstOrderInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetPerformOrderList(szPatientID, szVisitID, dtFrom, dtTo, ref lstOrderInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("dtFrom", dtFrom);
+                RestHandler.Instance.AddParameter("dtTo", dtTo);
+                return RestHandler.Instance.Get<OrderInfo>("PatVisitAccess/GetPerformOrderList", ref lstOrderInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetPerformOrderList(szPatientID, szVisitID, dtFrom, dtTo, ref lstOrderInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -216,7 +329,19 @@ namespace Heren.NurDoc.Data
         /// <returns>ReturnValue</returns>
         public short GetPlanOrderList(string szPatientID, string szVisitID, string szOrderNO, ref List<PlanOrderInfo> lstPlanOrderInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetPlanOrderList(szPatientID, szVisitID, szOrderNO, ref lstPlanOrderInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szOrderNO", szOrderNO);
+                return RestHandler.Instance.Get<PlanOrderInfo>("PatVisitAccess/GetPlanOrderList", ref lstPlanOrderInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetPlanOrderList(szPatientID, szVisitID, szOrderNO, ref lstPlanOrderInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -241,9 +366,26 @@ namespace Heren.NurDoc.Data
             string szPatientID, string szNurseClass, string szPatCondition,
             DateTime? dtStart, DateTime? dtEnd, ref List<PatVisitInfo> lstPatvisitInfo)
         {
-            short shRet = SystemContext.Instance.PatVisitAccess.GetPatVisitInfo(szPatStatus, szWardCode, szPatientName,
-                szPatientID,szNurseClass,szPatCondition,
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatStatus", szPatientID);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter("szPatientName", szPatientName);
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szNurseClass", szNurseClass);
+                RestHandler.Instance.AddParameter("szPatCondition", szPatCondition);
+                RestHandler.Instance.AddParameter("dtStart", dtStart);
+                RestHandler.Instance.AddParameter("dtEnd", dtEnd);
+                return RestHandler.Instance.Get<PatVisitInfo>("PatVisitAccess/GetPatVisitInfo2", ref lstPatvisitInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.PatVisitAccess.GetPatVisitInfo(szPatStatus, szWardCode, szPatientName,
+                szPatientID, szNurseClass, szPatCondition,
                dtStart, dtEnd, ref lstPatvisitInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)

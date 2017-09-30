@@ -53,8 +53,8 @@ namespace Heren.NurDoc.Frame.DockForms
                 PatVisitInfo patVisitInfo = row.Tag as PatVisitInfo;
                 if (patVisitInfo == null)
                     continue;
-                string szPatientID = patVisitInfo.PatientID;
-                string szVisitID = patVisitInfo.VisitID;
+                string szPatientID = patVisitInfo.PatientId;
+                string szVisitID = patVisitInfo.VisitId;
                 string szSubID = patVisitInfo.SubID;
 
                 DateTime dtBeginTime = dtRecordTime;
@@ -330,8 +330,8 @@ namespace Heren.NurDoc.Frame.DockForms
             List<VitalSignsData> lstVitalSignsData = new List<VitalSignsData>();
 
             VitalSignsData vitalSignsData = new VitalSignsData();
-            vitalSignsData.PatientID = patVisitInfo.PatientID;
-            vitalSignsData.VisitID = patVisitInfo.VisitID;
+            vitalSignsData.PatientID = patVisitInfo.PatientId;
+            vitalSignsData.VisitID = patVisitInfo.VisitId;
             vitalSignsData.SubID = patVisitInfo.SubID;
             vitalSignsData.RecordDate = dtRecordTime.Date;
             vitalSignsData.RecordTime = dtRecordTime;

@@ -87,7 +87,7 @@ namespace Heren.NurDoc.DAL
     #endregion
 
 
-    class RestHandler
+    public class RestHandler
     {
         private static RestHandler m_instance = null;
         /// <summary>
@@ -842,6 +842,8 @@ namespace Heren.NurDoc.DAL
             short returnValue = this.Execute(method, Method.GET, ref result);
             if (result != null)
             {
+                if (result.ObjectListValue == null)
+                    return result.ReturnValue;
                 values = result.ObjectListValue;
                 return result.ReturnValue;
             }
@@ -861,71 +863,62 @@ namespace Heren.NurDoc.DAL
             if (result == null)
                 return returnValue;
 
-            if (result.ObjectListValue == null || result.ObjectListValue.Count <= 0)
+            if (result.ObjectListValue == null || result.ObjectListValue.Count <= 1)
                 return result.ReturnValue;
 
             value = new DataSet();
             DataTable table = value.Tables.Add();
 
-            List<string> dataTypes = result.ObjectListValue[0];
             bool isAllColumnsTextType = true;
-            for (int index = 0; dataTypes != null && index < dataTypes.Count; index++)
+            List<string> dataTypes = result.ObjectListValue[0];
+            List<string> dataTypes2 = result.ObjectListValue[1];
+            if (dataTypes[0] != null && dataTypes[0].Contains("{\""))
             {
-                string typeName = dataTypes[index];
-                if (string.IsNullOrEmpty(typeName))
-                    typeName = string.Empty;
-                switch (typeName.ToLower())
+                Dictionary<string, string> lstDict = SimpleJson.DeserializeObject<Dictionary<string, string>>(dataTypes[0]);
+                Dictionary<string, object> lstDict2 = SimpleJson.DeserializeObject<Dictionary<string, object>>(dataTypes2[0]);
+                List<string> lstColName = new List<string>();
+                List<string> lstColType = new List<string>();
+                List<string> lstColName2 = new List<string>();
+                List<object> lstColValue = new List<object>();
+                foreach (string key in lstDict.Keys)
                 {
-                    case "byte[]":
-                        isAllColumnsTextType = false;
-                        table.Columns.Add(index.ToString(), typeof(byte[]));
-                        break;
-                    case "short":
-                    case "integer":
-                    case "long":
-                    case "float":
-                    case "double":
-                    case "bigdecimal":
-                        isAllColumnsTextType = false;
-                        table.Columns.Add(index.ToString(), typeof(decimal));
-                        break;
-                    case "boolean":
-                        isAllColumnsTextType = false;
-                        table.Columns.Add(index.ToString(), typeof(bool));
-                        break;
-                    case "date":
-                    case "timestamp":
-                        isAllColumnsTextType = false;
-                        table.Columns.Add(index.ToString(), typeof(DateTime));
-                        break;
-                    default:
-                        table.Columns.Add(index.ToString(), typeof(string));
-                        break;
+                    lstColName.Add(key);
                 }
-            }
+                foreach (string szValue in lstDict.Values)
+                {
+                    lstColType.Add(szValue);
+                }
+                foreach (string key in lstDict2.Keys)
+                {
+                    lstColName2.Add(key);
+                }
 
-            for (int listIndex = 1; listIndex < result.ObjectListValue.Count; listIndex++)
-            {
-                List<string> list = result.ObjectListValue[listIndex];
-                if (list == null)
-                    continue;
-                if (isAllColumnsTextType)
+                for (int index = 0; lstColName2 != null && index < lstColName2.Count; index++)
                 {
-                    table.Rows.Add(list.ToArray());
-                    continue;
-                }
-                object[] array = new object[list.Count];
-                for (int index = 0; index < list.Count; index++)
-                {
-                    string typeName = dataTypes[index];
-                    if (string.IsNullOrEmpty(typeName))
-                        typeName = string.Empty;
-                    switch (typeName.ToLower())
+                    string colName = string.Empty;
+                    foreach (char chr in lstColName2[index])
+                    {
+                        if (char.IsUpper(chr))
+                        {
+                            colName += "_" + chr;
+                        }
+                        else { colName += chr; }
+                    }
+
+                    string colType = string.Empty;
+                    for (int j = 0; lstColName != null && lstColType != null && j < lstColType.Count; j++)
+                    {
+                        if (lstColName[j] == lstColName2[index])
+                        {
+                            colType = lstColType[j];
+                            break;
+                        }
+                    }
+                    switch (colType.ToLower())
                     {
                         case "byte[]":
-                            byte[] data = null;
-                            GlobalMethods.Convert.Base64ToBytes(list[index], ref data);
-                            array[index] = data;
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(byte[]));
                             break;
                         case "short":
                         case "integer":
@@ -933,22 +926,172 @@ namespace Heren.NurDoc.DAL
                         case "float":
                         case "double":
                         case "bigdecimal":
-                            array[index] = GlobalMethods.Convert.StringToValue(list[index], (decimal)0);
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(decimal));
                             break;
                         case "boolean":
-                            array[index] = GlobalMethods.Convert.StringToValue(list[index], false);
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(bool));
                             break;
                         case "date":
                         case "timestamp":
-                            decimal ticks = GlobalMethods.Convert.StringToValue(list[index], (decimal)0);
-                            array[index] = GlobalMethods.SysTime.GetJavaTime((double)ticks);
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(DateTime));
                             break;
                         default:
-                            array[index] = list[index];
+                            table.Columns.Add(index.ToString(), typeof(string));
+                            break;
+                    }
+                    table.Columns[index].ColumnName = colName.ToLower();
+                }
+                for (int listIndex = 1; listIndex < result.ObjectListValue.Count; listIndex++)
+                {
+                    List<string> list = result.ObjectListValue[listIndex];
+                    if (list == null)
+                        continue;
+                    lstColName2 = new List<string>();
+                    lstColValue = new List<object>();
+                    lstDict2 = SimpleJson.DeserializeObject<Dictionary<string, object>>(list[0]);
+
+                    foreach (string key in lstDict2.Keys)
+                    {
+                        lstColName2.Add(key);
+                    }
+                    foreach (object szValue in lstDict2.Values)
+                    {
+                        lstColValue.Add(szValue);
+                    }
+                    if (isAllColumnsTextType)
+                    {
+                        table.Rows.Add(lstColValue.ToArray());
+                        continue;
+                    }
+                    object[] array = new object[lstColValue.Count];
+                    for (int index = 0; index < lstColValue.Count; index++)
+                    {
+                        string colType = string.Empty;
+                        for (int j = 0; lstColName != null && lstColType != null && j < lstColType.Count; j++)
+                        {
+                            if (lstColName[j] == lstColName2[index])
+                            {
+                                colType = lstColType[j];
+                                break;
+                            }
+                        }
+                        switch (colType.ToLower())
+                        {
+                            case "byte[]":
+                                byte[] data = null;
+                                GlobalMethods.Convert.Base64ToBytes(lstColValue[index].ToString(), ref data);
+                                array[index] = data;
+                                break;
+                            case "short":
+                            case "integer":
+                            case "long":
+                            case "float":
+                            case "double":
+                            case "bigdecimal":
+                                array[index] = GlobalMethods.Convert.StringToValue(lstColValue[index], (decimal)0);
+                                break;
+                            case "boolean":
+                                array[index] = GlobalMethods.Convert.StringToValue(lstColValue[index], false);
+                                break;
+                            case "date":
+                            case "timestamp":
+                                decimal ticks = GlobalMethods.Convert.StringToValue(lstColValue[index], (decimal)0);
+                                array[index] = GlobalMethods.SysTime.GetJavaTime((double)ticks);
+                                break;
+                            default:
+                                array[index] = lstColValue[index];
+                                break;
+                        }
+                    }
+                    table.Rows.Add(array);
+                }
+            }
+            else
+            {
+                for (int index = 0; dataTypes != null && index < dataTypes.Count; index++)
+                {
+                    string typeName = dataTypes[index];
+                    if (string.IsNullOrEmpty(typeName))
+                        typeName = string.Empty;
+                    switch (typeName.ToLower())
+                    {
+                        case "byte[]":
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(byte[]));
+                            break;
+                        case "short":
+                        case "integer":
+                        case "long":
+                        case "float":
+                        case "double":
+                        case "bigdecimal":
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(decimal));
+                            break;
+                        case "boolean":
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(bool));
+                            break;
+                        case "date":
+                        case "timestamp":
+                            isAllColumnsTextType = false;
+                            table.Columns.Add(index.ToString(), typeof(DateTime));
+                            break;
+                        default:
+                            table.Columns.Add(index.ToString(), typeof(string));
                             break;
                     }
                 }
-                table.Rows.Add(array);
+
+                for (int listIndex = 1; listIndex < result.ObjectListValue.Count; listIndex++)
+                {
+                    List<string> list = result.ObjectListValue[listIndex];
+                    if (list == null)
+                        continue;
+                    if (isAllColumnsTextType)
+                    {
+                        table.Rows.Add(list.ToArray());
+                        continue;
+                    }
+                    object[] array = new object[list.Count];
+                    for (int index = 0; index < list.Count; index++)
+                    {
+                        string typeName = dataTypes[index];
+                        if (string.IsNullOrEmpty(typeName))
+                            typeName = string.Empty;
+                        switch (typeName.ToLower())
+                        {
+                            case "byte[]":
+                                byte[] data = null;
+                                GlobalMethods.Convert.Base64ToBytes(list[index], ref data);
+                                array[index] = data;
+                                break;
+                            case "short":
+                            case "integer":
+                            case "long":
+                            case "float":
+                            case "double":
+                            case "bigdecimal":
+                                array[index] = GlobalMethods.Convert.StringToValue(list[index], (decimal)0);
+                                break;
+                            case "boolean":
+                                array[index] = GlobalMethods.Convert.StringToValue(list[index], false);
+                                break;
+                            case "date":
+                            case "timestamp":
+                                decimal ticks = GlobalMethods.Convert.StringToValue(list[index], (decimal)0);
+                                array[index] = GlobalMethods.SysTime.GetJavaTime((double)ticks);
+                                break;
+                            default:
+                                array[index] = list[index];
+                                break;
+                        }
+                    }
+                    table.Rows.Add(array);
+                }
             }
             return result.ReturnValue;
         }

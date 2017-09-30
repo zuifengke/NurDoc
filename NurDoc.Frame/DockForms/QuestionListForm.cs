@@ -58,8 +58,8 @@ namespace Heren.NurDoc.Frame.DockForms
                 dtView.Rows.Clear();
             GlobalMethods.UI.SetCursor(this, Cursors.WaitCursor);
             List<QCQuestionInfo> lstQCQuestionInfos = null;
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             short shRet = QcQuestionService.Instance.GetQCQuestionList(szPatientID, szVisitID, null, ref lstQCQuestionInfos);
             if (shRet != ServerData.ExecuteResult.OK)
             {
@@ -152,8 +152,8 @@ namespace Heren.NurDoc.Frame.DockForms
             QCQuestionInfo qcQuestionInfo = new QCQuestionInfo(true);
             DateTime now = DateTime.Now;
             CommonService.Instance.GetServerTime(ref now);
-            qcQuestionInfo.PatientID = PatientTable.Instance.ActivePatient.PatientID;
-            qcQuestionInfo.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+            qcQuestionInfo.PatientID = PatientTable.Instance.ActivePatient.PatientId;
+            qcQuestionInfo.VisitID = PatientTable.Instance.ActivePatient.VisitId;
             qcQuestionInfo.DeptCode = PatientTable.Instance.ActivePatient.WardCode;
             qcQuestionInfo.QuestionType = selectQuestion.QCMessageTemplet.QCEventType;
             qcQuestionInfo.QuestionCode = selectQuestion.QCMessageTemplet.QCMsgCode;

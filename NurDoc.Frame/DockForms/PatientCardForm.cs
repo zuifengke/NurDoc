@@ -292,7 +292,7 @@ namespace Heren.NurDoc.Frame.DockForms
             PatVisitInfo patVisit = PatientTable.Instance.GetPatVisit(row);
             card.Elements.Clear();
             card.Tag = row;
-            if (!GlobalMethods.Misc.IsEmptyString(patVisit.PatientID))
+            if (!GlobalMethods.Misc.IsEmptyString(patVisit.PatientId))
                 card.Data = patVisit;
 
             this.formControl1.UpdateFormData("病人信息", row);
@@ -460,7 +460,7 @@ namespace Heren.NurDoc.Frame.DockForms
                     childPatVisitInfo.VisitTime = childPatVisitInfo.BirthTime;
                     childPatVisitInfo.SubID = e.Data.ToString();
                     childPatVisitInfo.PatientName = string.Format("{0}{1}", patVisitInfo.PatientName, e.Param.ToString());
-                    childPatVisitInfo.PatientID = string.Format("{0}_{1}", patVisitInfo.PatientID, childPatVisitInfo.SubID);
+                    childPatVisitInfo.PatientId = string.Format("{0}_{1}", patVisitInfo.PatientId, childPatVisitInfo.SubID);
                     if (e.Param.ToString().Contains("子"))
                         childPatVisitInfo.PatientSex = ServerData.PatientSex.Male;
                     else
@@ -480,6 +480,14 @@ namespace Heren.NurDoc.Frame.DockForms
                 m_patientView = PatientView.SimpleCard;
             if (mode == 0)
                 m_patientView = PatientView.DetailCard;
+        }
+
+        protected override void OnDataChanged(EventArgs e)
+        {
+            base.OnDataChanged(e);
+            GlobalMethods.UI.SetCursor(this, Cursors.WaitCursor);
+            this.RefreshView();
+            GlobalMethods.UI.SetCursor(this, Cursors.Default);
         }
     }
 }

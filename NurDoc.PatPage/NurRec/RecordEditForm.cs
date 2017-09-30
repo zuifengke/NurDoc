@@ -76,6 +76,15 @@ namespace Heren.NurDoc.PatPage.NurRec
             }
         }
 
+        /// <summary>
+        /// 是否允许显示另存为按钮
+        /// </summary>
+        [Browsable(false)]
+        public Boolean SaveAsButtonVisible
+        {
+            get { return SystemContext.Instance.SystemOption.SaveAsButtonVisible; }
+        }
+
         private Dictionary<string, Heren.Common.Forms.Editor.KeyData> m_dicSummaryDatas = null;
 
         /// <summary>
@@ -149,7 +158,7 @@ namespace Heren.NurDoc.PatPage.NurRec
         {
             base.OnShown(e);
 
-            this.toolbtnSaveAs.Visible = RightController.Instance.CanShowSaveAsButton();
+            this.toolbtnSaveAs.Visible = SaveAsButtonVisible;
 
             this.m_recordUpdated = false;
             this.virtualTree1.ImageList.Images.Clear();
@@ -247,6 +256,7 @@ namespace Heren.NurDoc.PatPage.NurRec
                 if (formEditor.IsModified)
                     formEditorList.Add(formEditor);
             }
+            this.documentControl1.EndEdit();
             if (this.documentControl1 != null && !this.documentControl1.IsDisposed
                 && this.documentControl1.IsModified)
                 formEditorList.Add(this.documentControl1);
@@ -473,8 +483,8 @@ namespace Heren.NurDoc.PatPage.NurRec
             nursingRecInfo.ModifierID = nursingRecInfo.CreatorID;
             nursingRecInfo.ModifierName = nursingRecInfo.CreatorName;
             nursingRecInfo.ModifyTime = nursingRecInfo.CreateTime;
-            nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientID;
-            nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+            nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientId;
+            nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitId;
             nursingRecInfo.SubID = PatientTable.Instance.ActivePatient.SubID;
             nursingRecInfo.Recorder1Name = nursingRecInfo.CreatorName;
             nursingRecInfo.Recorder1ID = nursingRecInfo.CreatorID;
@@ -1284,6 +1294,7 @@ namespace Heren.NurDoc.PatPage.NurRec
                 GlobalMethods.UI.SetCursor(this, Cursors.WaitCursor);
                 string szRecordContent = this.MakeRecordContent(null);
                 this.documentControl1.UpdateFormData("表单摘要", szRecordContent);
+                this.documentControl1.IsModified = true;
                 GlobalMethods.UI.SetCursor(this, Cursors.Default);
             }
             else if (e.Name == "更新记录时间")
@@ -1352,8 +1363,7 @@ namespace Heren.NurDoc.PatPage.NurRec
                 if (this.IsCurrentNursingRecord(formEditor))
                 {
                     formEditor.EndEdit();
-                    if (formEditor.IsModified)
-                        return formEditor.GetFormData("表单摘要") as string;
+                    return formEditor.GetFormData("表单摘要") as string;
                 }
             }
 

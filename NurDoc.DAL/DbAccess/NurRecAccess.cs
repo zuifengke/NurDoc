@@ -201,6 +201,58 @@ namespace Heren.NurDoc.DAL.DbAccess
         }
 
         /// <summary>
+        /// 获取病人护理记录数据数量
+        /// </summary>
+        /// <param name="szPatientID">病人ID</param>
+        /// <param name="szVisitID">就诊ID</param>
+        /// <param name="szSubID">就诊子ID</param>
+        /// <param name="dtBeginTime">记录时间</param>
+        /// <param name="dtEndTime">记录时间</param>
+        /// <param name="count">体征数据</param>
+        /// <returns>ServerData.ExecuteResult</returns>
+        public short GetNursingRecCount(string szPatientID, string szVisitID, string szSubID
+            , DateTime dtBeginTime, DateTime dtEndTime, ref int count)
+        {
+            if (GlobalMethods.Misc.IsEmptyString(szPatientID) || GlobalMethods.Misc.IsEmptyString(szVisitID))
+            {
+                LogManager.Instance.WriteLog("NurRecAccess.GetNursingRecList"
+                    , new string[] { "szPatientID", "szVisitID" }, new object[] { szPatientID, szVisitID }, "数据不能为空!");
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            }
+            if (base.DataAccess == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            
+            string szTable = ServerData.DataTable.NUR_REC;
+            string szCondition = string.Format("{0}='{1}' AND {2}='{3}' AND {4}='{5}' AND {6}>={7} AND {8}<={9} AND ({10} IS NULL OR {10}!=2)"
+                , ServerData.NursingRecInfoTable.PATIENT_ID, szPatientID
+                , ServerData.NursingRecInfoTable.VISIT_ID, szVisitID
+                , ServerData.NursingRecInfoTable.SUB_ID, szSubID
+                , ServerData.NursingRecInfoTable.RECORD_TIME, base.DataAccess.GetSqlTimeFormat(dtBeginTime)
+                , ServerData.NursingRecInfoTable.RECORD_TIME, base.DataAccess.GetSqlTimeFormat(dtEndTime)
+                , ServerData.NursingRecInfoTable.RECORD_STATUS);
+
+            string szSQL = string.Format(ServerData.SQL.SELECT_COUNT, szTable,szCondition);
+
+            IDataReader dataReader = null;
+            try
+            {
+                dataReader = base.DataAccess.ExecuteReader(szSQL, CommandType.Text);
+                if (dataReader == null || dataReader.IsClosed || !dataReader.Read())
+                    return ServerData.ExecuteResult.RES_NO_FOUND;
+                do
+                {
+                    if (!dataReader.IsDBNull(0)) count = int.Parse( dataReader.GetValue(0).ToString());
+                } while (dataReader.Read());
+                return ServerData.ExecuteResult.OK;
+            }
+            catch (Exception ex)
+            {
+                return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL语句执行失败!");
+            }
+            finally { base.DataAccess.CloseConnnection(false); }
+        }
+
+        /// <summary>
         /// 获取病人护理记录数据列表
         /// </summary>
         /// <param name="szPatientID">病人ID</param>

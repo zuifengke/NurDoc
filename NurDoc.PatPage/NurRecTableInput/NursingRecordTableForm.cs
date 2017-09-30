@@ -162,8 +162,8 @@ namespace Heren.NurDoc.PatPage.NurRecTableInput
             this.Update();
             if (SystemContext.Instance.LoginUser == null)
                 return false;
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             List<TransferInfo> lstTransferInfos = null;
             short shRet = PatVisitService.Instance.GetPatientTransferList(szPatientID, szVisitID, ref lstTransferInfos);
             if (shRet != SystemConst.ReturnValue.OK)
@@ -359,8 +359,8 @@ namespace Heren.NurDoc.PatPage.NurRecTableInput
 
             if (PatientTable.Instance.ActivePatient == null)
                 return false;
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             string szSubID = PatientTable.Instance.ActivePatient.SubID;
             DateTime dtBeginTime = this.tooldtpDateFrom.Value.Date;
             DateTime dtEndTime = GlobalMethods.SysTime.GetDayLastTime(this.tooldtpDateTo.Value.Date);

@@ -671,8 +671,8 @@ namespace Heren.NurDoc.PatPage.Document
                         }
                     }
                     DataRow row = dtPatientInfo.Rows.Add();
-                    row["PATIENT_ID"] = PatientTable.Instance.ActivePatient.PatientID;
-                    row["VISIT_ID"] = PatientTable.Instance.ActivePatient.VisitID;
+                    row["PATIENT_ID"] = PatientTable.Instance.ActivePatient.PatientId;
+                    row["VISIT_ID"] = PatientTable.Instance.ActivePatient.VisitId;
                     row["BeginTime"] = shiftRankInfo.StartTime;
                     row["EndTime"] = shiftRankInfo.EndTime;
                 }

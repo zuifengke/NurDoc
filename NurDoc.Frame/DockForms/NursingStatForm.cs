@@ -264,7 +264,7 @@ namespace Heren.NurDoc.Frame.DockForms
                     patVisitInfo.VisitTime = patVisitInfo.BirthTime;
                     patVisitInfo.SubID = szSubID;
                     patVisitInfo.PatientName = string.Format("{0}{1}", patVisitInfo.PatientName, szBaby);
-                    patVisitInfo.PatientID = string.Format("{0}_{1}", patVisitInfo.PatientID, patVisitInfo.SubID);
+                    patVisitInfo.PatientId = string.Format("{0}_{1}", patVisitInfo.PatientId, patVisitInfo.SubID);
                     if (szBaby.Contains("вс"))
                         patVisitInfo.PatientSex = ServerData.PatientSex.Male;
                     else

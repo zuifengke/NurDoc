@@ -179,8 +179,8 @@ namespace Heren.NurDoc.Data
             nursingRecInfo.ModifierID = nursingRecInfo.CreatorID;
             nursingRecInfo.ModifierName = nursingRecInfo.CreatorName;
             nursingRecInfo.ModifyTime = nursingRecInfo.CreateTime;
-            nursingRecInfo.PatientID = ActivePatient.PatientID;
-            nursingRecInfo.VisitID = ActivePatient.VisitID;
+            nursingRecInfo.PatientID = ActivePatient.PatientId;
+            nursingRecInfo.VisitID = ActivePatient.VisitId;
             nursingRecInfo.SubID = ActivePatient.SubID;
             nursingRecInfo.Recorder1Name = nursingRecInfo.CreatorName;
             nursingRecInfo.Recorder1ID = nursingRecInfo.CreatorID;
@@ -219,17 +219,17 @@ namespace Heren.NurDoc.Data
             docInfo.ModifierID = userInfo.ID;
             docInfo.ModifierName = userInfo.Name;
             docInfo.ModifyTime = docInfo.DocTime;
-            docInfo.PatientID = patVisit.PatientID;
+            docInfo.PatientID = patVisit.PatientId;
             docInfo.PatientName = patVisit.PatientName;
             docInfo.SignCode = string.Empty;
-            docInfo.VisitID = patVisit.VisitID;
+            docInfo.VisitID = patVisit.VisitId;
             docInfo.VisitTime = patVisit.VisitTime;
             docInfo.VisitType = patVisit.VisitType;
             docInfo.SubID = patVisit.SubID;
 
             string szDocSetID = string.Empty;
             string szDocID = string.Empty;
-            short shRet = this.CreateDocID(docInfo.DocTime, docInfo.DocVersion, patVisit.PatientID,
+            short shRet = this.CreateDocID(docInfo.DocTime, docInfo.DocVersion, patVisit.PatientId,
                             docTypeInfo.DocTypeID, ref szDocSetID, ref szDocID);
             if (shRet != SystemConst.ReturnValue.OK)
             {

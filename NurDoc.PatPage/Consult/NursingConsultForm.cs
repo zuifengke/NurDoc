@@ -170,8 +170,8 @@ namespace Heren.NurDoc.PatPage.Consult
             if (PatientTable.Instance.ActivePatient == null)
                 return false;
 
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             string szSubID = PatientTable.Instance.ActivePatient.SubID;
             DateTime dtBeginTime = this.tooldtpDateFrom.Value.Date;
             DateTime dtEndTime = GlobalMethods.SysTime.GetDayLastTime(this.tooldtpDateTo.Value.Date);

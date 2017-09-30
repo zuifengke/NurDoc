@@ -448,18 +448,25 @@ namespace Heren.NurDoc.Frame.Dialogs
             {
                 if (shiftPatient == null)
                     continue;
-                if (append && this.GetShiftPatientTableRow(shiftPatient) != null)
+                if (append && this.GetShiftPatItemTableRow(shiftPatient) != null)
                     continue;
                 int rowIndex = this.dgvShiftPatient.Rows.Add();
                 DataTableViewRow row = this.dgvShiftPatient.Rows[rowIndex];
                 row.Tag = shiftPatient;
+                if (shiftPatient.SpecialItem2.Equals("1"))
+                {
+                    row.Cells[this.colNewPatient.Index].Value = picBoxBlue.Image;
+                }
+                else {
+                    row.Cells[this.colNewPatient.Index].Value = picBoxWhite.Image;
+                }
                 row.Cells[this.colShiftItem.Index].Value = shiftPatient.ShiftItemName;
                 row.Cells[this.colShiftItemAlias.Index].Value = shiftPatient.ShiftItemAlias;
                 row.Cells[this.colBedCode.Index].Value = shiftPatient.BedCode;
                 row.Cells[this.colPatientName.Index].Value = shiftPatient.PatientName;
                 this.dgvShiftPatient.SetRowState(row, append ? RowState.New : RowState.Normal);
             }
-            //this.dgvShiftPatient.Sort(new BedCodeComparer());
+            this.dgvShiftPatient.Sort(new BedCodeComparer());
             //this.dgvShiftPatient.Sort(dgvShiftPatient.Columns[1], ListSortDirection.Ascending);
             this.ShowSelectedShiftPatient();
             return true;
@@ -725,6 +732,49 @@ namespace Heren.NurDoc.Frame.Dialogs
                     && patient.VisitID == shiftPatient.VisitID
                     && patient.SubID == shiftPatient.SubID)
                     return row;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取指定的交班病人对应的交班病人表格行(包括交班项目)
+        /// </summary>
+        /// <param name="shiftPatient">交班病人信息</param>
+        /// <returns>交班病人表格行</returns>
+        private DataTableViewRow GetShiftPatItemTableRow(ShiftPatient shiftPatient)
+        {
+            if (shiftPatient == null || this.dgvShiftPatient.Rows.Count <= 0)
+                return null;
+
+            DataTableViewRow currentRow = this.dgvShiftPatient.CurrentRow;
+            ShiftPatient patient = currentRow.Tag as ShiftPatient;
+            if (patient != null && patient.PatientID == shiftPatient.PatientID
+                && patient.VisitID == shiftPatient.VisitID
+                && patient.SubID == shiftPatient.SubID
+                )
+            {
+                if (patient.ShiftItemName != shiftPatient.ShiftItemName)
+                {
+                    currentRow.Cells[this.colShiftItem.Index].Value = shiftPatient.ShiftItemName;
+                    this.dgvShiftPatient.SetRowState(currentRow, RowState.Update);                  
+                }
+                return currentRow;
+            }
+
+            foreach (DataTableViewRow row in this.dgvShiftPatient.Rows)
+            {
+                patient = row.Tag as ShiftPatient;
+                if (patient != null && patient.PatientID == shiftPatient.PatientID
+                    && patient.VisitID == shiftPatient.VisitID
+                    && patient.SubID == shiftPatient.SubID)
+                {
+                    if (patient.ShiftItemName != shiftPatient.ShiftItemName)
+                    {
+                        row.Cells[this.colShiftItem.Index].Value = shiftPatient.ShiftItemName;
+                        this.dgvShiftPatient.SetRowState(row, RowState.Update);
+                    }
+                    return row;
+                }
             }
             return null;
         }
@@ -1052,6 +1102,8 @@ namespace Heren.NurDoc.Frame.Dialogs
                     continue;
                 shiftPatient.PatientNo = row.Index;
                 shiftPatient.ShiftRecordID = this.m_nursingShiftInfo.ShiftRecordID;
+                if (shiftPatient.SpecialItem2 == null || shiftPatient.SpecialItem2.Equals(""))
+                    shiftPatient.SpecialItem2 = "0";
                 shRet = NurShiftService.Instance.SaveShiftPatient(shiftPatient);
                 if (shRet != SystemConst.ReturnValue.OK)
                 {
@@ -1350,6 +1402,25 @@ namespace Heren.NurDoc.Frame.Dialogs
                     e.Value = this.m_nursingShiftInfo.FirstSignTime;
                 e.Success = true;
             }
+            if (e.Name == "前一班次代码")
+            {
+                if (this.toolcboShiftRank.SelectedIndex == 0)
+                {
+                    ShiftRankInfo shiftRankInfo = this.toolcboShiftRank.Items[2] as ShiftRankInfo;
+                    if (shiftRankInfo != null)
+                        shiftRankInfo.StartTime = this.tooldtpShiftDate.Value.AddDays(-1);
+
+                    e.Value = GlobalMethods.Table.GetDataTable(shiftRankInfo);
+                }
+                else
+                {
+                    ShiftRankInfo shiftRankInfo = this.toolcboShiftRank.Items[this.toolcboShiftRank.SelectedIndex - 1] as ShiftRankInfo;
+                    if (shiftRankInfo != null)
+                        shiftRankInfo.StartTime = this.tooldtpShiftDate.Value;
+
+                    e.Value = GlobalMethods.Table.GetDataTable(shiftRankInfo);
+                }
+            }
         }
 
         private void ShiftRecEditForm_Load(object sender, EventArgs e)
@@ -1443,6 +1514,84 @@ namespace Heren.NurDoc.Frame.Dialogs
             {
                 this.dgvShiftPatient.Rows[this.dgvShiftPatient.CurrentRow.Index].Cells[this.colShiftItem.Index].Value = this.m_comboBox.Items[comboBox.SelectedIndex];
             }
+        }
+
+        private void toolbtnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBoxEx.ShowQuestion("是否删除当前班次所有交班信息");
+            if (result != DialogResult.Yes)
+                return;
+
+            short shRet = SystemConst.ReturnValue.OK;
+            string szWardCode = SystemContext.Instance.LoginUser.WardCode;
+            DateTime dtShiftDate = this.tooldtpShiftDate.Value.Date;
+            NursingShiftInfo nursingShiftInfo = new NursingShiftInfo();
+            ShiftRankInfo shiftRankInfo = this.toolcboShiftRank.SelectedItem as ShiftRankInfo;
+            //获取当前班次索引信息
+            shRet = NurShiftService.Instance.GetNursingShiftInfo(szWardCode, dtShiftDate, shiftRankInfo.RankCode, ref nursingShiftInfo);
+            if (shRet == SystemConst.ReturnValue.NO_FOUND)
+            {
+                MessageBoxEx.Show("当前班次不存在交班信息!");
+                return;
+            }
+            if (shRet != SystemConst.ReturnValue.OK)
+            {
+                MessageBoxEx.Show("获取当前班次交班索引信息失败!");
+                return;
+            }
+
+            //删除交班病人信息
+            string szRecordID = "";
+            string szPatientID = "";
+            string szVisitID = "";
+            string szSubID = "";
+            foreach (DataTableViewRow row in this.dgvShiftPatient.Rows)
+            {
+                if (row.State != RowState.New)
+                {
+                    ShiftPatient shiftPatient = row.Tag as ShiftPatient;
+                    if (shiftPatient == null)
+                        continue;
+                    szRecordID = shiftPatient.ShiftRecordID;
+                    szPatientID = shiftPatient.PatientID;
+                    szVisitID = shiftPatient.VisitID;
+                    szSubID = shiftPatient.SubID;
+                    this.Update();
+                    GlobalMethods.UI.SetCursor(this, Cursors.WaitCursor);
+                    shRet = NurShiftService.Instance.DeleteShiftPatient(szRecordID
+                        , szPatientID, szVisitID, szSubID);
+                    if (shRet != SystemConst.ReturnValue.OK)
+                    {
+                        MessageBoxEx.Show("删除当前班次交班病人记录失败!");
+                        GlobalMethods.UI.SetCursor(this, Cursors.Default);
+                        return;
+                    }
+                }
+            }
+
+            szRecordID = nursingShiftInfo.ShiftRecordID;
+            if (!string.IsNullOrEmpty(szRecordID))
+            {
+                //删除病区动态信息
+                shRet = NurShiftService.Instance.DeleteShiftWardStatusInfo(szRecordID);
+                if (shRet != SystemConst.ReturnValue.OK)
+                {
+                    MessageBoxEx.Show("删除当前班次交班动态信息失败!");
+                    return;
+                }
+
+                //删除交班索引信息
+                shRet = NurShiftService.Instance.DeleteShiftIndexInfo(szRecordID, szWardCode);
+                if (shRet != SystemConst.ReturnValue.OK)
+                {
+                    MessageBoxEx.Show("删除当前班次交班病人索引信息失败!");
+                    return;
+                }
+            }
+
+            MessageBox.Show("删除当前班次所有交班信息成功！");
+            this.Close();
+            this.m_bRecordUpdated = true;
         }
     }
 }

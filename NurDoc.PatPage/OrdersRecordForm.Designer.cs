@@ -144,8 +144,8 @@
             this.tooldtpDateFrom.ShowMinute = false;
             this.tooldtpDateFrom.ShowSecond = false;
             this.tooldtpDateFrom.Size = new System.Drawing.Size(120, 22);
-            this.tooldtpDateFrom.Text = "2012/02/20 19:40:23";
-            this.tooldtpDateFrom.Value = new System.DateTime(2012, 2, 20, 19, 40, 23, 0);
+            this.tooldtpDateFrom.Text = "2012/2/20 9:09:46";
+            this.tooldtpDateFrom.Value = new System.DateTime(2012, 2, 20, 9, 9, 46, 0);
             this.tooldtpDateFrom.ValueChanged += new System.EventHandler(this.tooldtpQueryDate_ValueChanged);
             // 
             // toollblDateTo
@@ -164,8 +164,8 @@
             this.tooldtpDateTo.ShowMinute = false;
             this.tooldtpDateTo.ShowSecond = false;
             this.tooldtpDateTo.Size = new System.Drawing.Size(120, 22);
-            this.tooldtpDateTo.Text = "2012/08/28 19:40:23";
-            this.tooldtpDateTo.Value = new System.DateTime(2012, 8, 28, 19, 40, 23, 0);
+            this.tooldtpDateTo.Text = "2012/8/28 9:09:46";
+            this.tooldtpDateTo.Value = new System.DateTime(2012, 8, 28, 9, 9, 46, 0);
             this.tooldtpDateTo.ValueChanged += new System.EventHandler(this.tooldtpQueryDate_ValueChanged);
             // 
             // toollblSpace1
@@ -278,7 +278,7 @@
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("SimSun", 9F);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -379,7 +379,7 @@
             // 
             this.colSubFlag.FillWeight = 24F;
             this.colSubFlag.Frozen = true;
-            this.colSubFlag.HeaderText = string.Empty;
+            this.colSubFlag.HeaderText = "";
             this.colSubFlag.Name = "colSubFlag";
             this.colSubFlag.ReadOnly = true;
             this.colSubFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -512,7 +512,7 @@
             this.ClientSize = new System.Drawing.Size(1044, 502);
             this.Controls.Add(this.dataTableView1);
             this.Controls.Add(this.toolStrip1);
-            this.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Name = "OrdersRecordForm";
             this.Padding = new System.Windows.Forms.Padding(2);
             this.Text = "医嘱单";

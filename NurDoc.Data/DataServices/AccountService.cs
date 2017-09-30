@@ -8,10 +8,12 @@ using System.Collections.Generic;
 using System.Text;
 using Heren.Common.Libraries;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
+using Heren.Common.Libraries.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class AccountService
+    public class AccountService : DBAccessBase
     {
         private static AccountService m_instance = null;
 
@@ -41,15 +43,27 @@ namespace Heren.NurDoc.Data
         public short IsUserValid(string szUserID, string szUserPwd)
         {
             short shRet = ServerData.ExecuteResult.OK;
-            try
+            
+            if (base.ConnectionMode == ConnectionMode.Rest)
             {
-                shRet = SystemContext.Instance.AccountAccess.VerifyUser(szUserID, szUserPwd);
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                RestHandler.Instance.AddParameter("szUserPwd", szUserPwd);
+                shRet = RestHandler.Instance.Get("AccountAccess/VerifyUser");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBoxEx.ShowError("登录失败,系统无法验证用户信息!", ex.ToString());
-                return SystemConst.ReturnValue.EXCEPTION;
+                try
+                {
+                    shRet = SystemContext.Instance.AccountAccess.VerifyUser(szUserID, szUserPwd);
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxEx.ShowError("登录失败,系统无法验证用户信息!", ex.ToString());
+                    return SystemConst.ReturnValue.EXCEPTION;
+                }
             }
+
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.FAILED;
             if (shRet == ServerData.ExecuteResult.PARAM_ERROR)
@@ -69,20 +83,36 @@ namespace Heren.NurDoc.Data
         {
             if (string.IsNullOrEmpty(szUserID))
                 return SystemConst.ReturnValue.FAILED;
-            try
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
             {
-                short shRet = SystemContext.Instance.AccountAccess.GetUserInfo(szUserID, ref userInfo);
-                if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
-                    return SystemConst.ReturnValue.FAILED;
-                if (shRet != ServerData.ExecuteResult.OK)
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+
+                shRet = RestHandler.Instance.Get<UserInfo>("AccountAccess/GetUserInfoByUserID", ref userInfo);
+                if (shRet == ServerData.ExecuteResult.OK)
+                {
+                    userInfo.WardCode = userInfo.DeptCode;
+                    userInfo.WardName = userInfo.DeptName;
+                }
+            }
+            else
+            {
+                try
+                {
+                    shRet = SystemContext.Instance.AccountAccess.GetUserInfo(szUserID, ref userInfo);
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxEx.ShowErrorFormat("获取“{0}”的用户信息失败!", ex.ToString(), szUserID);
                     return SystemConst.ReturnValue.EXCEPTION;
-                return SystemConst.ReturnValue.OK;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBoxEx.ShowErrorFormat("获取“{0}”的用户信息失败!", ex.ToString(), szUserID);
+            if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                return SystemConst.ReturnValue.FAILED;
+            if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.EXCEPTION;
-            }
+            return SystemConst.ReturnValue.OK;
         }
 
         /// <summary>
@@ -95,16 +125,28 @@ namespace Heren.NurDoc.Data
         {
             if (string.IsNullOrEmpty(szUserName))
                 return SystemConst.ReturnValue.FAILED;
-            try
+
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
             {
-                short shRet = SystemContext.Instance.AccountAccess.GetUserInfo(szUserName, ref lstUserInfos);
-                return shRet;
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserName", szUserName);
+                
+                shRet = RestHandler.Instance.Get<UserInfo>("AccountAccess/GetUserInfoByUserName", ref lstUserInfos);
             }
-            catch (Exception ex)
+            else
             {
-                MessageBoxEx.ShowErrorFormat("获取“{0}”的用户信息失败!", ex.ToString(), szUserName);
-                return SystemConst.ReturnValue.EXCEPTION;
+                try
+                {
+                    shRet = SystemContext.Instance.AccountAccess.GetUserInfo(szUserName, ref lstUserInfos);
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxEx.ShowErrorFormat("获取“{0}”的用户信息失败!", ex.ToString(), szUserName);
+                    return SystemConst.ReturnValue.EXCEPTION;
+                }
             }
+            return shRet;
         }
 
         /// <summary>
@@ -115,7 +157,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short VerifyUser(string szUserID, string szUserPwd)
         {
-            return SystemContext.Instance.AccountAccess.VerifyUser(szUserID, szUserPwd);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                RestHandler.Instance.AddParameter("szUserPwd", szUserPwd);
+                return RestHandler.Instance.Get("AccountAccess/VerifyUser");
+            }
+            else
+            {
+                return SystemContext.Instance.AccountAccess.VerifyUser(szUserID, szUserPwd);
+            }
         }
 
         /// <summary>
@@ -125,7 +177,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetAllUserInfos(ref List<UserInfo> lstUserInfos)
         {
-            short shRet = SystemContext.Instance.AccountAccess.GetAllUserInfos(ref lstUserInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters(); 
+                shRet = RestHandler.Instance.Get("AccountAccess/GetAllUserInfos",ref lstUserInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.GetAllUserInfos(ref lstUserInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -143,7 +204,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetUserDept(string szUserID, ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.AccountAccess.GetUserDept(szUserID, ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                shRet = RestHandler.Instance.Get("AccountAccess/GetAllUserInfos", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.GetUserDept(szUserID, ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -161,7 +232,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDeptUserList(string szDeptCode, ref List<UserInfo> lstUserInfos)
         {
-            short shRet = SystemContext.Instance.AccountAccess.GetDeptUserList(szDeptCode, ref lstUserInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDeptCode", szDeptCode);
+                shRet = RestHandler.Instance.Get("AccountAccess/GetDeptUserList", ref lstUserInfos);    
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.GetDeptUserList(szDeptCode, ref lstUserInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -180,7 +261,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short ModifyUserPwd(string szUserID, string szOldPwd, string szNewPwd)
         {
-            short shRet = SystemContext.Instance.AccountAccess.ModifyUserPwd(szUserID, szOldPwd, szNewPwd);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                RestHandler.Instance.AddParameter("szOldPwd", szOldPwd);
+                RestHandler.Instance.AddParameter("szNewPwd", szNewPwd);
+                shRet = RestHandler.Instance.Put("AccountAccess/ModifyUserPwd");   
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.ModifyUserPwd(szUserID, szOldPwd, szNewPwd);               
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.CANCEL;
             if (shRet == ServerData.ExecuteResult.PARAM_ERROR)
@@ -192,7 +285,17 @@ namespace Heren.NurDoc.Data
 
         public short ResetUserPwd(string szUserID)
         {
-            short shRet = SystemContext.Instance.AccountAccess.ResetUserPwd(szUserID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                shRet = RestHandler.Instance.Put("AccountAccess/ResetUserPwd");           
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.ResetUserPwd(szUserID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.CANCEL;
             if (shRet == ServerData.ExecuteResult.PARAM_ERROR)
@@ -210,7 +313,31 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetUserRight(UserRightType rightType, ref List<UserRightBase> lstUserRight)
         {
-            short shRet = SystemContext.Instance.AccountAccess.GetUserRight(rightType, ref lstUserRight);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                List<NurUserRightInfo> lstNurUserRightInfo = new List<NurUserRightInfo>();
+             
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("rightType", rightType);
+                shRet = RestHandler.Instance.Get<NurUserRightInfo>("AccountAccess/GetUserRights",ref lstNurUserRightInfo);
+                if (lstNurUserRightInfo.Count > 0)
+                {
+                    foreach (NurUserRightInfo nurInfo in lstNurUserRightInfo) {
+                        if (nurInfo.UserId == null)
+                            continue;
+                        UserRightBase userRightBase = UserRightBase.Create(rightType);
+                        userRightBase.UserID = nurInfo.UserId;
+                        userRightBase.RightDesc = nurInfo.RightDesc;
+                        userRightBase.SetRightCode(nurInfo.RightCode);
+                        lstUserRight.Add(userRightBase);   
+                    }
+                }
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.GetUserRight(rightType, ref lstUserRight);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -229,7 +356,28 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetUserRight(string szUserID, UserRightType rightType, ref UserRightBase userRight)
         {
-            short shRet = SystemContext.Instance.AccountAccess.GetUserRight(szUserID, rightType, ref userRight);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                RestHandler.Instance.AddParameter("rightType", rightType);
+                NurUserRightInfo nurInfo = new NurUserRightInfo();
+                shRet = RestHandler.Instance.Get<NurUserRightInfo>("AccountAccess/GetUserRight",ref nurInfo);
+                if (nurInfo != null)
+                {
+                    if (userRight == null)
+                        userRight = UserRightBase.Create(rightType);
+
+                    userRight.UserID = nurInfo.UserId;
+                    userRight.RightDesc = nurInfo.RightDesc;
+                    userRight.SetRightCode(nurInfo.RightCode);
+                }
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.GetUserRight(szUserID, rightType, ref userRight);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -245,8 +393,23 @@ namespace Heren.NurDoc.Data
         /// <param name="userRight">用户权限</param>
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveUserRight(UserRightBase userRight)
-        {
-            return SystemContext.Instance.AccountAccess.SaveUserRight(userRight);
+        { 
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                NurUserRightInfo nurUserRightInfo = new NurUserRightInfo();
+                nurUserRightInfo.UserId = userRight.UserID;
+                nurUserRightInfo.RightCode = userRight.GetRightCode();
+                nurUserRightInfo.RightDesc = userRight.RightDesc;
+                nurUserRightInfo.RightType = UserRightBase.GetRightTypeName(userRight.RightType);
+                RestHandler.Instance.AddParameter(nurUserRightInfo);
+                short shRet = RestHandler.Instance.Post("AccountAccess/SaveUserRight");
+                return shRet;
+            }
+            else
+            {
+                return SystemContext.Instance.AccountAccess.SaveUserRight(userRight);
+            }
         }
 
         /// <summary>
@@ -256,7 +419,22 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateUserRight(UserRightBase userRight)
         {
-            return SystemContext.Instance.AccountAccess.UpdateUserRight(userRight);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                NurUserRightInfo nurUserRightInfo = new NurUserRightInfo();
+                nurUserRightInfo.UserId = userRight.UserID;
+                nurUserRightInfo.RightCode = userRight.GetRightCode();
+                nurUserRightInfo.RightDesc = userRight.RightDesc;
+                nurUserRightInfo.RightType = UserRightBase.GetRightTypeName(userRight.RightType);
+                RestHandler.Instance.AddParameter(nurUserRightInfo);
+                short shRet = RestHandler.Instance.Put("AccountAccess/UpdateUserRight");
+                return shRet;
+            }
+            else
+            {
+                return SystemContext.Instance.AccountAccess.UpdateUserRight(userRight);
+            }
         }
 
         /// <summary>
@@ -267,7 +445,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetGroupUserList(string szGroupCode, ref List<UserGroup> lstUserGroups)
         {
-            short shRet = SystemContext.Instance.AccountAccess.GetGroupUserList(szGroupCode, ref lstUserGroups);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szGroupCode", szGroupCode);
+                shRet = RestHandler.Instance.Get<UserGroup>("AccountAccess/GetGroupUserList", ref lstUserGroups);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.GetGroupUserList(szGroupCode, ref lstUserGroups);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -284,7 +472,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveUserGroup(UserGroup userGroup)
         {
-            short shRet = SystemContext.Instance.AccountAccess.SaveUserGroup(userGroup);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("userGroup", userGroup);
+                shRet = RestHandler.Instance.Post("AccountAccess/SaveUserGroup");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.SaveUserGroup(userGroup);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -303,7 +501,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateUserGroup(string szGroupCode, string szUserID, UserGroup userGroup)
         {
-            short shRet = SystemContext.Instance.AccountAccess.UpdateUserGroup(szGroupCode, szUserID, userGroup);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szGroupCode", szGroupCode);
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                shRet = RestHandler.Instance.Post("AccountAccess/UpdateUserGroup");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.UpdateUserGroup(szGroupCode, szUserID, userGroup);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -321,7 +530,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteUserGroup(string szGroupCode, string szUserID)
         {
-            short shRet = SystemContext.Instance.AccountAccess.DeleteUserGroup(szGroupCode, szUserID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szGroupCode", szGroupCode);
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                shRet = RestHandler.Instance.Post("AccountAccess/DeleteUserGroup");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.AccountAccess.DeleteUserGroup(szGroupCode, szUserID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)

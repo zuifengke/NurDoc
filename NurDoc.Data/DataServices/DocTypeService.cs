@@ -8,10 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class DocTypeService
+    public class DocTypeService : DBAccessBase
     {
         private static DocTypeService m_instance = null;
 
@@ -41,7 +42,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocTypeInfos(string szApplyEnv, ref List<DocTypeInfo> lstDocTypeInfos)
         {
-            short shRet = SystemContext.Instance.DocTypeAccess.GetDocTypeInfos(szApplyEnv, ref lstDocTypeInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szApplyEnv", szApplyEnv);
+                shRet = RestHandler.Instance.Get<DocTypeInfo>("DocTypeAccess/GetDocTypeInfos", ref lstDocTypeInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocTypeAccess.GetDocTypeInfos(szApplyEnv, ref lstDocTypeInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -54,8 +65,17 @@ namespace Heren.NurDoc.Data
         /// <param name="docTypeInfo">返回的病历类型信息</param>
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocTypeInfo(string szDocTypeID, ref DocTypeInfo docTypeInfo)
-        {
-            return SystemContext.Instance.DocTypeAccess.GetDocTypeInfo(szDocTypeID, ref docTypeInfo);
+        { 
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                return RestHandler.Instance.Get<DocTypeInfo>("DocTypeAccess/GetDocTypeInfo", ref docTypeInfo);
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.GetDocTypeInfo(szDocTypeID, ref docTypeInfo);
+            }
         }
 
         /// <summary>
@@ -65,7 +85,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveDocTypeInfo(DocTypeInfo docTypeInfo)
         {
-            return SystemContext.Instance.DocTypeAccess.SaveDocTypeInfo(docTypeInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(docTypeInfo);
+                return RestHandler.Instance.Post("DocTypeAccess/SaveDocTypeInfo");
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.SaveDocTypeInfo(docTypeInfo);
+            }
         }
 
         /// <summary>
@@ -76,7 +105,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short ModifyDocTypeInfo(string szDocTypeID, DocTypeInfo docTypeInfo)
         {
-            return SystemContext.Instance.DocTypeAccess.ModifyDocTypeInfo(szDocTypeID, docTypeInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter(docTypeInfo);
+                return RestHandler.Instance.Put("DocTypeAccess/ModifyDocTypeInfo");
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.ModifyDocTypeInfo(szDocTypeID, docTypeInfo);
+            }
         }
 
         /// <summary>
@@ -86,7 +125,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteDocTypeInfo(string szDocTypeID)
         {
-            return SystemContext.Instance.DocTypeAccess.DeleteDocTypeInfo(szDocTypeID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                return RestHandler.Instance.Post("DocTypeAccess/DeleteDocTypeInfo");
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.DeleteDocTypeInfo(szDocTypeID);
+            }
         }
 
         /// <summary>
@@ -96,7 +144,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteDocTypeInfos(List<string> lstDocTypeID)
         {
-            return SystemContext.Instance.DocTypeAccess.DeleteDocTypeInfos(lstDocTypeID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(lstDocTypeID);
+                return RestHandler.Instance.Post("DocTypeAccess/DeleteDocTypeInfos");
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.DeleteDocTypeInfos(lstDocTypeID);
+            }
         }
         #endregion
 
@@ -109,7 +166,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetWardDocTypeList(string szDeptCode, ref List<WardDocType> lstWardDocTypes)
         {
-            return SystemContext.Instance.DocTypeAccess.GetWardDocTypeList(szDeptCode, ref lstWardDocTypes);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDeptCode", szDeptCode);
+                return RestHandler.Instance.Get<WardDocType>("DocTypeAccess/GetWardDocTypeList",ref lstWardDocTypes);
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.GetWardDocTypeList(szDeptCode, ref lstWardDocTypes);
+            }
         }
 
         /// <summary>
@@ -120,7 +186,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocTypeDeptList(string szDocTypeID, ref List<WardDocType> lstWardDocTypes)
         {
-            return SystemContext.Instance.DocTypeAccess.GetDocTypeDeptList(szDocTypeID, ref lstWardDocTypes);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                return RestHandler.Instance.Get<WardDocType>("DocTypeAccess/GetDocTypeDeptList",ref lstWardDocTypes);
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.GetDocTypeDeptList(szDocTypeID, ref lstWardDocTypes);
+            }
         }
 
         /// <summary>
@@ -131,8 +206,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveWardDocTypes(string szDocTypeID, List<WardDocType> lstWardDocTypes)
         {
-            return SystemContext.Instance.DocTypeAccess.SaveWardDocTypes(szDocTypeID, lstWardDocTypes);
-        }
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter(lstWardDocTypes);
+                return RestHandler.Instance.Post("DocTypeAccess/SaveWardDocTypes");
+            }
+            else
+            {
+                return SystemContext.Instance.DocTypeAccess.SaveWardDocTypes(szDocTypeID, lstWardDocTypes);
+            }
+      }
         #endregion
     }
 }

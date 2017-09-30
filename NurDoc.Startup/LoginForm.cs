@@ -48,7 +48,7 @@ namespace Heren.NurDoc.Startup
             }
             else
             { this.pictureBox1.Visible = false; }
-            
+
             //MD5 md5 = new MD5CryptoServiceProvider();
             //MemoryStream memStream = new MemoryStream();
             //this.pictureBox1.Image.Save(memStream, System.Drawing.Imaging.ImageFormat.Png);
@@ -72,7 +72,7 @@ namespace Heren.NurDoc.Startup
             //如果系统已经登陆则跳过文件验证
             if (SystemContext.Instance.LoginUser != null)
             { return; }
-                Stream streamHerenCert = File.Open("HerenCert.dll", FileMode.Open);
+            Stream streamHerenCert = File.Open("HerenCert.dll", FileMode.Open);
             byte[] bytes = new byte[(int)streamHerenCert.Length];//初始化一个字节数组
             streamHerenCert.Read(bytes, 0, bytes.Length);//将文件读到字节数组中
 

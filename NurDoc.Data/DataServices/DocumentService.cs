@@ -10,10 +10,13 @@ using System.Collections;
 using System.Text;
 using Heren.NurDoc.DAL;
 using Heren.Common.Forms.Editor;
+using Heren.NurDoc.DAL.DbAccess;
+using Heren.Common.Libraries.DbAccess;
+using System.IO;
 
 namespace Heren.NurDoc.Data
 {
-    public class DocumentService
+    public class DocumentService : DBAccessBase
     {
         private static DocumentService m_instance = null;
 
@@ -42,7 +45,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocInfo(string szDocID, ref NurDocInfo docInfo)
         {
-            return SystemContext.Instance.DocumentAccess.GetDocInfo(szDocID, ref docInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                return RestHandler.Instance.Get<NurDocInfo>("DocumentAccess/GetDocInfo",ref docInfo);
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.GetDocInfo(szDocID, ref docInfo);
+            }
         }
 
         /// <summary>
@@ -55,7 +67,30 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocInfos(string szPatientID, string szVisitID, string szDocTypeID, ref NurDocList lstDocInfos)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetDocInfos(szPatientID, szVisitID, szDocTypeID, ref lstDocInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                List<NurDocInfo> lstNurdocInfos = new List<NurDocInfo>();
+                shRet = RestHandler.Instance.Get<NurDocInfo>("DocumentAccess/GetDocInfos1", ref lstNurdocInfos);
+                if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                {
+                    return SystemConst.ReturnValue.OK;
+                }
+                if (lstNurdocInfos.Count > 0)
+                {
+                    foreach (NurDocInfo nurDocInfo in lstNurdocInfos)
+                        lstDocInfos.Add(nurDocInfo);
+                    lstDocInfos.SortByTime(true);
+                }
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetDocInfos(szPatientID, szVisitID, szDocTypeID, ref lstDocInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -76,8 +111,31 @@ namespace Heren.NurDoc.Data
         public short GetDocInfos(string szPatientID, string szVisitID, string szDocTypeID
             , DateTime dtBeginTime, DateTime dtEndTime, ref NurDocList lstDocInfos)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetDocInfos(szPatientID, szVisitID, szDocTypeID
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                List<NurDocInfo> lstNurdocInfos = new List<NurDocInfo>();
+                if (lstDocInfos == null)
+                    lstDocInfos = new NurDocList();
+                shRet = RestHandler.Instance.Get<NurDocInfo>("DocumentAccess/GetDocInfos2", ref lstNurdocInfos);
+                if (lstNurdocInfos != null && lstNurdocInfos.Count > 0)
+                {
+                    foreach (NurDocInfo nurDocInfo in lstNurdocInfos)
+                        lstDocInfos.Add(nurDocInfo);
+                    lstDocInfos.SortByTime(true);
+                }
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetDocInfos(szPatientID, szVisitID, szDocTypeID
                 , dtBeginTime, dtEndTime, ref lstDocInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -98,8 +156,30 @@ namespace Heren.NurDoc.Data
         public short GetDocInfosOrderByRecordTime(string szPatientID, string szVisitID, string szDocTypeID
             , DateTime dtBeginTime, DateTime dtEndTime, ref NurDocList lstDocInfos)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetDocInfosOrderByRecordTime(szPatientID, szVisitID, szDocTypeID
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                List<NurDocInfo> lstNurdocInfos = new List<NurDocInfo>();
+                if (lstDocInfos == null)
+                    lstDocInfos = new NurDocList();
+                shRet = RestHandler.Instance.Get<NurDocInfo>("DocumentAccess/GetDocInfosOrderByRecordTime", ref lstNurdocInfos);
+                if (lstNurdocInfos.Count > 0)
+                {
+                    foreach (NurDocInfo nurDocInfo in lstNurdocInfos)
+                        lstDocInfos.Add(nurDocInfo);
+                }
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetDocInfosOrderByRecordTime(szPatientID, szVisitID, szDocTypeID
                 , dtBeginTime, dtEndTime, ref lstDocInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -115,7 +195,25 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetRecordDocInfos(string szRecordID, ref NurDocList lstDocInfos)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetRecordDocInfos(szRecordID, ref lstDocInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szRecordID", szRecordID);
+                List<NurDocInfo> lstNurdocInfos = new List<NurDocInfo>();
+                shRet = RestHandler.Instance.Get<NurDocInfo>("DocumentAccess/GetRecordDocInfos", ref lstNurdocInfos);
+                if (lstDocInfos == null)
+                    lstDocInfos = new NurDocList();
+                if (lstNurdocInfos != null && lstNurdocInfos.Count > 0)
+                {
+                    foreach (NurDocInfo nurDocInfo in lstNurdocInfos)
+                        lstDocInfos.Add(nurDocInfo);
+                }
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetRecordDocInfos(szRecordID, ref lstDocInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -133,8 +231,17 @@ namespace Heren.NurDoc.Data
         {
             if (SystemContext.Instance.DocumentAccess == null)
                 return SystemConst.ReturnValue.FAILED;
-
-            short shRet = SystemContext.Instance.DocumentAccess.GetLatestDocInfo(szDocSetID, ref docInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocSetID", szDocSetID);      
+                shRet = RestHandler.Instance.Get<NurDocInfo>("DocumentAccess/GetLatestDocInfo", ref docInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetLatestDocInfo(szDocSetID, ref docInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.NO_FOUND;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -150,7 +257,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocByID(string szDocID, ref byte[] byteDocData)
         {
-            return SystemContext.Instance.DocumentAccess.GetDocByID(szDocID, ref byteDocData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                return RestHandler.Instance.Get<byte[]>("DocumentAccess/GetDocByID", ref byteDocData);
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.GetDocByID(szDocID, ref byteDocData);
+            }
         }
 
         /// <summary>
@@ -160,7 +276,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SetDocStatusInfo(ref DocStatusInfo newStatus)
         {
-            return SystemContext.Instance.DocumentAccess.SetDocStatusInfo(ref newStatus);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (newStatus == null)
+                    newStatus = new DocStatusInfo();
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(newStatus);
+                return  RestHandler.Instance.Post<DocStatusInfo>("DocumentAccess/SetDocStatusInfo", ref newStatus);
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.SetDocStatusInfo(ref newStatus);
+
+            }
         }
 
         /// <summary>
@@ -171,7 +299,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetDocStatusInfo(string szDocID, ref DocStatusInfo docStatusInfo)
         {
-            return SystemContext.Instance.DocumentAccess.GetDocStatusInfo(szDocID, ref docStatusInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                return RestHandler.Instance.Get<DocStatusInfo>("DocumentAccess/GetDocStatusInfo", ref docStatusInfo);
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.GetDocStatusInfo(szDocID, ref docStatusInfo);
+            }
         }
 
         /// <summary>
@@ -181,7 +318,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short ModifyOldDocStatus(ref DocStatusInfo docStatusInfo)
         {
-            return SystemContext.Instance.DocumentAccess.ModifyOldDocStatusInfo(ref docStatusInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (docStatusInfo == null)
+                    docStatusInfo = new DocStatusInfo();
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(docStatusInfo);
+                return RestHandler.Instance.Post("DocumentAccess/ModifyOldDocStatus");
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.ModifyOldDocStatusInfo(ref docStatusInfo);
+            }
         }
 
         /// <summary>
@@ -191,7 +339,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteDocData(string szDocSetID)
         {
-            return SystemContext.Instance.DocumentAccess.DeleteDocData(szDocSetID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocSetID", szDocSetID);
+                return RestHandler.Instance.Put("DocumentAccess/DeleteDocData");
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.DeleteDocData(szDocSetID);
+            }
         }
 
         /// <summary>
@@ -201,7 +358,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteSummaryData(string szDocSetID)
         {
-            return SystemContext.Instance.DocumentAccess.DeleteSummaryData(szDocSetID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocSetID", szDocSetID);
+                return RestHandler.Instance.Post("DocumentAccess/DeleteSummaryData");
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.DeleteSummaryData(szDocSetID);
+            }
         }
 
         /// <summary>
@@ -212,7 +378,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveDoc(NurDocInfo docInfo, byte[] byteDocData)
         {
-            return SystemContext.Instance.DocumentAccess.SaveDoc(docInfo, byteDocData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {   
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(docInfo, byteDocData);
+                return RestHandler.Instance.Post("DocumentAccess/SaveDoc");             
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.SaveDoc(docInfo, byteDocData);
+            }
         }
 
         /// <summary>
@@ -225,7 +400,21 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateDoc(string szOldDocID, NurDocInfo newDocInfo, string szUpdateReason, byte[] byteDocData)
         {
-            return SystemContext.Instance.DocumentAccess.UpdateDoc(szOldDocID, newDocInfo, szUpdateReason, byteDocData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szOldDocID", szOldDocID);
+                RestHandler.Instance.AddParameter("szUpdateReason", szUpdateReason);
+                NurDocInfo nur = new NurDocInfo();
+                nur = newDocInfo;
+                nur.ModifyTime = DateTime.Now;
+                RestHandler.Instance.AddParameter(nur, byteDocData);
+                return RestHandler.Instance.Post("DocumentAccess/UpdateDocToDB");
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.UpdateDoc(szOldDocID, newDocInfo, szUpdateReason, byteDocData);
+            }
         }
 
         /// <summary>
@@ -237,7 +426,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveChildDocInfo(string szDocID, string szCaller, string szChildID)
         {
-            return SystemContext.Instance.DocumentAccess.SaveChildDocInfo(szDocID, szCaller, szChildID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                RestHandler.Instance.AddParameter("szCaller", szCaller);
+                RestHandler.Instance.AddParameter("szChildID", szChildID);
+                return RestHandler.Instance.Post("DocumentAccess/SaveChildDocInfo");
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.SaveChildDocInfo(szDocID, szCaller, szChildID);
+            }
         }
 
         /// <summary>
@@ -249,7 +449,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetChildDocID(string szDocID, string szCaller, ref string szChildID)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetChildDocID(szDocID, szCaller, ref szChildID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                RestHandler.Instance.AddParameter("szCaller", szCaller);
+                shRet = RestHandler.Instance.Get<string>("DocumentAccess/GetChildDocID", ref szChildID);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetChildDocID(szDocID, szCaller, ref szChildID);
+
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -265,7 +477,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetChildDocIDList(string szDocID, ref List<string> lstChilDocID)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetChildDocIDList(szDocID, ref lstChilDocID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                shRet = RestHandler.Instance.Get<string>("DocumentAccess/GetChildDocIDList", ref lstChilDocID);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetChildDocIDList(szDocID, ref lstChilDocID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -281,7 +503,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetChildDocList(string szDocSetID, ref List<ChildDocInfo> lstChilDocs)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetChildDocList(szDocSetID, ref lstChilDocs);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocSetID", szDocSetID);
+                shRet = RestHandler.Instance.Get<ChildDocInfo>("DocumentAccess/GetChildDocList", ref lstChilDocs);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetChildDocList(szDocSetID, ref lstChilDocs);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -297,7 +529,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveSummaryData(string szDocID, List<SummaryData> lstSummaryData)
         {
-            return SystemContext.Instance.DocumentAccess.SaveSummaryData(szDocID, lstSummaryData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                RestHandler.Instance.AddParameter(lstSummaryData);
+                return RestHandler.Instance.Post("DocumentAccess/SaveSummaryData");
+            }
+            else
+            {
+                return SystemContext.Instance.DocumentAccess.SaveSummaryData(szDocID, lstSummaryData);
+            }
         }
 
         /// <summary>
@@ -309,7 +551,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetSummaryData(string szDocID, string szDataName, ref SummaryData summaryData)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szDocID, szDataName, ref summaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szDocID);
+                RestHandler.Instance.AddParameter("szDataName", szDataName);
+                shRet = RestHandler.Instance.Get<SummaryData>("DocumentAccess/GetSummaryData1", ref summaryData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szDocID, szDataName, ref summaryData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -338,7 +591,20 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetSummaryData(string szPatientID, string szVisitID, DateTime dtBegin, DateTime dtEnd, ref List<SummaryData> lstSummaryData)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szPatientID, szVisitID, dtBegin, dtEnd, ref lstSummaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("dtBegin", dtBegin);
+                RestHandler.Instance.AddParameter("dtEnd", dtEnd);
+                shRet = RestHandler.Instance.Get<SummaryData>("DocumentAccess/GetSummaryData2", ref lstSummaryData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szPatientID, szVisitID, dtBegin, dtEnd, ref lstSummaryData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -355,7 +621,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetSummaryData(string szDocIDOrRecordID, bool bIsRecordID, ref List<SummaryData> lstSummaryData)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szDocIDOrRecordID, bIsRecordID, ref lstSummaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocIDOrRecordID", szDocIDOrRecordID);
+                RestHandler.Instance.AddParameter("bIsRecordID", bIsRecordID);
+                shRet = RestHandler.Instance.Get<SummaryData>("DocumentAccess/GetSummaryData3", ref lstSummaryData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szDocIDOrRecordID, bIsRecordID, ref lstSummaryData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -373,7 +650,18 @@ namespace Heren.NurDoc.Data
         public short GetSummaryData(string szDocIDOrRecordID, bool bIsRecordID, ref Dictionary<string, KeyData> dicSummaryDatas)
         {
             List<SummaryData> lstSummaryData = new List<SummaryData>();
-            short shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szDocIDOrRecordID, bIsRecordID, ref lstSummaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocIDOrRecordID", szDocIDOrRecordID);
+                RestHandler.Instance.AddParameter("bIsRecordID", bIsRecordID);
+                shRet = RestHandler.Instance.Get<SummaryData>("DocumentAccess/GetSummaryData3", ref lstSummaryData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szDocIDOrRecordID, bIsRecordID, ref lstSummaryData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return ServerData.ExecuteResult.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -413,7 +701,21 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetSummaryData(string szPatientID, string szVisitID, string szSubID, DateTime dtBeginTime, DateTime dtEndTime, ref List<SummaryData> lstSummaryData)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szPatientID, szVisitID, szSubID, dtBeginTime, dtEndTime, ref lstSummaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                shRet = RestHandler.Instance.Get<SummaryData>("DocumentAccess/GetSummaryData4", ref lstSummaryData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szPatientID, szVisitID, szSubID, dtBeginTime, dtEndTime, ref lstSummaryData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -432,7 +734,20 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetSummaryData(string szPatientID, string szVisitID, string szDocTypeId, string szDataName, ref List<SummaryData> lstSummaryData)
         {
-            short shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szPatientID, szVisitID, szDocTypeId, szDataName, ref lstSummaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szDocTypeId", szDocTypeId);
+                RestHandler.Instance.AddParameter("szDataName", szDataName);
+                shRet = RestHandler.Instance.Get<SummaryData>("DocumentAccess/GetSummaryData5", ref lstSummaryData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.GetSummaryData(szPatientID, szVisitID, szDocTypeId, szDataName, ref lstSummaryData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)

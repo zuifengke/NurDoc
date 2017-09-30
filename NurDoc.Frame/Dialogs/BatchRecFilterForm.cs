@@ -174,8 +174,8 @@ namespace Heren.NurDoc.Frame.Dialogs
                     continue;
                 PatVisitInfo patVisitInfo = new PatVisitInfo();
                 patVisitInfo.BedCode = arrPatientInfo[0].Trim();
-                patVisitInfo.PatientID = arrPatientInfo[1].Trim();
-                patVisitInfo.VisitID = arrPatientInfo[2].Trim();
+                patVisitInfo.PatientId = arrPatientInfo[1].Trim();
+                patVisitInfo.VisitId = arrPatientInfo[2].Trim();
                 patVisitInfo.PatientName = arrPatientInfo[3].Trim();
                 patVisitInfo.DeptCode = arrPatientInfo[4].Trim();
                 patVisitInfo.DeptName = arrPatientInfo[5].Trim();
@@ -209,8 +209,8 @@ namespace Heren.NurDoc.Frame.Dialogs
             {
                 PatVisitInfo patVisitInfo = new PatVisitInfo();
                 patVisitInfo.FromDataRow(row);
-                if (!GlobalMethods.Misc.IsEmptyString(patVisitInfo.PatientID)
-                    && !GlobalMethods.Misc.IsEmptyString(patVisitInfo.VisitID)
+                if (!GlobalMethods.Misc.IsEmptyString(patVisitInfo.PatientId)
+                    && !GlobalMethods.Misc.IsEmptyString(patVisitInfo.VisitId)
                     && !GlobalMethods.Misc.IsEmptyString(patVisitInfo.SubID))
                     lstPatVisitInfos.Add(patVisitInfo);
             }

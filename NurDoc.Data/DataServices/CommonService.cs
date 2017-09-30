@@ -10,10 +10,11 @@ using System.Collections.Generic;
 using Heren.NurDoc.DAL;
 using Heren.Common.Libraries;
 using Heren.Common.Libraries.DbAccess;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class CommonService
+    public class CommonService : DBAccessBase
     {
         private static CommonService m_instance = null;
 
@@ -41,7 +42,14 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetServerTime(ref DateTime dtSysDate)
         {
-            return SystemContext.Instance.CommonAccess.GetServerTime(ref dtSysDate);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                return RestHandler.Instance.Get<DateTime>("CommonAccess/GetServerTime", ref dtSysDate);
+            }
+            else
+            {
+                return SystemContext.Instance.CommonAccess.GetServerTime(ref dtSysDate);
+            }
         }
 
         /// <summary>
@@ -52,7 +60,24 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short ExecuteQuery(string sql, out DataSet result)
         {
-            return SystemContext.Instance.CommonAccess.ExecuteQuery(sql, out result);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("sql", sql);
+                result = new DataSet();
+                short shRet = RestHandler.Instance.Get("CommonAccess/ExecuteQuery1", ref result);
+                if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                {
+                    result.Tables.Add();
+                    shRet = ServerData.ExecuteResult.OK;
+                }
+                return shRet;
+            }
+            else
+            {
+                short shRet = SystemContext.Instance.CommonAccess.ExecuteQuery(sql, out result);
+                return shRet;
+            }
         }
 
         /// <summary>
@@ -63,7 +88,22 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short ExecuteQuery(SqlInfo sqlInfo, out DataSet result)
         {
-            return SystemContext.Instance.CommonAccess.ExecuteQuery(sqlInfo, out result);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                result = new DataSet();
+                if (sqlInfo.Args == null)
+                {
+                    RestHandler.Instance.ClearParameters();
+                    RestHandler.Instance.AddParameter("sql", sqlInfo.SQL);
+                    return RestHandler.Instance.Get("CommonAccess/ExecuteQuery1", ref result);
+                }
+                else
+                    return SystemConst.ReturnValue.NO_FOUND;
+            }
+            else
+            {
+                return SystemContext.Instance.CommonAccess.ExecuteQuery(sqlInfo, out result);
+            }
         }
 
         /// <summary>
@@ -74,7 +114,23 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short ExecuteUpdate(bool isProc, params string[] sqlarray)
         {
-            return SystemContext.Instance.CommonAccess.ExecuteUpdate(isProc, sqlarray);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("isProc", isProc);
+                List<string> lst = new List<string>();
+                if (sqlarray.Length > 0 && sqlarray != null)
+                    for (int i = 0; i < sqlarray.Length; i++)
+                    {
+                        lst.Add(sqlarray[i]);
+                    }
+                RestHandler.Instance.AddParameter(lst);
+                return RestHandler.Instance.Post("CommonAccess/ExecuteUpdate");
+            }
+            else
+            {
+                return SystemContext.Instance.CommonAccess.ExecuteUpdate(isProc, sqlarray);
+            }
         }
 
         /// <summary>
@@ -84,7 +140,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetAllDeptInfos(ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetAllDeptInfos(ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DeptInfo>("CommonAccess/GetAllDeptInfos", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetAllDeptInfos(ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -101,7 +166,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetWardDeptList(ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetWardDeptList(ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DeptInfo>("CommonAccess/GetWardDeptList", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetWardDeptList(ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -118,7 +192,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetOutPDeptList(ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetOutPDeptList(ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DeptInfo>("CommonAccess/GetOutPDeptList", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetOutPDeptList(ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -135,7 +218,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetNurseDeptList(ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetNurseDeptList(ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DeptInfo>("CommonAccess/GetNurseDeptList", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetNurseDeptList(ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -152,7 +244,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetClinicDeptList(ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetClinicDeptList(ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DeptInfo>("CommonAccess/GetClinicDeptList", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetClinicDeptList(ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -169,7 +270,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetUserGroupList(ref List<DeptInfo> lstDeptInfos)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetUserGroupList(ref lstDeptInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DeptInfo>("CommonAccess/GetUserGroupList", ref lstDeptInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetUserGroupList(ref lstDeptInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -186,7 +296,16 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetCommonDictTypeList(ref List<string> lstDictTypeList)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetCommonDictTypeList(ref lstDictTypeList);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<string>("CommonAccess/GetCommonDictTypeList", ref lstDictTypeList);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetCommonDictTypeList(ref lstDictTypeList);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -204,7 +323,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetCommonDict(string szItemType, ref List<CommonDictItem> lstCommonDictItems)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetCommonDict(szItemType, ref lstCommonDictItems);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                shRet = RestHandler.Instance.Get<CommonDictItem>("CommonAccess/GetCommonDict1", ref lstCommonDictItems);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetCommonDict(szItemType, ref lstCommonDictItems);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -223,7 +352,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetCommonDict(string szItemType, string szWardCode, ref List<CommonDictItem> lstCommonDictItems)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetCommonDict(szItemType, szWardCode, ref lstCommonDictItems);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                return RestHandler.Instance.Get<CommonDictItem>("CommonAccess/GetCommonDict2", ref lstCommonDictItems);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetCommonDict(szItemType, szWardCode, ref lstCommonDictItems);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -241,7 +381,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteCommonDictItem(string szItemType, string szItemCode)
         {
-            short shRet = SystemContext.Instance.CommonAccess.DeleteCommonDictItem(szItemType, szItemCode);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                return RestHandler.Instance.Post("CommonAccess/DeleteCommonDictItem1");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.DeleteCommonDictItem(szItemType, szItemCode);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -260,7 +411,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteCommonDictItem(string szItemType, string szItemCode, string szWardCode)
         {
-            short shRet = SystemContext.Instance.CommonAccess.DeleteCommonDictItem(szItemType, szItemCode, szWardCode);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                return RestHandler.Instance.Post("CommonAccess/DeleteCommonDictItem2");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.DeleteCommonDictItem(szItemType, szItemCode, szWardCode);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -277,7 +440,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveCommonDictItem(CommonDictItem commonDictItem)
         {
-            short shRet = SystemContext.Instance.CommonAccess.SaveCommonDictItem(commonDictItem);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(commonDictItem);
+                return RestHandler.Instance.Post("CommonAccess/SaveCommonDictItem");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.SaveCommonDictItem(commonDictItem);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -296,7 +469,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateCommonDictItem(string szItemType, string szItemCode, CommonDictItem commonDictItem)
         {
-            short shRet = SystemContext.Instance.CommonAccess.UpdateCommonDictItem(szItemType, szItemCode, commonDictItem);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter(commonDictItem);
+                return RestHandler.Instance.Post("CommonAccess/UpdateCommonDictItem1");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.UpdateCommonDictItem(szItemType, szItemCode, commonDictItem);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -316,7 +501,20 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateCommonDictItem(string szItemType, string szItemCode, string szWardCode, CommonDictItem commonDictItem)
         {
-            short shRet = SystemContext.Instance.CommonAccess.UpdateCommonDictItem(szItemType, szItemCode, szWardCode, commonDictItem);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter(commonDictItem);
+                return RestHandler.Instance.Post("CommonAccess/UpdateCommonDictItem2");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.UpdateCommonDictItem(szItemType, szItemCode, szWardCode, commonDictItem);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -333,7 +531,16 @@ namespace Heren.NurDoc.Data
         /// <returns>MedDocSys.Common.SystemData.ReturnValue</returns>
         public short GetQCEventTypeList(ref List<QCEventType> lstQCEventTypes)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetQCEventTypeList(ref  lstQCEventTypes);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<QCEventType>("CommonAccess/GetQCEventTypeList", ref lstQCEventTypes);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetQCEventTypeList(ref lstQCEventTypes);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -351,7 +558,17 @@ namespace Heren.NurDoc.Data
         /// <returns>MedDocSys.Common.SystemData.ReturnValue</returns>
         public short GetQCMessageTempletList(string szQuestionType, ref List<QCMessageTemplet> lstQCMessageTemplets)
         {
-            short shRet = SystemContext.Instance.CommonAccess.GetQCMessageTempletList(szQuestionType, ref  lstQCMessageTemplets);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szQuestionType", szQuestionType);
+                return RestHandler.Instance.Get<QCMessageTemplet>("CommonAccess/GetQCMessageTempletList", ref lstQCMessageTemplets);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CommonAccess.GetQCMessageTempletList(szQuestionType, ref lstQCMessageTemplets);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)

@@ -203,7 +203,7 @@ namespace Heren.NurDoc.DAL.DbAccess
             sbField.AppendFormat("{0}='{1}',"
                 , ServerData.AssessmentCycleTable.WARD_CODE, model.WARD_CODE
                 );
-            sbField.AppendFormat("{0}='{1}',"
+            sbField.AppendFormat("{0}='{1}'"
                 , ServerData.AssessmentCycleTable.WARD_NAME, model.WARD_NAME
                 );
             string szCondition = string.Format("{0}='{1}'", ServerData.AssessmentCycleTable.ID, model.ID);

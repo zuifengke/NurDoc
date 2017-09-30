@@ -28,6 +28,7 @@ namespace Heren.NurDoc.Frame.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShiftRecEditForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -39,21 +40,25 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.toollblRankTime = new System.Windows.Forms.ToolStripLabel();
             this.toolbtnSave = new System.Windows.Forms.ToolStripButton();
             this.toolbtnReturn = new System.Windows.Forms.ToolStripButton();
+            this.toolbtnDelete = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.formControl1 = new Heren.NurDoc.Utilities.Forms.FormControl();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.picBoxWhite = new System.Windows.Forms.PictureBox();
+            this.picBoxBlue = new System.Windows.Forms.PictureBox();
             this.btnDeleteAllPatient = new Heren.Common.Controls.FlatButton();
             this.dgvShiftPatient = new Heren.Common.Controls.TableView.DataTableView();
-            this.colShiftItem = new Heren.Common.Controls.TableView.ComboBoxColumn();
-            this.colShiftItemAlias = new Heren.Common.Controls.TableView.ComboBoxColumn();
-            this.colBedCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPatientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAddPatient = new Heren.Common.Controls.FlatButton();
             this.btnDeletePatient = new Heren.Common.Controls.FlatButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.formControl2 = new Heren.NurDoc.Utilities.Forms.FormControl();
+            this.colNewPatient = new System.Windows.Forms.DataGridViewImageColumn();
+            this.colShiftItem = new Heren.Common.Controls.TableView.ComboBoxColumn();
+            this.colShiftItemAlias = new Heren.Common.Controls.TableView.ComboBoxColumn();
+            this.colBedCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPatientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -63,6 +68,8 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWhite)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxBlue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShiftPatient)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -80,7 +87,8 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.toolcboShiftRank,
             this.toollblRankTime,
             this.toolbtnSave,
-            this.toolbtnReturn});
+            this.toolbtnReturn,
+            this.toolbtnDelete});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(2, 2);
             this.toolStrip1.Name = "toolStrip1";
@@ -107,8 +115,8 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.tooldtpShiftDate.ShowMinute = false;
             this.tooldtpShiftDate.ShowSecond = false;
             this.tooldtpShiftDate.Size = new System.Drawing.Size(100, 22);
-            this.tooldtpShiftDate.Text = "2012/2/20 15:23:09";
-            this.tooldtpShiftDate.Value = new System.DateTime(2012, 2, 20, 15, 23, 9, 0);
+            this.tooldtpShiftDate.Text = "2012/2/20 9:54:47";
+            this.tooldtpShiftDate.Value = new System.DateTime(2012, 2, 20, 9, 54, 47, 0);
             this.tooldtpShiftDate.ValueChanged += new System.EventHandler(this.tooldtpShiftDate_ValueChanged);
             // 
             // toolStripLabel1
@@ -152,6 +160,15 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.toolbtnReturn.Size = new System.Drawing.Size(88, 22);
             this.toolbtnReturn.Text = "记录列表";
             this.toolbtnReturn.Click += new System.EventHandler(this.toolbtnReturn_Click);
+            // 
+            // toolbtnDelete
+            // 
+            this.toolbtnDelete.Image = global::Heren.NurDoc.Frame.Properties.Resources.Delete;
+            this.toolbtnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolbtnDelete.Name = "toolbtnDelete";
+            this.toolbtnDelete.Size = new System.Drawing.Size(148, 29);
+            this.toolbtnDelete.Text = "删除当前班次交班信息";
+            this.toolbtnDelete.Click += new System.EventHandler(this.toolbtnDelete_Click);
             // 
             // splitContainer1
             // 
@@ -213,6 +230,8 @@ namespace Heren.NurDoc.Frame.Dialogs
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.picBoxWhite);
+            this.groupBox2.Controls.Add(this.picBoxBlue);
             this.groupBox2.Controls.Add(this.btnDeleteAllPatient);
             this.groupBox2.Controls.Add(this.dgvShiftPatient);
             this.groupBox2.Controls.Add(this.btnAddPatient);
@@ -224,6 +243,28 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "交班病人";
+            // 
+            // picBoxWhite
+            // 
+            this.picBoxWhite.BackColor = System.Drawing.Color.Transparent;
+            this.picBoxWhite.Image = ((System.Drawing.Image)(resources.GetObject("picBoxWhite.Image")));
+            this.picBoxWhite.Location = new System.Drawing.Point(266, 172);
+            this.picBoxWhite.Name = "picBoxWhite";
+            this.picBoxWhite.Size = new System.Drawing.Size(10, 10);
+            this.picBoxWhite.TabIndex = 4;
+            this.picBoxWhite.TabStop = false;
+            this.picBoxWhite.Visible = false;
+            // 
+            // picBoxBlue
+            // 
+            this.picBoxBlue.BackColor = System.Drawing.Color.Transparent;
+            this.picBoxBlue.Image = ((System.Drawing.Image)(resources.GetObject("picBoxBlue.Image")));
+            this.picBoxBlue.Location = new System.Drawing.Point(266, 140);
+            this.picBoxBlue.Name = "picBoxBlue";
+            this.picBoxBlue.Size = new System.Drawing.Size(20, 20);
+            this.picBoxBlue.TabIndex = 3;
+            this.picBoxBlue.TabStop = false;
+            this.picBoxBlue.Visible = false;
             // 
             // btnDeleteAllPatient
             // 
@@ -238,9 +279,9 @@ namespace Heren.NurDoc.Frame.Dialogs
             // dgvShiftPatient
             // 
             this.dgvShiftPatient.AllowUserToOrderColumns = true;
-            this.dgvShiftPatient.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvShiftPatient.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -251,6 +292,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.dgvShiftPatient.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvShiftPatient.ColumnHeadersHeight = 24;
             this.dgvShiftPatient.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colNewPatient,
             this.colShiftItem,
             this.colShiftItemAlias,
             this.colBedCode,
@@ -280,41 +322,6 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.dgvShiftPatient.TabIndex = 0;
             this.dgvShiftPatient.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvShiftPatient_EditingControlShowing);
             this.dgvShiftPatient.SelectionChanged += new System.EventHandler(this.dgvShiftPatient_SelectionChanged);
-            // 
-            // colShiftItem
-            // 
-            this.colShiftItem.DisplayStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.colShiftItem.FillWeight = 60F;
-            this.colShiftItem.HeaderText = "项目";
-            this.colShiftItem.Name = "colShiftItem";
-            this.colShiftItem.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colShiftItem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colShiftItem.Width = 50;
-            // 
-            // colShiftItemAlias
-            // 
-            this.colShiftItemAlias.DisplayStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.colShiftItemAlias.HeaderText = "项目别名";
-            this.colShiftItemAlias.Name = "colShiftItemAlias";
-            this.colShiftItemAlias.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colShiftItemAlias.Width = 60;
-            // 
-            // colBedCode
-            // 
-            this.colBedCode.FillWeight = 40F;
-            this.colBedCode.HeaderText = "床号";
-            this.colBedCode.Name = "colBedCode";
-            this.colBedCode.ReadOnly = true;
-            this.colBedCode.Width = 60;
-            // 
-            // colPatientName
-            // 
-            this.colPatientName.FillWeight = 80F;
-            this.colPatientName.HeaderText = "姓名";
-            this.colPatientName.Name = "colPatientName";
-            this.colPatientName.ReadOnly = true;
-            this.colPatientName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPatientName.Width = 60;
             // 
             // btnAddPatient
             // 
@@ -358,6 +365,50 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.formControl2.Text = "formControl1";
             this.formControl2.QueryContext += new Heren.Common.Forms.Editor.QueryContextEventHandler(this.FormControl_QueryContext);
             // 
+            // colNewPatient
+            // 
+            this.colNewPatient.HeaderText = " ";
+            this.colNewPatient.Name = "colNewPatient";
+            this.colNewPatient.ReadOnly = true;
+            this.colNewPatient.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colNewPatient.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colNewPatient.Width = 15;
+            // 
+            // colShiftItem
+            // 
+            this.colShiftItem.DisplayStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colShiftItem.FillWeight = 60F;
+            this.colShiftItem.HeaderText = "项目";
+            this.colShiftItem.Name = "colShiftItem";
+            this.colShiftItem.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colShiftItem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colShiftItem.Width = 50;
+            // 
+            // colShiftItemAlias
+            // 
+            this.colShiftItemAlias.DisplayStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colShiftItemAlias.HeaderText = "项目别名";
+            this.colShiftItemAlias.Name = "colShiftItemAlias";
+            this.colShiftItemAlias.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colShiftItemAlias.Width = 60;
+            // 
+            // colBedCode
+            // 
+            this.colBedCode.FillWeight = 40F;
+            this.colBedCode.HeaderText = "床号";
+            this.colBedCode.Name = "colBedCode";
+            this.colBedCode.ReadOnly = true;
+            this.colBedCode.Width = 60;
+            // 
+            // colPatientName
+            // 
+            this.colPatientName.FillWeight = 80F;
+            this.colPatientName.HeaderText = "姓名";
+            this.colPatientName.Name = "colPatientName";
+            this.colPatientName.ReadOnly = true;
+            this.colPatientName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPatientName.Width = 60;
+            // 
             // ShiftRecEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -384,6 +435,8 @@ namespace Heren.NurDoc.Frame.Dialogs
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxWhite)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxBlue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShiftPatient)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -410,10 +463,14 @@ namespace Heren.NurDoc.Frame.Dialogs
         private Heren.Common.Controls.FlatButton btnDeletePatient;
         private System.Windows.Forms.GroupBox groupBox3;
         private Heren.NurDoc.Utilities.Forms.FormControl formControl2;
-        private Heren.Common.Controls.TableView.ComboBoxColumn colShiftItem;
-        private Heren.Common.Controls.TableView.ComboBoxColumn colShiftItemAlias;
+        private Heren.Common.Controls.FlatButton btnDeleteAllPatient;
+        private System.Windows.Forms.PictureBox picBoxBlue;
+        private System.Windows.Forms.PictureBox picBoxWhite;
+        private System.Windows.Forms.ToolStripButton toolbtnDelete;
+        private System.Windows.Forms.DataGridViewImageColumn colNewPatient;
+        private Common.Controls.TableView.ComboBoxColumn colShiftItem;
+        private Common.Controls.TableView.ComboBoxColumn colShiftItemAlias;
         private System.Windows.Forms.DataGridViewTextBoxColumn colBedCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPatientName;
-        private Heren.Common.Controls.FlatButton btnDeleteAllPatient;
     }
 }

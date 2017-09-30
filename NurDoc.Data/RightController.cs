@@ -608,16 +608,5 @@ namespace Heren.NurDoc.Data
             }
             return true;
         }
-
-        /// <summary>
-        /// 判断是否允许显示另存为按钮
-        /// </summary>
-        /// <returns></returns>
-        public bool CanShowSaveAsButton()
-        {
-            if (SystemContext.Instance.LoginUser == null)
-                return false;
-            return this.UserRight.ShowSaveAsButton.Value;
-        }
     }
 }

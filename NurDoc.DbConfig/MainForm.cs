@@ -93,7 +93,7 @@ namespace Heren.NurDoc.DbConfig
                 this.tbxRestFulString.Text = GlobalMethods.Security.DecryptText(szRestConnectionString, CONFIG_ENCRYPT_KEY);
 
                 string szNurConnModeString = SystemConfig.Instance.Get(MainForm.NUR_CONN_MODE, string.Empty);
-                string szNurConnMode = GlobalMethods.Security.DecryptText(szNurConnModeString, CONFIG_ENCRYPT_KEY);
+                string szNurConnMode = GlobalMethods.Security.DecryptText(szNurConnModeString, NUR_CONN_MODE);
                 if (szNurConnMode == "DB")
                 {
                     this.rdbDBMode.Checked = true;
@@ -140,7 +140,7 @@ namespace Heren.NurDoc.DbConfig
                 { szNurConnMode = "DB"; }
                 if (this.rdbRestMode.Checked)
                 { szNurConnMode = "REST"; }
-                string szNurConnModeString = GlobalMethods.Security.EncryptText(szNurConnMode, CONFIG_ENCRYPT_KEY);
+                string szNurConnModeString = GlobalMethods.Security.EncryptText(szNurConnMode, NUR_CONN_MODE);
                 SystemConfig.Instance.Write(MainForm.NDS_DB_TYPE, szDbType);
                 SystemConfig.Instance.Write(MainForm.NDS_PROVIDER_TYPE, szDbDriverType);
                 SystemConfig.Instance.Write(MainForm.NDS_CONN_STRING, szConnectionString);

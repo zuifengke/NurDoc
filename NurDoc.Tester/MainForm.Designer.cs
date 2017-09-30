@@ -28,6 +28,7 @@ namespace Heren.NurDoc.Tester
         private void InitializeComponent()
         {
             this.gbxUserInfo = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.lblUserID = new System.Windows.Forms.Label();
             this.txtUserID = new System.Windows.Forms.TextBox();
             this.lblUserName = new System.Windows.Forms.Label();
@@ -43,6 +44,7 @@ namespace Heren.NurDoc.Tester
             this.lblWardName = new System.Windows.Forms.Label();
             this.txtWardName = new System.Windows.Forms.TextBox();
             this.gbxPatientInfo = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblPatientID = new System.Windows.Forms.Label();
             this.txtPatientID = new System.Windows.Forms.TextBox();
             this.lblVisitID = new System.Windows.Forms.Label();
@@ -55,7 +57,11 @@ namespace Heren.NurDoc.Tester
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txbDocType = new System.Windows.Forms.TextBox();
+            this.txbDocID = new System.Windows.Forms.TextBox();
+            this.chkLocate = new System.Windows.Forms.CheckBox();
             this.gbxUserInfo.SuspendLayout();
             this.gbxPatientInfo.SuspendLayout();
             this.SuspendLayout();
@@ -84,6 +90,16 @@ namespace Heren.NurDoc.Tester
             this.gbxUserInfo.TabStop = false;
             this.gbxUserInfo.Text = "用户信息";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(216, 48);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(144, 16);
+            this.checkBox1.TabIndex = 26;
+            this.checkBox1.Text = "第三方调用单病人模式";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // lblUserID
             // 
             this.lblUserID.AutoSize = true;
@@ -100,7 +116,7 @@ namespace Heren.NurDoc.Tester
             this.txtUserID.Name = "txtUserID";
             this.txtUserID.Size = new System.Drawing.Size(119, 21);
             this.txtUserID.TabIndex = 2;
-            this.txtUserID.Text = "YJING";
+            this.txtUserID.Text = "YK";
             this.txtUserID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUserID_KeyDown);
             // 
             // lblUserName
@@ -212,16 +228,29 @@ namespace Heren.NurDoc.Tester
             // 
             // gbxPatientInfo
             // 
+            this.gbxPatientInfo.Controls.Add(this.txbDocID);
+            this.gbxPatientInfo.Controls.Add(this.txbDocType);
+            this.gbxPatientInfo.Controls.Add(this.label2);
+            this.gbxPatientInfo.Controls.Add(this.label1);
             this.gbxPatientInfo.Controls.Add(this.lblPatientID);
             this.gbxPatientInfo.Controls.Add(this.txtPatientID);
             this.gbxPatientInfo.Controls.Add(this.lblVisitID);
             this.gbxPatientInfo.Controls.Add(this.txtVisitID);
             this.gbxPatientInfo.Location = new System.Drawing.Point(12, 158);
             this.gbxPatientInfo.Name = "gbxPatientInfo";
-            this.gbxPatientInfo.Size = new System.Drawing.Size(418, 53);
+            this.gbxPatientInfo.Size = new System.Drawing.Size(418, 83);
             this.gbxPatientInfo.TabIndex = 15;
             this.gbxPatientInfo.TabStop = false;
             this.gbxPatientInfo.Text = "病人信息";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(214, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "DocID";
             // 
             // lblPatientID
             // 
@@ -238,7 +267,7 @@ namespace Heren.NurDoc.Tester
             this.txtPatientID.Name = "txtPatientID";
             this.txtPatientID.Size = new System.Drawing.Size(119, 21);
             this.txtPatientID.TabIndex = 17;
-            this.txtPatientID.Text = "201211301";
+            this.txtPatientID.Text = "P000067";
             // 
             // lblVisitID
             // 
@@ -255,11 +284,11 @@ namespace Heren.NurDoc.Tester
             this.txtVisitID.Name = "txtVisitID";
             this.txtVisitID.Size = new System.Drawing.Size(119, 21);
             this.txtVisitID.TabIndex = 19;
-            this.txtVisitID.Text = "1";
+            this.txtVisitID.Text = "2";
             // 
             // btnStartNurDoc
             // 
-            this.btnStartNurDoc.Location = new System.Drawing.Point(45, 223);
+            this.btnStartNurDoc.Location = new System.Drawing.Point(44, 247);
             this.btnStartNurDoc.Name = "btnStartNurDoc";
             this.btnStartNurDoc.Size = new System.Drawing.Size(119, 30);
             this.btnStartNurDoc.TabIndex = 20;
@@ -270,7 +299,7 @@ namespace Heren.NurDoc.Tester
             // btnExitNurDoc
             // 
             this.btnExitNurDoc.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExitNurDoc.Location = new System.Drawing.Point(285, 223);
+            this.btnExitNurDoc.Location = new System.Drawing.Point(284, 247);
             this.btnExitNurDoc.Name = "btnExitNurDoc";
             this.btnExitNurDoc.Size = new System.Drawing.Size(119, 30);
             this.btnExitNurDoc.TabIndex = 21;
@@ -336,22 +365,57 @@ namespace Heren.NurDoc.Tester
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // checkBox1
+            // button7
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(216, 48);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(144, 16);
-            this.checkBox1.TabIndex = 26;
-            this.checkBox1.Text = "第三方调用单病人模式";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.button7.Location = new System.Drawing.Point(169, 247);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(109, 30);
+            this.button7.TabIndex = 26;
+            this.button7.Text = "单患者模式";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(21, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 12);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "DocType";
+            // 
+            // txbDocType
+            // 
+            this.txbDocType.Location = new System.Drawing.Point(80, 48);
+            this.txbDocType.Name = "txbDocType";
+            this.txbDocType.Size = new System.Drawing.Size(119, 21);
+            this.txbDocType.TabIndex = 22;
+            // 
+            // txbDocID
+            // 
+            this.txbDocID.Location = new System.Drawing.Point(272, 48);
+            this.txbDocID.Name = "txbDocID";
+            this.txbDocID.Size = new System.Drawing.Size(119, 21);
+            this.txbDocID.TabIndex = 23;
+            // 
+            // chkLocate
+            // 
+            this.chkLocate.AutoSize = true;
+            this.chkLocate.Location = new System.Drawing.Point(436, 209);
+            this.chkLocate.Name = "chkLocate";
+            this.chkLocate.Size = new System.Drawing.Size(84, 16);
+            this.chkLocate.TabIndex = 27;
+            this.chkLocate.Text = "定位到文档";
+            this.chkLocate.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExitNurDoc;
-            this.ClientSize = new System.Drawing.Size(642, 275);
+            this.ClientSize = new System.Drawing.Size(674, 313);
+            this.Controls.Add(this.chkLocate);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -372,6 +436,7 @@ namespace Heren.NurDoc.Tester
             this.gbxPatientInfo.ResumeLayout(false);
             this.gbxPatientInfo.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
         #endregion
@@ -405,5 +470,11 @@ namespace Heren.NurDoc.Tester
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txbDocID;
+        private System.Windows.Forms.TextBox txbDocType;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkLocate;
     }
 }

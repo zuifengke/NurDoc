@@ -675,7 +675,21 @@ namespace Heren.NurDoc.Frame.DockForms
                     row.Cells[this.colBedCode.Index].Value = shiftPatient.BedCode;
                     row.Cells[this.colPatientName.Index].Value = shiftPatient.PatientName;
                     row.Cells[this.colPatientAge.Index].Value = shiftPatient.PatientAge;
-                    row.Cells[this.colDiagnosis.Index].Value = shiftPatient.Diagnosis;
+                    PatVisitInfo PatVisitInfo = new PatVisitInfo();
+                    PatVisitService.Instance.GetPatVisitInfo(shiftPatient.PatientID, shiftPatient.VisitID, ref PatVisitInfo);
+                    row.Cells[this.ColSex.Index].Value = PatVisitInfo.PatientSex;
+                    //PatientTable.Instance.GetPatVisit(shiftPatient.PatientID, shiftPatient.VisitID).PatientSex;
+                    string diagnosis = shiftPatient.Diagnosis;
+                    if (diagnosis.Contains("гд"))
+                    {
+                        string[] array = diagnosis.Split('гд');
+                        row.Cells[this.colDiagnosis.Index].Value = array[0];
+                        row.Cells[this.colTraDiagnosis.Index].Value = array[1];
+                    }
+                    else
+                    {
+                        row.Cells[this.colDiagnosis.Index].Value = diagnosis;
+                    }
                     row.Cells[this.colVisitTime.Index].Value = shiftPatient.VisitTime;
                     row.Cells[this.colShiftRecordID.Index].Value = shiftPatient.ShiftRecordID;
                     row.Cells[this.colPatID.Index].Value = shiftPatient.PatientID;

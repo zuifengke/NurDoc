@@ -1004,6 +1004,16 @@ namespace Heren.NurDoc.DAL
             get { return this.m_iMaxPreviewPages; }
             set { this.m_iMaxPreviewPages = value; }
         }
+
+        private bool m_bSaveAsButtonVisible = false;
+        /// <summary>
+        /// 是否允许显示另存为按钮
+        /// </summary>
+        public bool SaveAsButtonVisible
+        {
+            get { return this.m_bSaveAsButtonVisible; }
+            set { this.m_bSaveAsButtonVisible = value; }
+        }
     }
 
     /// <summary>
@@ -2646,6 +2656,122 @@ namespace Heren.NurDoc.DAL
         public override string ToString()
         {
             return string.Format("Name={0},Value={1}", this.m_szDataName, this.m_szDataValue);
+        }
+    }
+
+    /// <summary>
+    /// 医嘱回写信息
+    /// </summary>
+    public class OrdersWriteBack : DbTypeBase, ICloneable
+    {
+        private string m_szPatientID = null;
+
+        /// <summary>
+        /// 获取或设置病人ID
+        /// </summary>
+        public string PatientID
+        {
+            get { return this.m_szPatientID; }
+            set { this.m_szPatientID = value; }
+        }
+
+        private string m_szVisitID = null;
+
+        /// <summary>
+        /// 获取或设置病人就诊ID
+        /// </summary>
+        public string VisitID
+        {
+            get { return this.m_szVisitID; }
+            set { this.m_szVisitID = value; }
+        }
+
+        private string m_szOrderNo = null;
+
+        /// <summary>
+        /// 获取或设置医嘱号
+        /// </summary>
+        public string OrderNo
+        {
+            get { return this.m_szOrderNo; }
+            set { this.m_szOrderNo = value; }
+        }
+
+        private string m_szOrderSubNo = null;
+
+        /// <summary>
+        /// 获取或设置子医嘱号
+        /// </summary>
+        public string OrderSubNo
+        {
+            get { return this.m_szOrderSubNo; }
+            set { this.m_szOrderSubNo = value; }
+        }
+
+        private DateTime m_dtRecordTime;
+
+        /// <summary>
+        /// 获取或设置医嘱执行时间
+        /// </summary>
+        public DateTime RecordTime
+        {
+            get { return this.m_dtRecordTime; }
+            set { this.m_dtRecordTime = value; }
+        }
+
+        private string m_szRecordID;
+
+        /// <summary>
+        /// 获取或设置记录ID号
+        /// </summary>
+        public string RecordID
+        {
+            get { return this.m_szRecordID; }
+            set { this.m_szRecordID = value; }
+        }
+
+        private string m_szDataName;
+
+        /// <summary>
+        /// 获取或设置数据名称
+        /// </summary>
+        public string DataName
+        {
+            get { return this.m_szDataName; }
+            set { this.m_szDataName = value; }
+        }
+
+        private string m_szStatus;
+
+        /// <summary>
+        /// 获取或设置管道状态
+        /// </summary>
+        public string Status
+        {
+            get { return this.m_szStatus; }
+            set { this.m_szStatus = value; }
+        }
+
+        private string m_szDocID;
+        /// <summary>
+        /// 获取或设置文档ID
+        /// </summary>
+        public string DocID
+        {
+            get { return this.m_szDocID; }
+            set { this.m_szDocID = value; }
+        }
+
+        public OrdersWriteBack()
+        {
+            this.m_dtRecordTime = this.DefaultTime;
+        }
+
+        public override object Clone()
+        {
+            OrdersWriteBack ordersWriteBack = new OrdersWriteBack();
+            GlobalMethods.Reflect.CopyProperties(this, ordersWriteBack);
+            return ordersWriteBack;
         }
     }
 
@@ -5688,7 +5814,7 @@ namespace Heren.NurDoc.DAL
         /// <summary>
         /// 获取或设置病人ID
         /// </summary>
-        public string PatientID
+        public string PatientId
         {
             get { return this.m_szPatientID; }
             set { this.m_szPatientID = value; }
@@ -5809,7 +5935,7 @@ namespace Heren.NurDoc.DAL
         /// <summary>
         /// 获取或设置就诊ID
         /// </summary>
-        public string VisitID
+        public string VisitId
         {
             get { return this.m_szVisitID; }
             set { this.m_szVisitID = value; }
@@ -6075,7 +6201,7 @@ namespace Heren.NurDoc.DAL
         {
             if (patVisit == null)
                 return false;
-            if (this.PatientID != patVisit.PatientID || this.VisitID != patVisit.VisitID)
+            if (this.PatientId != patVisit.PatientId || this.VisitId != patVisit.VisitId)
                 return false;
             if (this.VisitTime != patVisit.VisitTime || this.VisitType != patVisit.VisitType)
                 return false;
@@ -6367,6 +6493,52 @@ namespace Heren.NurDoc.DAL
                 if (nLength > rightInfo.Index)
                     rightInfo.Value = (szRightCode[rightInfo.Index] == '1');
             }
+        }
+    }
+
+    /// <summary>
+    /// 护理病历用户权限表信息
+    /// </summary>
+    public class NurUserRightInfo : DbTypeBase, ICloneable
+    {
+        private string m_szUserId;//用户标识
+
+        public string UserId
+        {
+            get { return this.m_szUserId; }
+            set { this.m_szUserId = value; }
+        }
+
+        private string m_szUserPwd;//用户密码
+
+        public string UserPwd
+        {
+            get { return this.m_szUserPwd; }
+            set { this.m_szUserPwd = value; }
+        }
+
+        private string m_szRightCode;//权限编码
+
+        public string RightCode
+        {
+            get { return this.m_szRightCode; }
+            set { this.m_szRightCode = value; }
+        }
+
+        private string m_zRightDesc;//权限描述
+
+        public string RightDesc
+        {
+            get { return this.m_zRightDesc; }
+            set { this.m_zRightDesc = value; }
+        }
+
+        private string m_szRightType;//权限类型
+
+        public string RightType
+        {
+            get { return this.m_szRightType; }
+            set { this.m_szRightType = value; }
         }
     }
 
@@ -6958,17 +7130,6 @@ namespace Heren.NurDoc.DAL
             get { return this.m_ShowInfoLibForm; }
         }
 
-        private RightInfo m_ShowSaveAsButton = null;
-
-        /// <summary>
-        /// 获取或设置是否允许显示另存为按钮
-        /// </summary>
-        public RightInfo ShowSaveAsButton
-        {
-            set { }
-            get { return this.m_ShowSaveAsButton; }
-        }
-
         private RightInfo m_ShowRosteringCardForm = null;
 
         /// <summary>
@@ -7038,8 +7199,7 @@ namespace Heren.NurDoc.DAL
             this.m_ShowNursingGraphForm = new RightInfo("查看监护记录窗口", 52, false, "是否允许查看监护记录窗口");
             this.m_ShowWordDocumentForm = new RightInfo("查看WORD文档窗口", 53, false, "是否允许查看WORD文档窗口");
             this.m_ShowNursingAssessForm = new RightInfo("查看护理评价窗口", 54, false, "是否允许查看护理评价窗口");
-            this.m_ShowSaveAsButton = new RightInfo("允许显示另存为按钮", 55, false, "是否允许显示另存为按钮");
-            this.m_ShowRosteringCardForm = new RightInfo("查看护士排班一览", 56, false, "是否允许查看护士排班一览");
+            this.m_ShowRosteringCardForm = new RightInfo("查看护士排班一览", 55, false, "是否允许查看护士排班一览");
         }
     }
 

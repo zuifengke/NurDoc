@@ -140,6 +140,17 @@ namespace Heren.NurDoc.Tester
                 sbArgs.Append(SystemConst.StartupArgs.GROUP_SPLIT);
             }
 
+            if (!GlobalMethods.Misc.IsEmptyString(this.txbDocType.Text))
+            {
+                sbArgs.Append(this.txbDocType.Text.Trim());
+                sbArgs.Append(SystemConst.StartupArgs.GROUP_SPLIT);
+            }
+            if (!GlobalMethods.Misc.IsEmptyString(this.txbDocType.Text))
+            {
+                sbArgs.Append(this.txbDocID.Text.Trim());
+                sbArgs.Append(SystemConst.StartupArgs.GROUP_SPLIT);
+            }
+
             Process proc = new Process();
             proc.StartInfo = new ProcessStartInfo();
             proc.StartInfo.Arguments = sbArgs.ToString().Replace(SystemConst.StartupArgs.ESCAPED_CHAR, SystemConst.StartupArgs.ESCAPE_CHAR);
@@ -274,6 +285,18 @@ namespace Heren.NurDoc.Tester
         {
             OpenFileDialog file = new OpenFileDialog();
             file.ShowDialog();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            SinglePatForm single = new SinglePatForm();
+            single.PatientID = this.txtPatientID.Text;
+            single.VisitID = this.txtVisitID.Text;
+            single.UserID = this.txtUserID.Text;
+            single.LocateToDoc = this.chkLocate.Checked;
+            single.DocType = this.txbDocType.Text;
+            single.DocID = this.txbDocID.Text;
+            single.ShowDialog();
         }
     }
 }

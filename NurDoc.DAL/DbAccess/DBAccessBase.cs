@@ -21,6 +21,8 @@ namespace Heren.NurDoc.DAL.DbAccess
 
         public DBAccessBase()
         {
+            if(this.m_DbAccess==null)
+                this.m_DbAccess = ServerParam.Instance.GetDocDbAccess();
         }
 
         /// <summary>

@@ -880,7 +880,7 @@ namespace Heren.NurDoc.PatPage.Document
                 return null;
             }
             DocumentInfo document = new DocumentInfo();
-            document.m_szPatientID = patVisit.PatientID;
+            document.m_szPatientID = patVisit.PatientId;
             document.m_szDocTypeID = docTypeInfo.DocTypeID;
             document.m_dtDocTime = SysTimeService.Instance.Now;
             document.m_nDocVersion = 1;
@@ -909,7 +909,7 @@ namespace Heren.NurDoc.PatPage.Document
             document.m_szModifierName = document.CreatorName;
             document.m_dtModifyTime = document.DocTime;
             document.m_szPatientName = patVisit.PatientName;
-            document.m_szVisitID = patVisit.VisitID;
+            document.m_szVisitID = patVisit.VisitId;
             document.m_dtVisitTime = patVisit.VisitTime;
             document.m_szVisitType = patVisit.VisitType;
             document.m_szSubID = patVisit.SubID;
@@ -945,7 +945,7 @@ namespace Heren.NurDoc.PatPage.Document
                 return null;
             }
             DocumentInfo document = new DocumentInfo();
-            document.m_szPatientID = patVisit.PatientID;
+            document.m_szPatientID = patVisit.PatientId;
             document.m_szDocTypeID = docTypeInfo.DocTypeID;
             document.m_dtDocTime = creatTime;
             document.m_nDocVersion = 1;
@@ -974,7 +974,7 @@ namespace Heren.NurDoc.PatPage.Document
             document.m_szModifierName = document.CreatorName;
             document.m_dtModifyTime = document.DocTime;
             document.m_szPatientName = patVisit.PatientName;
-            document.m_szVisitID = patVisit.VisitID;
+            document.m_szVisitID = patVisit.VisitId;
             document.m_dtVisitTime = patVisit.VisitTime;
             document.m_szVisitType = patVisit.VisitType;
             document.m_szSubID = patVisit.SubID;
@@ -1006,7 +1006,7 @@ namespace Heren.NurDoc.PatPage.Document
                 return null;
             }
             DocumentInfo document = new DocumentInfo();
-            document.m_szPatientID = patVisit.PatientID;
+            document.m_szPatientID = patVisit.PatientId;
             document.m_szDocTypeID = szDocTypeID;
             document.m_dtDocTime = SysTimeService.Instance.Now;
             document.m_nDocVersion = 1;
@@ -1035,7 +1035,7 @@ namespace Heren.NurDoc.PatPage.Document
             document.m_szModifierName = document.CreatorName;
             document.m_dtModifyTime = document.DocTime;
             document.m_szPatientName = patVisit.PatientName;
-            document.m_szVisitID = patVisit.VisitID;
+            document.m_szVisitID = patVisit.VisitId;
             document.m_dtVisitTime = patVisit.VisitTime;
             document.m_szVisitType = patVisit.VisitType;
             document.m_szSubID = patVisit.SubID;

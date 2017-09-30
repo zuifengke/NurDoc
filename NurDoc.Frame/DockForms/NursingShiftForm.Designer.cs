@@ -35,12 +35,12 @@ namespace Heren.NurDoc.Frame.DockForms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NursingShiftForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnShiftSetItemAlias = new System.Windows.Forms.Button();
             this.colShiftID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,18 +52,6 @@ namespace Heren.NurDoc.Frame.DockForms
             this.toolbtnPrint = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.dgvShiftPatient = new Heren.Common.Controls.TableView.DataTableView();
-            this.colShiftItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colShiftItemAlias = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colBedCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPatientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRequestDoctor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colParentDoctor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPatientAge = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDiagnosis = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVisitTime = new Heren.Common.Controls.TableView.DateTimeColumn();
-            this.colShiftRecordID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPatID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -83,6 +71,20 @@ namespace Heren.NurDoc.Frame.DockForms
             this.ScolDiagnosis = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ScolOthers = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ScolRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colShiftItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colShiftItemAlias = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBedCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPatientName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colRequestDoctor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colParentDoctor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPatientAge = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColSex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTraDiagnosis = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDiagnosis = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVisitTime = new Heren.Common.Controls.TableView.DateTimeColumn();
+            this.colShiftRecordID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPatID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVisitID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvWardStatus)).BeginInit();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShiftPatient)).BeginInit();
@@ -177,8 +179,8 @@ namespace Heren.NurDoc.Frame.DockForms
             this.tooldtpShiftDate.ShowMinute = false;
             this.tooldtpShiftDate.ShowSecond = false;
             this.tooldtpShiftDate.Size = new System.Drawing.Size(110, 22);
-            this.tooldtpShiftDate.Text = "2012/10/21 11:09:29";
-            this.tooldtpShiftDate.Value = new System.DateTime(2012, 10, 21, 11, 9, 29, 0);
+            this.tooldtpShiftDate.Text = "2012/10/21 14:08:36";
+            this.tooldtpShiftDate.Value = new System.DateTime(2012, 10, 21, 14, 8, 36, 0);
             this.tooldtpShiftDate.ValueChanged += new System.EventHandler(this.tooldtpShiftDate_ValueChanged);
             // 
             // toollblSpace1
@@ -248,6 +250,8 @@ namespace Heren.NurDoc.Frame.DockForms
             this.colRequestDoctor,
             this.colParentDoctor,
             this.colPatientAge,
+            this.ColSex,
+            this.colTraDiagnosis,
             this.colDiagnosis,
             this.colVisitTime,
             this.colShiftRecordID,
@@ -270,118 +274,6 @@ namespace Heren.NurDoc.Frame.DockForms
             this.dgvShiftPatient.Size = new System.Drawing.Size(827, 133);
             this.dgvShiftPatient.TabIndex = 13;
             this.dgvShiftPatient.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShiftPatient_CellDoubleClick);
-            // 
-            // colShiftItem
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.colShiftItem.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colShiftItem.HeaderText = "项目";
-            this.colShiftItem.Name = "colShiftItem";
-            this.colShiftItem.ReadOnly = true;
-            this.colShiftItem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colShiftItemAlias
-            // 
-            this.colShiftItemAlias.HeaderText = "项目别名";
-            this.colShiftItemAlias.Name = "colShiftItemAlias";
-            this.colShiftItemAlias.ReadOnly = true;
-            this.colShiftItemAlias.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colShiftItemAlias.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colShiftItemAlias.Width = 60;
-            // 
-            // colBedCode
-            // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colBedCode.DefaultCellStyle = dataGridViewCellStyle7;
-            this.colBedCode.FillWeight = 55F;
-            this.colBedCode.HeaderText = "床号";
-            this.colBedCode.Name = "colBedCode";
-            this.colBedCode.ReadOnly = true;
-            this.colBedCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colBedCode.Width = 55;
-            // 
-            // colPatientName
-            // 
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPatientName.DefaultCellStyle = dataGridViewCellStyle8;
-            this.colPatientName.FillWeight = 80F;
-            this.colPatientName.HeaderText = "姓名";
-            this.colPatientName.Name = "colPatientName";
-            this.colPatientName.ReadOnly = true;
-            this.colPatientName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPatientName.Width = 60;
-            // 
-            // colRequestDoctor
-            // 
-            this.colRequestDoctor.HeaderText = "经管医生";
-            this.colRequestDoctor.Name = "colRequestDoctor";
-            this.colRequestDoctor.ReadOnly = true;
-            this.colRequestDoctor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colRequestDoctor.Visible = false;
-            this.colRequestDoctor.Width = 60;
-            // 
-            // colParentDoctor
-            // 
-            this.colParentDoctor.HeaderText = "上级医生";
-            this.colParentDoctor.Name = "colParentDoctor";
-            this.colParentDoctor.ReadOnly = true;
-            this.colParentDoctor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colParentDoctor.Visible = false;
-            this.colParentDoctor.Width = 60;
-            // 
-            // colPatientAge
-            // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colPatientAge.DefaultCellStyle = dataGridViewCellStyle9;
-            this.colPatientAge.FillWeight = 55F;
-            this.colPatientAge.HeaderText = "年龄";
-            this.colPatientAge.Name = "colPatientAge";
-            this.colPatientAge.ReadOnly = true;
-            this.colPatientAge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPatientAge.Visible = false;
-            this.colPatientAge.Width = 55;
-            // 
-            // colDiagnosis
-            // 
-            this.colDiagnosis.FillWeight = 150F;
-            this.colDiagnosis.HeaderText = "诊断";
-            this.colDiagnosis.Name = "colDiagnosis";
-            this.colDiagnosis.ReadOnly = true;
-            this.colDiagnosis.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colDiagnosis.Width = 150;
-            // 
-            // colVisitTime
-            // 
-            this.colVisitTime.HeaderText = "VisitTime";
-            this.colVisitTime.Name = "colVisitTime";
-            this.colVisitTime.ReadOnly = true;
-            this.colVisitTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colVisitTime.Visible = false;
-            // 
-            // colShiftRecordID
-            // 
-            this.colShiftRecordID.HeaderText = "ShiftRecordID";
-            this.colShiftRecordID.Name = "colShiftRecordID";
-            this.colShiftRecordID.ReadOnly = true;
-            this.colShiftRecordID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colShiftRecordID.Visible = false;
-            // 
-            // colPatID
-            // 
-            this.colPatID.HeaderText = "病人ID号";
-            this.colPatID.Name = "colPatID";
-            this.colPatID.ReadOnly = true;
-            this.colPatID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colPatID.Visible = false;
-            // 
-            // colVisitID
-            // 
-            this.colVisitID.HeaderText = "就诊号";
-            this.colVisitID.Name = "colVisitID";
-            this.colVisitID.ReadOnly = true;
-            this.colVisitID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colVisitID.Visible = false;
             // 
             // toolStrip2
             // 
@@ -578,6 +470,130 @@ namespace Heren.NurDoc.Frame.DockForms
             this.ScolRemark.ReadOnly = true;
             this.ScolRemark.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // colShiftItem
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colShiftItem.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colShiftItem.HeaderText = "项目";
+            this.colShiftItem.Name = "colShiftItem";
+            this.colShiftItem.ReadOnly = true;
+            this.colShiftItem.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colShiftItemAlias
+            // 
+            this.colShiftItemAlias.HeaderText = "项目别名";
+            this.colShiftItemAlias.Name = "colShiftItemAlias";
+            this.colShiftItemAlias.ReadOnly = true;
+            this.colShiftItemAlias.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colShiftItemAlias.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colShiftItemAlias.Width = 60;
+            // 
+            // colBedCode
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colBedCode.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colBedCode.FillWeight = 55F;
+            this.colBedCode.HeaderText = "床号";
+            this.colBedCode.Name = "colBedCode";
+            this.colBedCode.ReadOnly = true;
+            this.colBedCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colBedCode.Width = 55;
+            // 
+            // colPatientName
+            // 
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPatientName.DefaultCellStyle = dataGridViewCellStyle8;
+            this.colPatientName.FillWeight = 80F;
+            this.colPatientName.HeaderText = "姓名";
+            this.colPatientName.Name = "colPatientName";
+            this.colPatientName.ReadOnly = true;
+            this.colPatientName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPatientName.Width = 60;
+            // 
+            // colRequestDoctor
+            // 
+            this.colRequestDoctor.HeaderText = "经管医生";
+            this.colRequestDoctor.Name = "colRequestDoctor";
+            this.colRequestDoctor.ReadOnly = true;
+            this.colRequestDoctor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colRequestDoctor.Visible = false;
+            this.colRequestDoctor.Width = 60;
+            // 
+            // colParentDoctor
+            // 
+            this.colParentDoctor.HeaderText = "上级医生";
+            this.colParentDoctor.Name = "colParentDoctor";
+            this.colParentDoctor.ReadOnly = true;
+            this.colParentDoctor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colParentDoctor.Visible = false;
+            this.colParentDoctor.Width = 60;
+            // 
+            // colPatientAge
+            // 
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colPatientAge.DefaultCellStyle = dataGridViewCellStyle9;
+            this.colPatientAge.FillWeight = 55F;
+            this.colPatientAge.HeaderText = "年龄";
+            this.colPatientAge.Name = "colPatientAge";
+            this.colPatientAge.ReadOnly = true;
+            this.colPatientAge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPatientAge.Width = 55;
+            // 
+            // ColSex
+            // 
+            this.ColSex.HeaderText = "性别";
+            this.ColSex.Name = "ColSex";
+            this.ColSex.ReadOnly = true;
+            this.ColSex.Width = 55;
+            // 
+            // colTraDiagnosis
+            // 
+            this.colTraDiagnosis.HeaderText = "中医诊断";
+            this.colTraDiagnosis.Name = "colTraDiagnosis";
+            this.colTraDiagnosis.ReadOnly = true;
+            // 
+            // colDiagnosis
+            // 
+            this.colDiagnosis.FillWeight = 150F;
+            this.colDiagnosis.HeaderText = "西医诊断";
+            this.colDiagnosis.Name = "colDiagnosis";
+            this.colDiagnosis.ReadOnly = true;
+            this.colDiagnosis.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colVisitTime
+            // 
+            this.colVisitTime.DefaultValue = new System.DateTime(((long)(0)));
+            this.colVisitTime.HeaderText = "VisitTime";
+            this.colVisitTime.Name = "colVisitTime";
+            this.colVisitTime.ReadOnly = true;
+            this.colVisitTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colVisitTime.Visible = false;
+            // 
+            // colShiftRecordID
+            // 
+            this.colShiftRecordID.HeaderText = "ShiftRecordID";
+            this.colShiftRecordID.Name = "colShiftRecordID";
+            this.colShiftRecordID.ReadOnly = true;
+            this.colShiftRecordID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colShiftRecordID.Visible = false;
+            // 
+            // colPatID
+            // 
+            this.colPatID.HeaderText = "病人ID号";
+            this.colPatID.Name = "colPatID";
+            this.colPatID.ReadOnly = true;
+            this.colPatID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colPatID.Visible = false;
+            // 
+            // colVisitID
+            // 
+            this.colVisitID.HeaderText = "就诊号";
+            this.colVisitID.Name = "colVisitID";
+            this.colVisitID.ReadOnly = true;
+            this.colVisitID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colVisitID.Visible = false;
+            // 
             // NursingShiftForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -644,8 +660,10 @@ namespace Heren.NurDoc.Frame.DockForms
         private System.Windows.Forms.DataGridViewTextBoxColumn colRequestDoctor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colParentDoctor;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPatientAge;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColSex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTraDiagnosis;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDiagnosis;
-        private Heren.Common.Controls.TableView.DateTimeColumn colVisitTime;
+        private Common.Controls.TableView.DateTimeColumn colVisitTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn colShiftRecordID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPatID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVisitID;

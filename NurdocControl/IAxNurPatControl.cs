@@ -14,5 +14,7 @@ namespace NurdocControl
         void SwitchPatient(string szPatientID, string szVisitID,string szUserID);
          
         void test();
+
+        void OpenNurDoc(string szPatientID, string szVisitID, string szUserID, string szDocTypeID, string szDocID);
     }
 }

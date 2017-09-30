@@ -180,7 +180,7 @@ namespace Heren.NurDoc.Utilities.Forms
             if (!row.IsNull("patient_id"))
                 nursingRecInfo.PatientID = row["patient_id"] as string;
             else if (PatientTable.Instance.ActivePatient != null)
-                nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientID;
+                nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientId;
             if (!row.IsNull("patient_name"))
                 nursingRecInfo.PatientName = row["patient_name"] as string;
             else if (PatientTable.Instance.ActivePatient != null)
@@ -188,7 +188,7 @@ namespace Heren.NurDoc.Utilities.Forms
             if (!row.IsNull("visit_id"))
                 nursingRecInfo.VisitID = row["visit_id"] as string;
             else if (PatientTable.Instance.ActivePatient != null)
-                nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+                nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitId;
 
             if (!row.IsNull("sub_id"))
                 nursingRecInfo.SubID = row["sub_id"] as string;

@@ -9,10 +9,13 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using Heren.NurDoc.DAL;
+using Heren.Common.Libraries;
+using Heren.Common.Libraries.DbAccess;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class CarePlanService
+    public class CarePlanService : DBAccessBase
     {
         private static CarePlanService m_instance = null;
 
@@ -42,7 +45,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetNurCarePlanDictInfo(string szDiagCode, ref List<NurCarePlanDictInfo> lstNurCarePlanDictInfos)
         {
-            short shRet = SystemContext.Instance.CarePlanAccess.GetNurCarePlanDictInfo(szDiagCode, ref lstNurCarePlanDictInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDiagCode", szDiagCode);
+                shRet = RestHandler.Instance.Get<NurCarePlanDictInfo>("CarePlanAccess/GetNurCarePlanDictInfo1",ref lstNurCarePlanDictInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CarePlanAccess.GetNurCarePlanDictInfo(szDiagCode, ref lstNurCarePlanDictInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -57,7 +70,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteNurCarePlanDictInfo(string szDiagCode)
         {
-            short shRet = SystemContext.Instance.CarePlanAccess.DeleteNurCarePlanDictInfo(szDiagCode);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDiagCode", szDiagCode);
+                shRet = RestHandler.Instance.Post("CarePlanAccess/DeleteNurCarePlanDictInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CarePlanAccess.DeleteNurCarePlanDictInfo(szDiagCode);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -74,7 +97,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteNurCarePlanDictInfo(string szDiagCode, string szItemCode, string szItemType)
         {
-            short shRet = SystemContext.Instance.CarePlanAccess.DeleteNurCarePlanDictInfo(szDiagCode, szItemCode, szItemType);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDiagCode", szDiagCode);
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                shRet = RestHandler.Instance.Post("CarePlanAccess/DeleteNurCarePlanDictInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CarePlanAccess.DeleteNurCarePlanDictInfo(szDiagCode, szItemCode, szItemType);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -89,7 +124,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveNurCarePlanDictInfo(NurCarePlanDictInfo ncpDictInfo)
         {
-            short shRet = SystemContext.Instance.CarePlanAccess.SaveNurCarePlanDictInfo(ncpDictInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(ncpDictInfo.DiagCode, ncpDictInfo.Item);
+                shRet = RestHandler.Instance.Post("CarePlanAccess/SaveNurCarePlanDictInfo");
+            }
+            else
+            { 
+                shRet = SystemContext.Instance.CarePlanAccess.SaveNurCarePlanDictInfo(ncpDictInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -107,7 +152,20 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateNurCarePlanDictInfo(string szDiagCode, string szItemCode, string szItemType, NurCarePlanDictInfo ncpDictInfo)
         {
-            short shRet = SystemContext.Instance.CarePlanAccess.UpdateNurCarePlanDictInfo(szDiagCode, szItemCode, szItemType, ncpDictInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDiagCode", szDiagCode);
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter("szItemType", szItemType);
+                RestHandler.Instance.AddParameter(ncpDictInfo.DiagCode,ncpDictInfo.Item);
+                shRet = RestHandler.Instance.Post("CarePlanAccess/UpdateNurCarePlanDictInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.CarePlanAccess.UpdateNurCarePlanDictInfo(szDiagCode, szItemCode, szItemType, ncpDictInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -124,7 +182,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetNurCarePlanInfo(string szNCPID, ref NurCarePlanInfo ncpInfo)
         {
-            return SystemContext.Instance.CarePlanAccess.GetNurCarePlanInfo(szNCPID, ref ncpInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szNCPID", szNCPID);
+                return RestHandler.Instance.Get<NurCarePlanInfo>("CarePlanAccess/GetNurCarePlanInfo", ref ncpInfo);
+            }
+            else
+            {
+                return SystemContext.Instance.CarePlanAccess.GetNurCarePlanInfo(szNCPID, ref ncpInfo);
+            }
         }
 
         /// <summary>
@@ -140,7 +207,20 @@ namespace Heren.NurDoc.Data
         public short GetNurCarePlanInfoList(string szPatientID, string szVisitID, string szSubID
             , DateTime dtBeginTime, DateTime dtEndTime, ref List<NurCarePlanInfo> lstNurCarePlanInfos)
         {
-            return SystemContext.Instance.CarePlanAccess.GetNurCarePlanInfoList(szPatientID, szVisitID, szSubID, dtBeginTime, dtEndTime, ref lstNurCarePlanInfos);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                return RestHandler.Instance.Get<NurCarePlanInfo>("CarePlanAccess/GetNurCarePlanInfoList", ref lstNurCarePlanInfos);
+            }
+            else
+            {
+                return SystemContext.Instance.CarePlanAccess.GetNurCarePlanInfoList(szPatientID, szVisitID, szSubID, dtBeginTime, dtEndTime, ref lstNurCarePlanInfos);
+            }
         }
 
         /// <summary>
@@ -151,7 +231,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveNurCarePlan(NurCarePlanInfo ncpInfo, NurCarePlanStatusInfo ncpStatusInfo)
         {
-            return SystemContext.Instance.CarePlanAccess.SaveNurCarePlan(ncpInfo, ncpStatusInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("ncpInfo", ncpInfo);
+                RestHandler.Instance.AddParameter("ncpStatusInfo", ncpStatusInfo);
+                return RestHandler.Instance.Post("CarePlanAccess/SaveNurCarePlan");
+            }
+            else
+            {
+                return SystemContext.Instance.CarePlanAccess.SaveNurCarePlan(ncpInfo, ncpStatusInfo);
+            }
         }
 
         /// <summary>
@@ -162,7 +252,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short UpdateNurCarePlan(NurCarePlanInfo ncpInfo, NurCarePlanStatusInfo ncpStatusInfo)
         {
-            return SystemContext.Instance.CarePlanAccess.UpdateNurCarePlan(ncpInfo, ncpStatusInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("ncpInfo", ncpInfo);
+                RestHandler.Instance.AddParameter("ncpStatusInfo", ncpStatusInfo);
+                return RestHandler.Instance.Put("CarePlanAccess/UpdateNurCarePlan");
+            }
+            else
+            {
+                return SystemContext.Instance.CarePlanAccess.UpdateNurCarePlan(ncpInfo, ncpStatusInfo);
+            }
         }
 
         /// <summary>
@@ -175,7 +275,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetNurCarePlanStatusInfo(string szNCPID, string szStatus, DateTime dtOperateTime, ref NurCarePlanStatusInfo ncpStatusInfo)
         {
-            return SystemContext.Instance.CarePlanAccess.GetNurCarePlanStatusInfo(szNCPID, szStatus, dtOperateTime, ref ncpStatusInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szNCPID", szNCPID);
+                RestHandler.Instance.AddParameter("szStatus", szStatus);
+                RestHandler.Instance.AddParameter("dtOperateTime", dtOperateTime);
+                return RestHandler.Instance.Get<NurCarePlanStatusInfo>("CarePlanAccess/GetNurCarePlanStatusInfo",ref ncpStatusInfo);
+            }
+            else
+            {
+                return SystemContext.Instance.CarePlanAccess.GetNurCarePlanStatusInfo(szNCPID, szStatus, dtOperateTime, ref ncpStatusInfo);
+            }
         }
     }
 }

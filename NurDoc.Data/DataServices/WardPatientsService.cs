@@ -167,8 +167,8 @@ namespace Heren.NurDoc.Data.DataServices
                 //int fanshenka = 0;  // '是否建立翻身卡
 
                 DataRow row = dtNursingAssessInfo.Rows.Add();
-                row["PATIENT_ID"] = patVisitInfo.PatientID; //'患者ID
-                row["VISIT_ID"] = patVisitInfo.VisitID; //'就诊ID
+                row["PATIENT_ID"] = patVisitInfo.PatientId; //'患者ID
+                row["VISIT_ID"] = patVisitInfo.VisitId; //'就诊ID
                 row["BED_NO"] = patVisitInfo.BedCode; //'床号
                 row["BED_LABEL"] = patVisitInfo.BedLabel; //'床标号
                 row["NAME"] = patVisitInfo.PatientName;//'姓名
@@ -195,7 +195,7 @@ namespace Heren.NurDoc.Data.DataServices
 
                 foreach (NurDocInfo nurDocInfo in lstNurDocLst)
                 {
-                    if (patVisitInfo.PatientID != nurDocInfo.PatientID || patVisitInfo.VisitID != nurDocInfo.VisitID)
+                    if (patVisitInfo.PatientId != nurDocInfo.PatientID || patVisitInfo.VisitId != nurDocInfo.VisitID)
                     {
                         continue;
                     }
@@ -316,7 +316,7 @@ namespace Heren.NurDoc.Data.DataServices
                                 dtEndTime = dtBeginTime.AddDays(1);
                             }
                             NurDocList nurdocs = new NurDocList();
-                            DocumentService.Instance.GetDocInfos(patVisitInfo.PatientID, patVisitInfo.VisitID, "100040", dtBeginTime, dtEndTime, ref nurdocs);
+                            DocumentService.Instance.GetDocInfos(patVisitInfo.PatientId, patVisitInfo.VisitId, "100040", dtBeginTime, dtEndTime, ref nurdocs);
                             if (nurdocs != null && nurdocs.Count > 0)
                             {
                                 dghtCount += 1; //已做过导管滑脱评估
@@ -341,7 +341,7 @@ namespace Heren.NurDoc.Data.DataServices
                                 dtEndTime = dtBeginTime.AddDays(1);
                             }
                             NurDocList nurdocs = new NurDocList();
-                            DocumentService.Instance.GetDocInfos(patVisitInfo.PatientID, patVisitInfo.VisitID, "100040", dtBeginTime.AddDays(-7), dtEndTime, ref nurdocs);
+                            DocumentService.Instance.GetDocInfos(patVisitInfo.PatientId, patVisitInfo.VisitId, "100040", dtBeginTime.AddDays(-7), dtEndTime, ref nurdocs);
                             if (nurdocs != null && nurdocs.Count > 0)
                             {
                                 dghtCount += 1; //已做过导管滑脱评估
@@ -384,7 +384,7 @@ namespace Heren.NurDoc.Data.DataServices
                                 dtEndTime = dtBeginTime.AddDays(1);
                             }
                             NurDocList nurdocs = new NurDocList();
-                            DocumentService.Instance.GetDocInfos(patVisitInfo.PatientID, patVisitInfo.VisitID, "100050", dtBeginTime, dtEndTime, ref nurdocs);
+                            DocumentService.Instance.GetDocInfos(patVisitInfo.PatientId, patVisitInfo.VisitId, "100050", dtBeginTime, dtEndTime, ref nurdocs);
                             if (nurdocs != null && nurdocs.Count > 0)
                             {
                                 ttCount += 1; //当天已经做过疼痛评估

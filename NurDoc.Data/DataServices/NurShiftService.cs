@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.Text;
 using Heren.Common.Libraries;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class NurShiftService
+    public class NurShiftService : DBAccessBase
     {
         private static NurShiftService m_instance = null;
 
@@ -43,7 +44,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftRankInfos(string szWardCode, List<DeptInfo> lstDeptInfos, ref List<ShiftRankInfo> lstShiftRankInfos)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftRankInfos(szWardCode, lstDeptInfos, ref lstShiftRankInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter(lstDeptInfos);
+                shRet = RestHandler.Instance.Post<ShiftRankInfo>("NurShiftAccess/GetShiftRankInfos", ref lstShiftRankInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftRankInfos(szWardCode, lstDeptInfos, ref lstShiftRankInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -58,7 +70,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short SaveShiftRankInfo(ShiftRankInfo shiftRankInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.SaveShiftRankInfo(shiftRankInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(shiftRankInfo);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/SaveShiftRankInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.SaveShiftRankInfo(shiftRankInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -73,7 +95,19 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short UpdateShiftRankInfo(string szRankCode, string szWardCode, ShiftRankInfo shiftRankInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftRankInfo(szRankCode, szWardCode, shiftRankInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szRankCode", szRankCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter(shiftRankInfo);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/UpdateShiftRankInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftRankInfo(szRankCode, szWardCode, shiftRankInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -87,7 +121,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short DeleteShiftRankInfo(string szRankCode, string szWardCode)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftRankInfo(szRankCode, szWardCode);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szRankCode", szRankCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                shRet = RestHandler.Instance.Put("NurShiftAccess/DeleteShiftRankInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftRankInfo(szRankCode, szWardCode);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -103,7 +148,22 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftConfigInfos(string[] szWardCodes, ref List<ShiftConfigInfo> lstShiftConfigInfos)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftConfigInfos(szWardCodes, ref lstShiftConfigInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                List<string> lstWardCodes = new List<string>();
+                if (szWardCodes != null) { 
+                for (int i = 0; i < szWardCodes.Length; i++)
+                    lstWardCodes.Add(szWardCodes[i]);
+                }
+                RestHandler.Instance.AddParameter(lstWardCodes);
+                shRet = RestHandler.Instance.Post<ShiftConfigInfo>("NurShiftAccess/GetShiftConfigInfos", ref lstShiftConfigInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftConfigInfos(szWardCodes, ref lstShiftConfigInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -118,7 +178,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short SaveShiftConfigInfo(ShiftConfigInfo shiftConfigInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.SaveShiftConfigInfo(shiftConfigInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(shiftConfigInfo);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/SaveShiftConfigInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.SaveShiftConfigInfo(shiftConfigInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -133,7 +203,19 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short UpdateShiftConfigInfo(string szItemCode, string szWardCode, ShiftConfigInfo shiftConfigInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftConfigInfo(szItemCode, szWardCode, shiftConfigInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter(shiftConfigInfo);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/UpdateShiftConfigInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftConfigInfo(szItemCode, szWardCode, shiftConfigInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -147,7 +229,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short DeleteShiftConfigInfo(string szItemCode, string szWardCode)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftConfigInfo(szItemCode, szWardCode);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemCode", szItemCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                shRet = RestHandler.Instance.Put("NurShiftAccess/DeleteShiftConfigInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftConfigInfo(szItemCode, szWardCode);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -161,7 +254,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short SaveShiftWardStatus(ShiftWardStatus shiftWardStatus)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.SaveShiftWardStatus(shiftWardStatus);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(shiftWardStatus);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/SaveShiftWardStatus");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.SaveShiftWardStatus(shiftWardStatus);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -174,7 +277,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short UpdateShiftWardStatus(ShiftWardStatus shiftWardStatus)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftWardStatus(shiftWardStatus);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(shiftWardStatus);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/UpdateShiftWardStatus");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftWardStatus(shiftWardStatus);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -188,7 +301,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftWardStatusList(string szShiftRecordID, ref List<ShiftWardStatus> lstShiftWardStatus)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftWardStatusList(szShiftRecordID, ref lstShiftWardStatus);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szShiftRecordID", szShiftRecordID);
+                shRet = RestHandler.Instance.Get<ShiftWardStatus>("NurShiftAccess/GetShiftWardStatusList1", ref lstShiftWardStatus);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftWardStatusList(szShiftRecordID, ref lstShiftWardStatus);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -205,7 +328,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftWardStatusList(string szWardCode, DateTime dtShiftDate, ref List<ShiftWardStatus> lstShiftWardStatus)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftWardStatusList(szWardCode, dtShiftDate, ref lstShiftWardStatus);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter("dtShiftDate", dtShiftDate);
+                shRet = RestHandler.Instance.Get<ShiftWardStatus>("NurShiftAccess/GetShiftWardStatusList2", ref lstShiftWardStatus);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftWardStatusList(szWardCode, dtShiftDate, ref lstShiftWardStatus);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -220,7 +354,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short SaveShiftPatient(ShiftPatient shiftPatient)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.SaveShiftPatient(shiftPatient);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(shiftPatient);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/SaveShiftPatient");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.SaveShiftPatient(shiftPatient);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -233,7 +377,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short UpdateShiftPatient(ShiftPatient shiftPatient)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftPatient(shiftPatient);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(shiftPatient);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/UpdateShiftPatient");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.UpdateShiftPatient(shiftPatient);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -249,8 +403,21 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short DeleteShiftPatient(string szShiftRecordID, string szPatientID, string szVisitID, string szSubID)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftPatient(szShiftRecordID
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szShiftRecordID", szShiftRecordID);
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID); 
+                shRet = RestHandler.Instance.Put("NurShiftAccess/DeleteShiftPatient");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftPatient(szShiftRecordID
                 , szPatientID, szVisitID, szSubID);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -264,7 +431,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftPatientList(string szShiftRecordID, ref List<ShiftPatient> lstShiftPatients)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftPatientList(szShiftRecordID, ref lstShiftPatients);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szShiftRecordID", szShiftRecordID);
+                shRet = RestHandler.Instance.Get<ShiftPatient>("NurShiftAccess/GetShiftPatientList1", ref lstShiftPatients);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftPatientList(szShiftRecordID, ref lstShiftPatients);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -281,7 +458,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftPatientList(string szWardCode, DateTime dtShiftDate, ref List<ShiftPatient> lstShiftPatients)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftPatientList(szWardCode, dtShiftDate, ref lstShiftPatients);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter("dtShiftDate", dtShiftDate);
+                shRet = RestHandler.Instance.Get<ShiftPatient>("NurShiftAccess/GetShiftPatientList2", ref lstShiftPatients);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftPatientList(szWardCode, dtShiftDate, ref lstShiftPatients);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -296,7 +484,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short SaveNursingShiftInfo(NursingShiftInfo nursingShiftInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.SaveNursingShiftInfo(nursingShiftInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(nursingShiftInfo);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/SaveNursingShiftInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.SaveNursingShiftInfo(nursingShiftInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -309,7 +507,17 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short UpdateNursingShiftInfo(NursingShiftInfo nursingShiftInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.UpdateNursingShiftInfo(nursingShiftInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(nursingShiftInfo);
+                shRet = RestHandler.Instance.Post("NurShiftAccess/UpdateNursingShiftInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.UpdateNursingShiftInfo(nursingShiftInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -326,8 +534,20 @@ namespace Heren.NurDoc.Data
         public short GetNursingShiftInfo(string szWardCode, DateTime dtShiftDate, string szRankCode
             , ref NursingShiftInfo nursingShiftInfo)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetNursingShiftInfo(szWardCode, dtShiftDate
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter("dtShiftDate", dtShiftDate);
+                RestHandler.Instance.AddParameter("szRankCode", szRankCode);
+                shRet = RestHandler.Instance.Get<NursingShiftInfo>("NurShiftAccess/GetNursingShiftInfo", ref nursingShiftInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetNursingShiftInfo(szWardCode, dtShiftDate
                 , szRankCode, ref nursingShiftInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return ServerData.ExecuteResult.RES_NO_FOUND;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -344,7 +564,20 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetNursingShiftInfos(string szWardCode, DateTime dtShiftDate, ref List<NursingShiftInfo> lstNursingShiftInfos)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetNursingShiftInfos(szWardCode, dtShiftDate, ref lstNursingShiftInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter("dtShiftDate", dtShiftDate);
+                shRet = RestHandler.Instance.Get<NursingShiftInfo>("NurShiftAccess/GetNursingShiftInfos", ref lstNursingShiftInfos);
+                if (lstNursingShiftInfos == null)
+                    lstNursingShiftInfos = new List<NursingShiftInfo>();
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetNursingShiftInfos(szWardCode, dtShiftDate, ref lstNursingShiftInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -360,7 +593,19 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetShiftItemAliasInfos(string szWardCode, ref List<ShiftItemAliasInfo> lstShiftItemAliasInfos)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.GetShiftItemAliasInfos(szWardCode, ref lstShiftItemAliasInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                shRet = RestHandler.Instance.Get<ShiftItemAliasInfo>("NurShiftAccess/GetShiftItemAliasInfos", ref lstShiftItemAliasInfos);
+                if (lstShiftItemAliasInfos == null)
+                    lstShiftItemAliasInfos = new List<ShiftItemAliasInfo>();
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.GetShiftItemAliasInfos(szWardCode, ref lstShiftItemAliasInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -377,7 +622,18 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short DeleteShiftItemAlias(string szItemAliasCode, string szWardCode)
         {
-            short shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftItemAlias(szItemAliasCode, szWardCode);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szItemAliasCode", szItemAliasCode);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                shRet = RestHandler.Instance.Put("NurShiftAccess/DeleteShiftItemAlias");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftItemAlias(szItemAliasCode, szWardCode);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -446,7 +702,7 @@ namespace Heren.NurDoc.Data
         }
 
          /// <summary>
-        /// 保存指定的交班病人信息
+        /// 保存指定的交班特殊病人信息
         /// </summary>
         /// <param name="shiftSpecialPatient">交班病人信息</param>
         /// <returns>ServerData.ExecuteResult</returns>
@@ -509,5 +765,57 @@ namespace Heren.NurDoc.Data
         }
 
         #endregion
+
+        /// <summary>
+        /// 删除指定病区的指定交班动态信息
+        /// </summary>
+        /// <param name="szShiftRecordID">交班索引代码</param>
+        /// <returns>ServerData.ExecuteResult</returns>
+        public short DeleteShiftWardStatusInfo(string szShiftRecordID)
+        {
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szShiftRecordID", szShiftRecordID);
+                shRet = RestHandler.Instance.Put("NurShiftAccess/DeleteShiftWardStatusInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftWardStatusInfo(szShiftRecordID);
+            }
+            if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                return SystemConst.ReturnValue.OK;
+            if (shRet != ServerData.ExecuteResult.OK)
+                return SystemConst.ReturnValue.FAILED;
+            return SystemConst.ReturnValue.OK;
+        }
+
+        /// <summary>
+        /// 删除指定病区的指定交班索引信息
+        /// </summary>
+        /// <param name="szShiftRecordID">交班索引代码</param>
+        /// <param name="szWardCode">病区代码</param>
+        /// <returns>ServerData.ExecuteResult</returns>
+        public short DeleteShiftIndexInfo(string szShiftRecordID, string szWardCode)
+        {
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szShiftRecordID", szShiftRecordID);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                shRet = RestHandler.Instance.Put("NurShiftAccess/DeleteShiftIndexInfo");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurShiftAccess.DeleteShiftIndexInfo(szShiftRecordID, szWardCode);
+            }
+            if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                return SystemConst.ReturnValue.OK;
+            if (shRet != ServerData.ExecuteResult.OK)
+                return SystemConst.ReturnValue.FAILED;
+            return SystemConst.ReturnValue.OK;
+        }
     }
 }

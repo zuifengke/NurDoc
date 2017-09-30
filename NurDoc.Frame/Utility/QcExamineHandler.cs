@@ -224,9 +224,9 @@ namespace Heren.NurDoc.Frame.DockForms
             QCExamineInfo qcExamineInfo = new QCExamineInfo();
             qcExamineInfo.QcContentKey = Key;
             qcExamineInfo.QcContentType = Type;
-            qcExamineInfo.PatientID = patVisitInfo.PatientID;
+            qcExamineInfo.PatientID = patVisitInfo.PatientId;
             qcExamineInfo.PatientName = patVisitInfo.PatientName;
-            qcExamineInfo.VisitID = patVisitInfo.VisitID;
+            qcExamineInfo.VisitID = patVisitInfo.VisitId;
             qcExamineInfo.WardCode = patVisitInfo.WardCode;
             qcExamineInfo.WardName = patVisitInfo.WardName;
             qcExamineInfo.QcExamineStatus = "1";

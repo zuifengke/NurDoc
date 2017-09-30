@@ -119,8 +119,8 @@ namespace Heren.NurDoc.PatPage
             if (PatientTable.Instance.ActivePatient == null)
                 return false;
             this.Update();
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             DateTime dtBeginDate = this.tooldtpDateFrom.Value.Date;
             DateTime dtEndDate = GlobalMethods.SysTime.GetDayLastTime(this.tooldtpDateTo.Value);
 

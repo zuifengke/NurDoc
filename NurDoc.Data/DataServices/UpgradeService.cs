@@ -43,7 +43,7 @@ namespace Heren.NurDoc.Data
                 return SystemConst.ReturnValue.FAILED;
 
             //测试方法后续删除
-            short shRet1 = SystemContext.Instance.ConfigAccess.Test("Test");
+            //short shRet1 = SystemContext.Instance.ConfigAccess.Test("Test");
 
             List<ConfigInfo> lstConfigInfos = new List<ConfigInfo>();
             short shRet = SystemContext.Instance.ConfigAccess.GetConfigData(ServerData.ConfigKey.UPGRADE_VERSION

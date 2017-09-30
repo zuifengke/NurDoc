@@ -165,7 +165,7 @@ namespace Heren.NurDoc.Data
         {
             PatVisitInfo patVisit = new PatVisitInfo();
             patVisit.BedCode = this.GetRowCellValue(row, "bed_code");
-            patVisit.PatientID = this.GetRowCellValue(row, "patient_id");
+            patVisit.PatientId = this.GetRowCellValue(row, "patient_id");
             patVisit.PatientName = this.GetRowCellValue(row, "patient_name");
             patVisit.PatientSex = this.GetRowCellValue(row, "patient_sex");
             patVisit.ChargeType = this.GetRowCellValue(row, "charge_type");
@@ -175,7 +175,7 @@ namespace Heren.NurDoc.Data
             GlobalMethods.Convert.StringToDate(value, ref date);
             patVisit.BirthTime = date;
 
-            patVisit.VisitID = this.GetRowCellValue(row, "visit_id");
+            patVisit.VisitId = this.GetRowCellValue(row, "visit_id");
             patVisit.InpNo = this.GetRowCellValue(row, "inp_no");
 
             value = this.GetRowCellValue(row, "visit_time");
@@ -255,8 +255,8 @@ namespace Heren.NurDoc.Data
         {
             if (this.m_activePatient == null)
                 return false;
-            string szPatientID = this.m_activePatient.PatientID;
-            string szVisitID = this.m_activePatient.VisitID;
+            string szPatientID = this.m_activePatient.PatientId;
+            string szVisitID = this.m_activePatient.VisitId;
             PatVisitInfo patVisitInfo = null;
             short shRet = PatVisitService.Instance.GetPatVisitInfo(szPatientID, szVisitID, ref patVisitInfo);
             if (shRet != SystemConst.ReturnValue.OK)

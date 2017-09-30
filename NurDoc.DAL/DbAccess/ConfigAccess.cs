@@ -24,8 +24,8 @@ namespace Heren.NurDoc.DAL.DbAccess
         {
             if (base.ConnectionMode == ConnectionMode.Rest)
             {
-                RestHandler.Instance.ClearParameters();
-                RestHandler.Instance.AddParameter("szTest", szTest);
+                //RestHandler.Instance.ClearParameters();
+                //RestHandler.Instance.AddParameter("szTest", szTest);
                 //short result = RestHandler.Instance.Get<DocStatusInfo>("MedDocAccess/GetDocStatusInfo", ref docStatusInfo);
             }
             if (base.DataAccess == null)
@@ -46,65 +46,76 @@ namespace Heren.NurDoc.DAL.DbAccess
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetConfigData(string szGroupName, string szConfigName, ref List<ConfigInfo> lstConfigInfos)
         {
-            if (base.DataAccess == null)
-                return ServerData.ExecuteResult.PARAM_ERROR;
-
-            string szField = string.Format("{0},{1},{2},{3}"
-                , ServerData.ConfigDictTable.GROUP_NAME, ServerData.ConfigDictTable.CONFIG_NAME
-                , ServerData.ConfigDictTable.CONFIG_VALUE, ServerData.ConfigDictTable.CONFIG_DESC);
-
-            string szCondition = null;
-            if (!GlobalMethods.Misc.IsEmptyString(szGroupName))
+            if (base.ConnectionMode == ConnectionMode.Rest)
             {
-                szCondition = string.Format("{0}='{1}'", ServerData.ConfigDictTable.GROUP_NAME, szGroupName);
-                if (!GlobalMethods.Misc.IsEmptyString(szConfigName))
-                {
-                    szCondition = string.Format("{0} AND {1}='{2}'", szCondition
-                        , ServerData.ConfigDictTable.CONFIG_NAME, szConfigName);
-                }
-            }
-
-            string szOrder = string.Format("{0},{1}"
-                , ServerData.ConfigDictTable.GROUP_NAME, ServerData.ConfigDictTable.CONFIG_NAME);
-
-            string szSQL = null;
-            if (string.IsNullOrEmpty(szCondition))
-            {
-                szSQL = string.Format(ServerData.SQL.SELECT_ORDER_ASC
-                    , szField, ServerData.DataTable.SYSTEM_CONFIG, szOrder);
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("groupName", szGroupName);
+                RestHandler.Instance.AddParameter("configName", szConfigName);
+                short shRet= RestHandler.Instance.Get<ConfigInfo>("ConfigAccess/GetConfigData", ref lstConfigInfos);
+                return shRet;
             }
             else
             {
-                szSQL = string.Format(ServerData.SQL.SELECT_WHERE_ORDER_ASC
-                    , szField, ServerData.DataTable.SYSTEM_CONFIG, szCondition, szOrder);
-            }
-            
-            IDataReader dataReader = null;
-            try
-            {
-                dataReader = base.DataAccess.ExecuteReader(szSQL, CommandType.Text);
-                if (dataReader == null || dataReader.IsClosed || !dataReader.Read())
+                if (base.DataAccess == null)
+                    return ServerData.ExecuteResult.PARAM_ERROR;
+
+                string szField = string.Format("{0},{1},{2},{3}"
+                    , ServerData.ConfigDictTable.GROUP_NAME, ServerData.ConfigDictTable.CONFIG_NAME
+                    , ServerData.ConfigDictTable.CONFIG_VALUE, ServerData.ConfigDictTable.CONFIG_DESC);
+
+                string szCondition = null;
+                if (!GlobalMethods.Misc.IsEmptyString(szGroupName))
                 {
-                    return ServerData.ExecuteResult.RES_NO_FOUND;
+                    szCondition = string.Format("{0}='{1}'", ServerData.ConfigDictTable.GROUP_NAME, szGroupName);
+                    if (!GlobalMethods.Misc.IsEmptyString(szConfigName))
+                    {
+                        szCondition = string.Format("{0} AND {1}='{2}'", szCondition
+                            , ServerData.ConfigDictTable.CONFIG_NAME, szConfigName);
+                    }
                 }
-                if (lstConfigInfos == null)
-                    lstConfigInfos = new List<ConfigInfo>();
-                do
+
+                string szOrder = string.Format("{0},{1}"
+                    , ServerData.ConfigDictTable.GROUP_NAME, ServerData.ConfigDictTable.CONFIG_NAME);
+
+                string szSQL = null;
+                if (string.IsNullOrEmpty(szCondition))
                 {
-                    ConfigInfo configInfo = new ConfigInfo();
-                    if (!dataReader.IsDBNull(0)) configInfo.GroupName = dataReader.GetString(0);
-                    if (!dataReader.IsDBNull(1)) configInfo.ConfigName = dataReader.GetString(1);
-                    if (!dataReader.IsDBNull(2)) configInfo.ConfigValue = dataReader.GetString(2);
-                    if (!dataReader.IsDBNull(3)) configInfo.ConfigDesc = dataReader.GetString(3);
-                    lstConfigInfos.Add(configInfo);
-                } while (dataReader.Read());
-                return ServerData.ExecuteResult.OK;
+                    szSQL = string.Format(ServerData.SQL.SELECT_ORDER_ASC
+                        , szField, ServerData.DataTable.SYSTEM_CONFIG, szOrder);
+                }
+                else
+                {
+                    szSQL = string.Format(ServerData.SQL.SELECT_WHERE_ORDER_ASC
+                        , szField, ServerData.DataTable.SYSTEM_CONFIG, szCondition, szOrder);
+                }
+
+                IDataReader dataReader = null;
+                try
+                {
+                    dataReader = base.DataAccess.ExecuteReader(szSQL, CommandType.Text);
+                    if (dataReader == null || dataReader.IsClosed || !dataReader.Read())
+                    {
+                        return ServerData.ExecuteResult.RES_NO_FOUND;
+                    }
+                    if (lstConfigInfos == null)
+                        lstConfigInfos = new List<ConfigInfo>();
+                    do
+                    {
+                        ConfigInfo configInfo = new ConfigInfo();
+                        if (!dataReader.IsDBNull(0)) configInfo.GroupName = dataReader.GetString(0);
+                        if (!dataReader.IsDBNull(1)) configInfo.ConfigName = dataReader.GetString(1);
+                        if (!dataReader.IsDBNull(2)) configInfo.ConfigValue = dataReader.GetString(2);
+                        if (!dataReader.IsDBNull(3)) configInfo.ConfigDesc = dataReader.GetString(3);
+                        lstConfigInfos.Add(configInfo);
+                    } while (dataReader.Read());
+                    return ServerData.ExecuteResult.OK;
+                }
+                catch (Exception ex)
+                {
+                    return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL”Ôæ‰÷¥–– ß∞‹!");
+                }
+                finally { base.DataAccess.CloseConnnection(false); }
             }
-            catch (Exception ex)
-            {
-                return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL”Ôæ‰÷¥–– ß∞‹!");
-            }
-            finally { base.DataAccess.CloseConnnection(false); }
         }
 
         /// <summary>
@@ -510,6 +521,10 @@ namespace Heren.NurDoc.DAL.DbAccess
                 else if (configInfo.ConfigName.Equals(ServerData.ConfigKey.NUR_REC_MAX_PREVIEWPAGES))
                 {
                     systemOption.MaxPreviewPages = GlobalMethods.Convert.StringToValue(configInfo.ConfigValue, 100);
+                }
+                else if(configInfo.ConfigName.Equals(ServerData.ConfigKey.SYSTEM_OPTINT_SAVEASBUTTONVISIBLE))
+                {
+                    systemOption.SaveAsButtonVisible = configInfo.ConfigValue == "1";
                 }
             }
             return ServerData.ExecuteResult.OK;

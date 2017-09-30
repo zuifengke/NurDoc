@@ -119,7 +119,7 @@ namespace Heren.NurDoc.Frame.Dialogs
                 return;
             }
 
-            this.txtPatientID.Text = PatientTable.Instance.ActivePatient.PatientID;
+            this.txtPatientID.Text = PatientTable.Instance.ActivePatient.PatientId;
             this.txtPatName.Text = PatientTable.Instance.ActivePatient.PatientName;
             this.txtPatSex.Text = PatientTable.Instance.ActivePatient.PatientSex;
             this.txtDocTitle.Text = this.DocTitle;

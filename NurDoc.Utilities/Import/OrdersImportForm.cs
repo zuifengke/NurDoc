@@ -101,13 +101,13 @@ namespace Heren.NurDoc.Utilities.Import
             if (GlobalMethods.Misc.IsEmptyString(this.m_patientID)
                 && PatientTable.Instance.ActivePatient != null)
             {
-                this.m_patientID = PatientTable.Instance.ActivePatient.PatientID;
+                this.m_patientID = PatientTable.Instance.ActivePatient.PatientId;
             }
 
             if (GlobalMethods.Misc.IsEmptyString(this.m_visitID)
                 && PatientTable.Instance.ActivePatient != null)
             {
-                this.m_visitID = PatientTable.Instance.ActivePatient.VisitID;
+                this.m_visitID = PatientTable.Instance.ActivePatient.VisitId;
             }
 
             //如果已经加载,那么不再重复加载

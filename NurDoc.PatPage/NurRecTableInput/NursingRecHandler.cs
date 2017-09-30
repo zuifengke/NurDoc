@@ -229,8 +229,8 @@ namespace Heren.NurDoc.PatPage.NurRecTableInput
             nursingRecInfo.ModifierID = nursingRecInfo.CreatorID;
             nursingRecInfo.ModifierName = nursingRecInfo.CreatorName;
             nursingRecInfo.ModifyTime = nursingRecInfo.CreateTime;
-            nursingRecInfo.PatientID = patVisit.PatientID;
-            nursingRecInfo.VisitID = patVisit.VisitID;
+            nursingRecInfo.PatientID = patVisit.PatientId;
+            nursingRecInfo.VisitID = patVisit.VisitId;
             nursingRecInfo.SubID = patVisit.SubID;
             nursingRecInfo.Recorder1Name = nursingRecInfo.CreatorName;
             nursingRecInfo.Recorder1ID = nursingRecInfo.CreatorID;
@@ -294,8 +294,8 @@ namespace Heren.NurDoc.PatPage.NurRecTableInput
             List<SummaryData> lstSummaryData = new List<SummaryData>();
 
             SummaryData summaryData = new SummaryData();
-            summaryData.PatientID = PatientTable.Instance.ActivePatient.PatientID;
-            summaryData.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+            summaryData.PatientID = PatientTable.Instance.ActivePatient.PatientId;
+            summaryData.VisitID = PatientTable.Instance.ActivePatient.VisitId;
             summaryData.SubID = PatientTable.Instance.ActivePatient.SubID;
             summaryData.DataTime = dtRecordTime;
             summaryData.Category = 0;

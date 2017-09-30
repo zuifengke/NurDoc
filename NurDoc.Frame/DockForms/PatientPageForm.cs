@@ -107,7 +107,7 @@ namespace Heren.NurDoc.Frame.DockForms
                 return;
             }
             this.Text = string.Format("{0}({1})"
-                , this.m_patientVisit.PatientName, this.m_patientVisit.PatientID);
+                , this.m_patientVisit.PatientName, this.m_patientVisit.PatientId);
             this.TabSubhead = string.Format("入院时间:{0}"
                 , this.m_patientVisit.VisitTime.ToString("yyyy年M月d日"));
         }

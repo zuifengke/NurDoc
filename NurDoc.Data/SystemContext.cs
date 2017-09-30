@@ -531,7 +531,7 @@ namespace Heren.NurDoc.Data
         }
 
         /// <summary>
-        /// 触发系统用户信息切换成功事件
+        /// 触发系统用户病区切换成功事件
         /// </summary>
         /// <param name="sender">触发对象</param>
         /// <param name="e">事件参数</param>
@@ -597,7 +597,7 @@ namespace Heren.NurDoc.Data
             {
                 if (PatientTable.Instance.ActivePatient == null)
                     return false;
-                value = PatientTable.Instance.ActivePatient.PatientID;
+                value = PatientTable.Instance.ActivePatient.PatientId;
                 return true;
             }
             if (name == "病人姓名")
@@ -662,7 +662,7 @@ namespace Heren.NurDoc.Data
             {
                 if (PatientTable.Instance.ActivePatient == null)
                     return false;
-                value = PatientTable.Instance.ActivePatient.VisitID;
+                value = PatientTable.Instance.ActivePatient.VisitId;
                 return true;
             }
             if (name == "入院时间")
@@ -820,8 +820,8 @@ namespace Heren.NurDoc.Data
                         }
                     }
                     DataRow row = dtPatientInfo.Rows.Add();
-                    row["PATIENT_ID"] = PatientTable.Instance.ActivePatient.PatientID;
-                    row["VISIT_ID"] = PatientTable.Instance.ActivePatient.VisitID;
+                    row["PATIENT_ID"] = PatientTable.Instance.ActivePatient.PatientId;
+                    row["VISIT_ID"] = PatientTable.Instance.ActivePatient.VisitId;
                     row["BeginTime"] = shiftRankInfo.StartTime;
                     row["EndTime"] = shiftRankInfo.EndTime;
                 }
@@ -1378,7 +1378,7 @@ namespace Heren.NurDoc.Data
 
             if (lstDeptInfos == null)
                 lstDeptInfos = new List<DeptInfo>();
-            this.m_userDeptTable.Add(szUserID, lstDeptInfos);
+            //this.m_userDeptTable.Add(szUserID, lstDeptInfos);
             return lstDeptInfos;
         }
 

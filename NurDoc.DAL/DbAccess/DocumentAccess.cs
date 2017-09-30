@@ -1457,7 +1457,6 @@ namespace Heren.NurDoc.DAL.DbAccess
                 base.DataAccess.AbortTransaction();
                 return shRet;
             }
-
             //保存文档索引信息记录,包括文档内容
             shRet = this.AddDocIndexInfo(docInfo, byteDocData);
             if (shRet != ServerData.ExecuteResult.OK)
@@ -1465,7 +1464,6 @@ namespace Heren.NurDoc.DAL.DbAccess
                 base.DataAccess.AbortTransaction();
                 return shRet;
             }
-
             //提交数据库更新
             if (!base.DataAccess.CommitTransaction(true))
                 return ServerData.ExecuteResult.EXCEPTION;
@@ -1896,7 +1894,8 @@ namespace Heren.NurDoc.DAL.DbAccess
         {
             if (base.DataAccess == null)
                 return ServerData.ExecuteResult.PARAM_ERROR;
-
+            List<NurDocInfo> lstDocInfo = new List<NurDocInfo>();
+            this.GetDocInfoBySetID(szDocID, ref lstDocInfo);
             if (!base.DataAccess.BeginTransaction(IsolationLevel.ReadCommitted))
                 return ServerData.ExecuteResult.EXCEPTION;
 
@@ -1912,14 +1911,34 @@ namespace Heren.NurDoc.DAL.DbAccess
                 base.DataAccess.AbortTransaction();
                 return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL语句执行异常!");
             }
+
             if (lstSummaryData == null)
                 lstSummaryData = new List<SummaryData>();
 
+            foreach (SummaryData summaryData in lstSummaryData)
+            {
+                if (summaryData.Category == 5)
+                {
+                    //先删除之前的医嘱回写数据
+                    szCondition = string.Format("{0} = '{1}'", ServerData.OrdersWriteBackDataTable.DOC_ID, szDocID);
+                    szSQL = string.Format(ServerData.SQL.DELETE, ServerData.DataTable.ORDERS_WRITE_BACK, szCondition);
+                    try
+                    {
+                        base.DataAccess.ExecuteNonQuery(szSQL, CommandType.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        base.DataAccess.AbortTransaction();
+                        return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL语句执行异常!");
+                    }
+                    break;
+                }
+            }
             //再插入新的文档摘要数据
             foreach (SummaryData summaryData in lstSummaryData)
             {
                 DbParameter[] pmi = new DbParameter[1];
-                if (!GlobalMethods.Misc.IsEmptyString(summaryData.DataValue))
+                if (!GlobalMethods.Misc.IsEmptyString(summaryData.DataValue) && summaryData.Category != 5)
                 {
                     string szField = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}"
                         , ServerData.SummaryDataTable.DOC_ID, ServerData.SummaryDataTable.DATA_NAME
@@ -2010,7 +2029,72 @@ namespace Heren.NurDoc.DAL.DbAccess
                 }
                 else if (summaryData.Category == 4)
                 {
-                    
+                    if (lstDocInfo == null || lstDocInfo.Count <= 0)
+                        continue;
+                    decimal cycle = 0;
+                    if (!decimal.TryParse(summaryData.DataValue, out cycle))
+                    {
+                        continue;
+                    }
+                    AssementCycleAccess assementCycleAccess = new AssementCycleAccess();
+                    AssessmentCycle assessmentCycle = null;
+                    short shRet = assementCycleAccess.GetAssementCycle(szDocID, ref assessmentCycle);
+                    if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                    {
+                        assessmentCycle = new AssessmentCycle();
+                        assessmentCycle.ID = assessmentCycle.MakeID();
+                        assessmentCycle.CREATOR_ID = lstDocInfo[0].CreatorID;
+                        assessmentCycle.CREATOR_NAME = lstDocInfo[0].CreatorName;
+                        assessmentCycle.CYCLE = cycle;
+                        assessmentCycle.DATA = summaryData.DataName;
+                        assessmentCycle.DOCTYPE_ID = lstDocInfo[0].DocTypeID;
+                        assessmentCycle.DOCTYPE_NAME = lstDocInfo[0].DocTitle;
+                        assessmentCycle.DOC_ID = lstDocInfo[0].DocSetID;
+                        assessmentCycle.PATIENT_ID = lstDocInfo[0].PatientID;
+                        assessmentCycle.RECORD_TIME = lstDocInfo[0].RecordTime;
+                        assessmentCycle.UNIT = summaryData.DataUnit;
+                        assessmentCycle.VISIT_ID = lstDocInfo[0].VisitID;
+                        assessmentCycle.WARD_CODE = lstDocInfo[0].WardCode;
+                        assessmentCycle.WARD_NAME = lstDocInfo[0].WardName;
+                        shRet = assementCycleAccess.Insert(assessmentCycle);
+                    }
+                    else if (shRet == ServerData.ExecuteResult.OK)
+                    {
+                        assessmentCycle.CREATOR_ID = lstDocInfo[0].CreatorID;
+                        assessmentCycle.CREATOR_NAME = lstDocInfo[0].CreatorName;
+                        assessmentCycle.CYCLE = cycle;
+                        assessmentCycle.DATA = summaryData.DataName;
+                        assessmentCycle.DOCTYPE_ID = lstDocInfo[0].DocTypeID;
+                        assessmentCycle.DOCTYPE_NAME = lstDocInfo[0].DocTitle;
+                        assessmentCycle.DOC_ID = lstDocInfo[0].DocSetID;
+                        assessmentCycle.PATIENT_ID = lstDocInfo[0].PatientID;
+                        assessmentCycle.RECORD_TIME = lstDocInfo[0].RecordTime;
+                        assessmentCycle.UNIT = summaryData.DataUnit;
+                        assessmentCycle.VISIT_ID = lstDocInfo[0].VisitID;
+                        assessmentCycle.WARD_CODE = lstDocInfo[0].WardCode;
+                        assessmentCycle.WARD_NAME = lstDocInfo[0].WardName;
+                        shRet = assementCycleAccess.Update(assessmentCycle);
+                    }
+                }
+                else if (summaryData.Category == 5)
+                {
+                    short shRet = ServerData.ExecuteResult.OK;
+                    OrdersWriteBack ordersWriteBack = new OrdersWriteBack();
+                    //keydata保存时有固定格式
+                    //KeyData(dataName, "","", status, 5, recordTime,"")
+                    //KeyData(dataName, orderNo, orderSubNo, "", 5, recordTime,"")
+                    ordersWriteBack.PatientID = summaryData.PatientID;
+                    ordersWriteBack.VisitID = summaryData.VisitID;
+                    ordersWriteBack.OrderNo = summaryData.DataValue;
+                    ordersWriteBack.OrderSubNo = summaryData.DataType;
+                    ordersWriteBack.RecordTime = summaryData.DataTime;
+                    ordersWriteBack.RecordID = summaryData.RecordID;
+                    ordersWriteBack.DataName = summaryData.DataName;
+                    ordersWriteBack.Status = summaryData.DataUnit;
+                    ordersWriteBack.DocID = summaryData.DocID;
+                    shRet = AddOrdersWriteBack(ordersWriteBack);
+                    if (shRet != ServerData.ExecuteResult.OK)
+                        return shRet;
                 }
             }
             base.DataAccess.CommitTransaction(true);
@@ -2791,5 +2875,95 @@ namespace Heren.NurDoc.DAL.DbAccess
             return ServerData.ExecuteResult.OK;
         }
         #endregion
+
+        /// <summary>
+        /// 新增一条医嘱回写记录
+        /// </summary>
+        /// <param name="ordersWriteBack">医嘱回写信息</param>
+        /// <returns></returns>
+        private short AddOrdersWriteBack(OrdersWriteBack ordersWriteBack)
+        {
+            if (base.DataAccess == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            if (ordersWriteBack == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+
+            string szField = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}"
+                , ServerData.OrdersWriteBackDataTable.PATIENT_ID, ServerData.OrdersWriteBackDataTable.VISIT_ID
+                , ServerData.OrdersWriteBackDataTable.ORDER_NO, ServerData.OrdersWriteBackDataTable.ORDER_SUB_NO
+                , ServerData.OrdersWriteBackDataTable.RECORD_TIME, ServerData.OrdersWriteBackDataTable.RECORD_ID
+                , ServerData.OrdersWriteBackDataTable.DATA_NAME, ServerData.OrdersWriteBackDataTable.STATUS
+                , ServerData.OrdersWriteBackDataTable.DOC_ID);
+
+            string szValue = string.Format("'{0}','{1}','{2}','{3}',to_date('{4}','yyyy-MM-dd hh24:mi:ss'),'{5}','{6}','{7}','{8}'"
+                , ordersWriteBack.PatientID, ordersWriteBack.VisitID
+                , ordersWriteBack.OrderNo, ordersWriteBack.OrderSubNo
+                , ordersWriteBack.RecordTime, ordersWriteBack.RecordID
+                , ordersWriteBack.DataName, ordersWriteBack.Status
+                , ordersWriteBack.DocID);
+
+            string szSQL = string.Format(ServerData.SQL.INSERT, ServerData.DataTable.ORDERS_WRITE_BACK
+                , szField, szValue);
+            int nCount = 0;
+            try
+            {
+                nCount = base.DataAccess.ExecuteNonQuery(szSQL, CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                if (base.DataAccess.IsConstraintConflictExpception(ex))
+                {
+                    if (this.UpdateOrdersWriteBack(ordersWriteBack) == ServerData.ExecuteResult.OK)
+                        return ServerData.ExecuteResult.OK;
+                }
+            }
+            if (nCount <= 0)
+            {
+                LogManager.Instance.WriteLog("DocumentAccess.AddOrdersWriteBack", new string[] { "szSQL" }, new object[] { szSQL }, "SQL语句执行后返回0!");
+                return ServerData.ExecuteResult.EXCEPTION;
+            }
+            return ServerData.ExecuteResult.OK;
+        }
+
+        /// <summary>
+        /// 更新一条医嘱回写记录
+        /// </summary>
+        /// <param name="ordersWriteBack">医嘱回写信息</param>
+        /// <returns></returns>
+        private short UpdateOrdersWriteBack(OrdersWriteBack ordersWriteBack)
+        {
+            if (base.DataAccess == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            if (ordersWriteBack == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+
+            string szField = string.Format("{0} = to_date('{1}','yyyy-MM-dd hh24:mi:ss'), {2} = '{3}'"
+                , ServerData.OrdersWriteBackDataTable.RECORD_TIME, ordersWriteBack.RecordTime
+                , ServerData.OrdersWriteBackDataTable.STATUS, ordersWriteBack.Status);
+
+            string szCondition = string.Format("{0}='{1}' and {2}='{3}' and {4}='{5}' and {6}=to_date('{7}','yyyy-MM-dd hh24:mi:ss')"
+                , ServerData.OrdersWriteBackDataTable.PATIENT_ID, ordersWriteBack.PatientID
+                , ServerData.OrdersWriteBackDataTable.VISIT_ID, ordersWriteBack.VisitID
+                , ServerData.OrdersWriteBackDataTable.DATA_NAME, ordersWriteBack.DataName
+                , ServerData.OrdersWriteBackDataTable.RECORD_TIME, ordersWriteBack.RecordTime);
+
+            string szSQL = string.Format(ServerData.SQL.UPDATE, ServerData.DataTable.ORDERS_WRITE_BACK
+                , szField, szCondition);
+            int nCount = 0;
+            try
+            {
+                nCount = base.DataAccess.ExecuteNonQuery(szSQL, CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL语句执行失败!");
+            }
+            if (nCount <= 0)
+            {
+                LogManager.Instance.WriteLog("DocumentAccess.UpdateOrdersWriteBack", new string[] { "szSQL" }, new object[] { szSQL }, "SQL语句执行后返回0!");
+                return ServerData.ExecuteResult.EXCEPTION;
+            }
+            return ServerData.ExecuteResult.OK;
+        }
     }
 }

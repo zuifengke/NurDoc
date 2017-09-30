@@ -123,6 +123,24 @@ namespace NurdocControl
         {
             try
             {
+                LogManager.Instance.TextLogOnly = true;
+                LogManager.Instance.WriteLog("接收到PID：" + szPatientID + ";VID:" + szVisitID + ";UserID:" + szUserID);
+                if (string.IsNullOrEmpty(szPatientID) || string.IsNullOrEmpty(szVisitID) || string.IsNullOrEmpty(szUserID))
+                {
+                    MessageBoxEx.Show("接收到的参数异常:PID：" + szPatientID + ";VID:" + szVisitID + ";UserID:" + szUserID);
+                    return;
+                }
+                int nRet = ExternService.HerenCert.VerifyUser(
+                    "和仁护理电子病历软件",
+                    SystemContext.Instance.SystemOption.HospitalName,
+                    SystemContext.Instance.SystemOption.CertCode);
+                if (nRet != 0)
+                {
+                    MessageBoxEx.Show(string.Format("当前{0}未经授权许可!", SystemContext.Instance.SystemName));
+                    this.Dispose();
+                    return;
+                }
+
                 short shRet = SystemConst.ReturnValue.OK;
                 //获取用户info
                 //MessageBox.Show("获取用户info");
@@ -131,8 +149,12 @@ namespace NurdocControl
                 if (shRet == SystemConst.ReturnValue.FAILED)
                 {
                     MessageBoxEx.ShowError(string.Format("您没有权限登录{0}!", SystemContext.Instance.SystemName));
-                    //this.txtUserID.Focus();
-                    //this.txtUserID.SelectAll();
+                    GlobalMethods.UI.SetCursor(this, Cursors.Default);
+                    return;
+                }
+                if (UserInfo == null)
+                {
+                    MessageBoxEx.ShowError(string.Format("抱歉没有查到{0}用户记录.", szUserID));
                     GlobalMethods.UI.SetCursor(this, Cursors.Default);
                     return;
                 }
@@ -150,37 +172,21 @@ namespace NurdocControl
                     return;
                 }
 
-                ////过滤质控系统不用功能
-                //if (this.cbRightSelect.SelectedIndex != 0)
-                //{
-                //    nurUserRight.CreateNuringDoc.Value = false;
-                //    nurUserRight.ShowBedViewForm.Value = false;
-                //    nurUserRight.ShowNursingTaskForm.Value = false;
-                //    nurUserRight.ShowPatientListForm.Value = false;
-                //    nurUserRight.ShowBatchRecordForm.Value = false;
-                //    nurUserRight.ShowShiftRecordForm.Value = false;
-                //    nurUserRight.ShowNursingStatForm.Value = false;
-                //}
-                //else
-                //{
-                //    //由于新桥医院要求个性化
-                //    if (SystemContext.Instance.SystemOption.HospitalName == "第三军医大学新桥医院")
-                //    {
-                //        nurUserRight.ShowNursingAssessForm.Value = false;
-                //    }
-                //    nurUserRight.ShowNursingQCForm.Value = false;
-
-                //}
-
                 //MessageBox.Show(szPatientID + szVisitID);
-                PatVisitInfo PatVisitInfo = null;
+                PatVisitInfo PatVisitInfo = new PatVisitInfo();
                 //MessageBox.Show("开始获取病人info");
                 shRet = PatVisitService.Instance.GetPatVisitInfo(szPatientID, szVisitID, ref PatVisitInfo);
-                this.m_patientVisit = PatVisitInfo;
+                if (shRet != SystemConst.ReturnValue.OK)
+                {
+                    MessageBox.Show("获取患者信息过程中出现异常！");
+                    return;
+                }
+                this.m_patientVisit = null;
                 this.Update();
                 GlobalMethods.UI.SetCursor(this, Cursors.WaitCursor);
                 //MessageBox.Show(m_patientVisit.PatientID);
-                bool success = this.patientPageControl1.SwitchPatient(m_patientVisit);
+                PatientTable.Instance.ActivePatient = PatVisitInfo;
+                bool success = this.patientPageControl1.SwitchPatient(PatVisitInfo);
                 if (success)
                 {
                     this.m_patientVisit = PatVisitInfo;
@@ -192,9 +198,10 @@ namespace NurdocControl
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ex.Data);
+                MessageBox.Show(ex.Message + ex.Data + ex.Source + ex.StackTrace);
+                GlobalMethods.UI.SetCursor(this, Cursors.Default);
+                this.Dispose();
             }
-            //return success;
         }
 
         /// <summary>
@@ -236,6 +243,26 @@ namespace NurdocControl
         //    this.TabSubhead = string.Format("入院时间:{0}"
         //        , this.m_patientVisit.VisitTime.ToString("yyyy年M月d日"));
         //}
+
+        /// <summary>
+        /// 切换患者并定位到文档
+        /// </summary>
+        /// <param name="szPatientID">患者ID</param>
+        /// <param name="szVisitID">患者就诊次</param>
+        /// <param name="szUserID">用户ID</param>
+        /// <param name="szDocTypeID">文档类型ID</param>
+        /// <param name="szDocID">文档ID</param>
+        public void OpenNurDoc(string szPatientID, string szVisitID, string szUserID, string szDocTypeID, string szDocID)
+        {
+            SwitchPatient(szPatientID, szVisitID, szUserID);
+            if (string.IsNullOrEmpty(szDocTypeID))
+            {
+                MessageBoxEx.Show("DocTypeID参数不可为空!");
+                return;
+            }
+            LocateToModule(szDocTypeID, szDocID);
+            return;
+        }
 
         /// <summary>
         /// 根据传入的病历类型信息定位到指定的病历模块

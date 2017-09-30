@@ -195,8 +195,8 @@ namespace Heren.NurDoc.PatPage.NurRec
             this.Update();
             if (SystemContext.Instance.LoginUser == null)
                 return false;
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             List<TransferInfo> lstTransferInfos = null;
             short shRet = PatVisitService.Instance.GetPatientTransferList(szPatientID, szVisitID, ref lstTransferInfos);
             if (shRet != SystemConst.ReturnValue.OK)
@@ -356,13 +356,13 @@ namespace Heren.NurDoc.PatPage.NurRec
 
             if (PatientTable.Instance.ActivePatient == null)
                 return false;
-            string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-            string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
             string szSubID = PatientTable.Instance.ActivePatient.SubID;
             DateTime dtBeginTime = this.tooldtpDateFrom.Value;
             DateTime dtEndTime = this.tooldtpDateTo.Value;
             //DateTime dtEndTime = GlobalMethods.SysTime.GetDayLastTime(this.tooldtpDateTo.Value.Date);
-            List<NursingRecInfo> lstNursingRecInfos = null;
+            List<NursingRecInfo> lstNursingRecInfos = new List<NursingRecInfo>();
             short shRet = NurRecService.Instance.GetNursingRecList(szPatientID, szVisitID, szSubID
                 , dtBeginTime, dtEndTime, ref lstNursingRecInfos);
             if (shRet != SystemConst.ReturnValue.OK)
@@ -703,7 +703,7 @@ namespace Heren.NurDoc.PatPage.NurRec
         {
             if (recInfo == null)
                 return false;
-            //添加小结是录入的累计时间随记录的删除而修改
+            //添加小结时录入的累计时间随记录的删除而修改
 
             int index = recInfo.SummaryName.IndexOf("小时");
             if (index < 0)
@@ -885,7 +885,22 @@ namespace Heren.NurDoc.PatPage.NurRec
                 this.m_RecordEditForm.RecordUpdated +=
                     new EventHandler(this.RecordEditForm_RecordUpdated);
             }
-            this.m_RecordEditForm.IsFirstRecord = this.dataTableView1.Rows.Count <= 0;
+            //this.m_RecordEditForm.IsFirstRecord = this.dataTableView1.Rows.Count <= 0;//由于显示内容可配置为非全部显示
+            string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+            string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
+            string szSubID = PatientTable.Instance.ActivePatient.SubID;
+            DateTime dtBeginTime = PatientTable.Instance.ActivePatient.VisitTime;
+            int NursingRecCount = 0;
+            short shRet = NurRecService.Instance.GetNursingRecCount(szPatientID, szVisitID,szSubID
+                ,dtBeginTime, dtBeginTime.AddMonths(1), ref NursingRecCount);
+            if (shRet != SystemConst.ReturnValue.OK)
+            {
+                MessageBoxEx.ShowError("护理记录查询失败!");
+                GlobalMethods.UI.SetCursor(this, Cursors.Default);
+                return ;
+            }
+            this.m_RecordEditForm.IsFirstRecord = NursingRecCount <= 0;
+            
             this.m_RecordEditForm.DicSummaryDatas = null;
 
             string key = SystemConst.ConfigKey.NUR_REC_SHOW_AS_MODEL;
@@ -1221,8 +1236,8 @@ namespace Heren.NurDoc.PatPage.NurRec
                 }
 
                 //获取病人所有护理记录
-                string szPatientID = PatientTable.Instance.ActivePatient.PatientID;
-                string szVisitID = PatientTable.Instance.ActivePatient.VisitID;
+                string szPatientID = PatientTable.Instance.ActivePatient.PatientId;
+                string szVisitID = PatientTable.Instance.ActivePatient.VisitId;
                 string szSubID = PatientTable.Instance.ActivePatient.SubID;
                 List<NursingRecInfo> lstNursingRecInfos = new List<NursingRecInfo>();
                 short shRet = NurRecService.Instance.GetNursingRecList(szPatientID, szVisitID, szSubID, dtVisitTime, tooldtpDateTo.Value.Date.Add(new TimeSpan(23,59,59)), ref lstNursingRecInfos);
@@ -1334,7 +1349,7 @@ namespace Heren.NurDoc.PatPage.NurRec
                 explorerForm.ReportParamData.Add("转科情况", m_detpIndex);
                 explorerForm.ReportParamData.Add("是否续打", false);
                 explorerForm.ReportParamData.Add("打印数据", table);
-                explorerForm.showPrintButton = true;
+                //explorerForm.showPrintButton = true;
                 if (explorerForm.ShowDialog() == DialogResult.OK)
                     this.SetNursingRecPrint(0);
 
@@ -1342,8 +1357,8 @@ namespace Heren.NurDoc.PatPage.NurRec
                 {
                     RecPrintinfo RecPrintinfo = new RecPrintinfo();
                     GridViewSchema schema = this.toolcboSchemaList.SelectedItem as GridViewSchema;
-                    RecPrintinfo.PatientID = PatientTable.Instance.ActivePatient.PatientID;
-                    RecPrintinfo.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+                    RecPrintinfo.PatientID = PatientTable.Instance.ActivePatient.PatientId;
+                    RecPrintinfo.VisitID = PatientTable.Instance.ActivePatient.VisitId;
                     RecPrintinfo.WardCode = PatientTable.Instance.ActivePatient.WardCode;
                     RecPrintinfo.SchemaID = schema.SchemaID;
                     RecPrintinfo.PrintPages = ipagesNo;
@@ -1781,8 +1796,8 @@ namespace Heren.NurDoc.PatPage.NurRec
             RecPrintinfo RecPrintinfo = new RecPrintinfo();
             GridViewSchema schema = this.toolcboSchemaList.SelectedItem as GridViewSchema;
             short shRet = NurRecService.Instance.GetPrintLog(
-                PatientTable.Instance.ActivePatient.PatientID,
-                PatientTable.Instance.ActivePatient.VisitID,
+                PatientTable.Instance.ActivePatient.PatientId,
+                PatientTable.Instance.ActivePatient.VisitId,
                 PatientTable.Instance.ActivePatient.WardCode, schema.SchemaID,
                 ref RecPrintinfo);
             if (shRet != ServerData.ExecuteResult.OK)

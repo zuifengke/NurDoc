@@ -63,9 +63,27 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Include\Common.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="Common.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Include\Common.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Report, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Include\Common.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Office, Version=2.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Include\Interop.Office.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Word, Version=8.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Include\Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -79,6 +97,12 @@
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SinglePatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SinglePatForm.Designer.cs">
+      <DependentUpon>SinglePatForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +122,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SinglePatForm.resx">
+      <DependentUpon>SinglePatForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SysIcon.ico" />
@@ -110,6 +137,14 @@
     <ProjectReference Include="..\NurDoc.Data\NurDoc.Data.csproj">
       <Project>{FD6FC5FE-6A7C-4C44-97DD-6C40A321F2D7}</Project>
       <Name>NurDoc.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurDoc.Utilities\NurDoc.Utilities.csproj">
+      <Project>{FD8F827E-7CF0-4B61-9313-557D2563044D}</Project>
+      <Name>NurDoc.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NurdocControl\NurdocControl.csproj">
+      <Project>{33620f73-748f-4105-b5ea-dcb7ec38e454}</Project>
+      <Name>NurdocControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

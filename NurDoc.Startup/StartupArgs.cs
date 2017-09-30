@@ -73,6 +73,26 @@ namespace Heren.NurDoc.Startup
             get { return this.m_szVisitID; }
         }
 
+        private string m_DocTypeID = string.Empty;
+
+        /// <summary>
+        /// 获取传入的需要打开的文档类型ID
+        /// </summary>
+        public string DoctypeID
+        {
+            get { return this.m_DocTypeID; }
+        }
+
+        private string m_DocID = string.Empty;
+
+        /// <summary>
+        /// 获取传入的需要打开的DocID
+        /// </summary>
+        public string DocID
+        {
+            get { return this.m_DocID; }
+        }
+
         private string m_bSinglePatMod = string.Empty;
 
         /// <summary>
@@ -132,6 +152,8 @@ namespace Heren.NurDoc.Startup
             this.m_userInfo = new UserInfo();
             this.m_szPatientID = string.Empty;
             this.m_szVisitID = string.Empty;
+            this.m_DocTypeID = string.Empty;
+            this.m_DocID = string.Empty;
             if (args == null || args.Length <= 0)
                 throw new Exception("您传入的启动参数为空!");
 
@@ -215,9 +237,29 @@ namespace Heren.NurDoc.Startup
             nStartIndex = nFieldIndex + 1;
             nFieldIndex = szArgsData.IndexOf(SystemConst.StartupArgs.GROUP_SPLIT, nStartIndex);
             if (nFieldIndex > nStartIndex) this.m_bSinglePatMod = szArgsData.Substring(nStartIndex, nFieldIndex - nStartIndex);
-            if (nFieldIndex < 0) this.m_bSinglePatMod = "0";
+            if (nFieldIndex < 0)
+            {
+                this.m_bSinglePatMod = "0";
+                return;
+            }
             //if (GlobalMethods.Misc.IsEmptyString(this.m_bSinglePatMod))
             //    throw new Exception("打开模式参数不能为空!");
+
+            nStartIndex = nFieldIndex + 1;
+            nFieldIndex = szArgsData.IndexOf(SystemConst.StartupArgs.GROUP_SPLIT, nStartIndex);
+            if (nFieldIndex > nStartIndex) this.m_DocTypeID = szArgsData.Substring(nStartIndex, nFieldIndex - nStartIndex);
+            if (GlobalMethods.Misc.IsEmptyString(this.m_DocTypeID))
+                return;
+            //if (GlobalMethods.Misc.IsEmptyString(this.m_DocTypeID))
+            //    throw new Exception("病人就诊ID参数不能为空!");
+
+            nStartIndex = nFieldIndex + 1;
+            nFieldIndex = szArgsData.IndexOf(SystemConst.StartupArgs.GROUP_SPLIT, nStartIndex);
+            if (nFieldIndex > nStartIndex) this.m_DocID = szArgsData.Substring(nStartIndex, nFieldIndex - nStartIndex);
+            if (GlobalMethods.Misc.IsEmptyString(this.m_DocID))
+                return;
+            //if (GlobalMethods.Misc.IsEmptyString(this.m_DocTypeID))
+            //    throw new Exception("病人就诊ID参数不能为空!");
         }
     }
 }

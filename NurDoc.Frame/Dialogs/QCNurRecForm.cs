@@ -95,7 +95,7 @@ namespace Heren.NurDoc.Frame.Dialogs
         /// </summary>
         private void LoadPatientInfo()
         {
-            this.toollblPatientID.Text = this.m_patVisitInfo.PatientID;
+            this.toollblPatientID.Text = this.m_patVisitInfo.PatientId;
             this.toollblPatientName.Text = this.m_patVisitInfo.PatientName;
         }
 
@@ -227,8 +227,8 @@ namespace Heren.NurDoc.Frame.Dialogs
 
             if (this.m_patVisitInfo == null)
                 return false;
-            string szPatientID = this.m_patVisitInfo.PatientID;
-            string szVisitID = this.m_patVisitInfo.VisitID;
+            string szPatientID = this.m_patVisitInfo.PatientId;
+            string szVisitID = this.m_patVisitInfo.VisitId;
             string szSubID = this.m_patVisitInfo.SubID;
             DateTime dtBeginTime = this.m_patVisitInfo.VisitTime;
             DateTime dtEndTime = GlobalMethods.SysTime.GetDayLastTime(this.GetEndDate(true));
@@ -335,7 +335,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             }
             List<QCExamineInfo> lstQCExamineInfo = new List<QCExamineInfo>();
             short shRet = QCExamineService.Instance.GetQcExamineInfos(ServerData.ExamineType.RECORDS,
-                this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref lstQCExamineInfo);
+                this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref lstQCExamineInfo);
             if (shRet != ServerData.ExecuteResult.OK)
             {
                 return;
@@ -675,7 +675,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             else if (szRowStatus == ServerData.ExamineStatus.QC_MARK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("…Û∫À ˝æ›≤È—Ø ß∞‹£°");
@@ -708,7 +708,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             if (szRowStatus == ServerData.ExamineStatus.QC_OK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("…Û∫À ˝æ›≤È—Ø ß∞‹£°");
@@ -765,7 +765,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             else if (szRowStatus == ServerData.ExamineStatus.QC_MARK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("…Û∫À ˝æ›≤È—Ø ß∞‹£°");
@@ -841,7 +841,7 @@ namespace Heren.NurDoc.Frame.Dialogs
                 else if (szRowStatus == ServerData.ExamineStatus.QC_MARK)
                 {
                     QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                    short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                    short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.RECORDS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                     if (shRet != ServerData.ExecuteResult.OK)
                     {
                         ErrorCount++;

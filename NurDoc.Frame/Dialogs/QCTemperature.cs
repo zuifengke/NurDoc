@@ -202,7 +202,7 @@ namespace Heren.NurDoc.Frame.Dialogs
         private void SetQcStatus(long week,PatVisitInfo patVisitInfo)
         {
             QCExamineInfo qcExamineInfo = new QCExamineInfo();
-            short shRet = QCExamineService.Instance.GetQcExamineInfo(week.ToString(), ServerData.ExamineType.TEMPERATURE, patVisitInfo.PatientID, patVisitInfo.VisitID, ref qcExamineInfo);
+            short shRet = QCExamineService.Instance.GetQcExamineInfo(week.ToString(), ServerData.ExamineType.TEMPERATURE, patVisitInfo.PatientId, patVisitInfo.VisitId, ref qcExamineInfo);
             if (shRet != SystemConst.ReturnValue.OK)
             {
                 this.toollblStatus.Text = ServerData.ExamineStatus.QC_NONE;
@@ -245,7 +245,7 @@ namespace Heren.NurDoc.Frame.Dialogs
 
         private string GetPatientId()
         {
-            return this.m_patVisitInfo.PatientID;
+            return this.m_patVisitInfo.PatientId;
         }
 
         public bool GetSystemContext(string name, ref object value)
@@ -304,7 +304,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             {
                 if (m_patVisitInfo == null)
                     return false;
-                value = m_patVisitInfo.PatientID;
+                value = m_patVisitInfo.PatientId;
                 return true;
             }
             if (name == "病人姓名")
@@ -355,7 +355,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             {
                 if (m_patVisitInfo == null)
                     return false;
-                value = m_patVisitInfo.VisitID;
+                value = m_patVisitInfo.VisitId;
                 return true;
             }
             if (name == "入院时间")
@@ -477,7 +477,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             else if (this.toollblStatus.Text == ServerData.ExamineStatus.QC_MARK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(this.m_week.ToString(), ServerData.ExamineType.TEMPERATURE, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(this.m_week.ToString(), ServerData.ExamineType.TEMPERATURE, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("审核数据查询失败！");
@@ -503,7 +503,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             if (this.toollblStatus.Text == ServerData.ExamineStatus.QC_OK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(this.m_week.ToString(), ServerData.ExamineType.TEMPERATURE, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(this.m_week.ToString(), ServerData.ExamineType.TEMPERATURE, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("审核数据查询失败！");
@@ -553,7 +553,7 @@ namespace Heren.NurDoc.Frame.Dialogs
             else if (this.toollblStatus.Text == ServerData.ExamineStatus.QC_MARK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(this.m_week.ToString(), ServerData.ExamineType.TEMPERATURE, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(this.m_week.ToString(), ServerData.ExamineType.TEMPERATURE, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("审核数据查询失败！");

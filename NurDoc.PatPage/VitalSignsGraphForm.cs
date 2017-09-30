@@ -492,5 +492,17 @@ namespace Heren.NurDoc.PatPage
                 GlobalMethods.UI.SetCursor(this, Cursors.Default);
             }
         }
+
+        public override bool LocateToModule(DocTypeInfo docTypeInfo, string szDocID)
+        {
+            string szApplyEnv = ServerData.DocTypeApplyEnv.SIGNS_DATA_RECORD;
+            DocTypeInfo docTypeInfo1 = FormCache.Instance.GetWardDocType(szApplyEnv);
+            if (docTypeInfo.DocTypeID == docTypeInfo1.DocTypeID)
+            {
+                this.Activate();
+                return true;
+            }
+                return base.LocateToModule(docTypeInfo, szDocID);
+        }
     }
 }

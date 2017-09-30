@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.Text;
 using Heren.Common.Libraries;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class VitalSignsService
+    public class VitalSignsService : DBAccessBase
     {
         private static VitalSignsService m_instance = null;
 
@@ -40,7 +41,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveVitalSignsData(List<VitalSignsData> lstVitalSignsData)
         {
-            return SystemContext.Instance.VitalSignsAccess.SaveVitalSignsData(lstVitalSignsData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(lstVitalSignsData);
+                return RestHandler.Instance.Post("VitalSignsAccess/SaveVitalSignsData1");
+            }
+            else
+            {
+                return SystemContext.Instance.VitalSignsAccess.SaveVitalSignsData(lstVitalSignsData);
+            }
         }
 
         /// <summary>
@@ -50,7 +60,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveVitalSignsData(VitalSignsData vitalSignsData)
         {
-            return SystemContext.Instance.VitalSignsAccess.SaveVitalSignsData(vitalSignsData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(vitalSignsData);
+                return RestHandler.Instance.Post("VitalSignsAccess/SaveVitalSignsData2");
+            }
+            else
+            {
+                return SystemContext.Instance.VitalSignsAccess.SaveVitalSignsData(vitalSignsData);
+            }
         }
 
         /// <summary>
@@ -66,8 +85,22 @@ namespace Heren.NurDoc.Data
         public short GetVitalSignsList(string szPatientID, string szVisitID, string szSubID
             , DateTime dtBeginTime, DateTime dtEndTime, ref List<VitalSignsData> lstVitalSignsData)
         {
-            short shRet = SystemContext.Instance.VitalSignsAccess.GetVitalSignsList(szPatientID, szVisitID, szSubID
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                shRet = RestHandler.Instance.Get<VitalSignsData>("VitalSignsAccess/GetVitalSignsList1", ref lstVitalSignsData);
+            }
+            else
+            {
+                 shRet = SystemContext.Instance.VitalSignsAccess.GetVitalSignsList(szPatientID, szVisitID, szSubID
                 , dtBeginTime, dtEndTime, ref lstVitalSignsData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -88,8 +121,22 @@ namespace Heren.NurDoc.Data
         public short GetVitalSignsList(string szPatientID, string szVisitID, string szSubID
             , string szSourceTag, string szSourceType, ref List<VitalSignsData> lstVitalSignsData)
         {
-            short shRet = SystemContext.Instance.VitalSignsAccess.GetVitalSignsList(szPatientID, szVisitID, szSubID
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("szSourceTag", szSourceTag);
+                RestHandler.Instance.AddParameter("szSourceType", szSourceType);
+                shRet = RestHandler.Instance.Get<VitalSignsData>("VitalSignsAccess/GetVitalSignsList2", ref lstVitalSignsData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.VitalSignsAccess.GetVitalSignsList(szPatientID, szVisitID, szSubID
                 , szSourceTag, szSourceType, ref lstVitalSignsData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -107,7 +154,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetAdmissionEventTime(string szPatientID, string szVisitID, string szSubID, ref DateTime? dtAdmissionTime)
         {
-            short shRet = SystemContext.Instance.VitalSignsAccess.GetAdmissionEventTime(szPatientID, szVisitID, szSubID, ref dtAdmissionTime);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                shRet = RestHandler.Instance.Get<DateTime?>("VitalSignsAccess/GetAdmissionEventTime", ref dtAdmissionTime);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.VitalSignsAccess.GetAdmissionEventTime(szPatientID, szVisitID, szSubID, ref dtAdmissionTime);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)

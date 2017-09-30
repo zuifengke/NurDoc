@@ -346,7 +346,7 @@ namespace Heren.NurDoc.Frame.DockForms
                 row.Tag = patVisitInfo;
                 row.Cells[this.colBedNo.Index].Value = patVisitInfo.BedCode;
                 row.Cells[this.colPatientName.Index].Value = patVisitInfo.PatientName;
-                row.Cells[this.colPatientID.Index].Value = patVisitInfo.PatientID;
+                row.Cells[this.colPatientID.Index].Value = patVisitInfo.PatientId;
                 this.dataTableView1.SetRowState(row, RowState.Normal);
             }
             this.dataTableView1.RefreshRowColor();

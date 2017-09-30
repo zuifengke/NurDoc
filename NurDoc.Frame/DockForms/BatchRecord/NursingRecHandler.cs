@@ -61,8 +61,8 @@ namespace Heren.NurDoc.Frame.DockForms
                 PatVisitInfo patVisitInfo = row.Tag as PatVisitInfo;
                 if (patVisitInfo == null)
                     continue;
-                string szPatientID = patVisitInfo.PatientID;
-                string szVisitID = patVisitInfo.VisitID;
+                string szPatientID = patVisitInfo.PatientId;
+                string szVisitID = patVisitInfo.VisitId;
                 string szSubID = patVisitInfo.SubID;
 
                 DateTime dtBeginTime = dtRecordTime;
@@ -260,8 +260,8 @@ namespace Heren.NurDoc.Frame.DockForms
             if (patVisitInfo == null)
                 return false;
             List<NursingRecInfo> lstNursingRecInfos = null;
-            short shRet = NurRecService.Instance.GetNursingRecList(patVisitInfo.PatientID
-                , patVisitInfo.VisitID, patVisitInfo.SubID, szSchemaId
+            short shRet = NurRecService.Instance.GetNursingRecList(patVisitInfo.PatientId
+                , patVisitInfo.VisitId, patVisitInfo.SubID, szSchemaId
                 , dtRecordTime, dtRecordTime, ref lstNursingRecInfos);
             if (shRet != SystemConst.ReturnValue.OK)
             {
@@ -368,8 +368,8 @@ namespace Heren.NurDoc.Frame.DockForms
             nursingRecInfo.ModifierID = nursingRecInfo.CreatorID;
             nursingRecInfo.ModifierName = nursingRecInfo.CreatorName;
             nursingRecInfo.ModifyTime = nursingRecInfo.CreateTime;
-            nursingRecInfo.PatientID = patVisit.PatientID;
-            nursingRecInfo.VisitID = patVisit.VisitID;
+            nursingRecInfo.PatientID = patVisit.PatientId;
+            nursingRecInfo.VisitID = patVisit.VisitId;
             nursingRecInfo.SubID = patVisit.SubID;
             nursingRecInfo.Recorder1Name = nursingRecInfo.CreatorName;
             nursingRecInfo.Recorder1ID = nursingRecInfo.CreatorID;
@@ -433,8 +433,8 @@ namespace Heren.NurDoc.Frame.DockForms
             List<SummaryData> lstSummaryData = new List<SummaryData>();
 
             SummaryData summaryData = new SummaryData();
-            summaryData.PatientID = patVisitInfo.PatientID;
-            summaryData.VisitID = patVisitInfo.VisitID;
+            summaryData.PatientID = patVisitInfo.PatientId;
+            summaryData.VisitID = patVisitInfo.VisitId;
             summaryData.SubID = patVisitInfo.SubID;
             summaryData.DataTime = dtRecordTime;
             summaryData.Category = 1;

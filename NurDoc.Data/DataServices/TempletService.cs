@@ -8,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
+using Heren.Common.Libraries;
 
 namespace Heren.NurDoc.Data
 {
-    public class TempletService
+    public class TempletService : DBAccessBase
     {
         private static TempletService m_instance = null;
 
@@ -42,10 +44,25 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetFormTemplet(string szDocTypeID, ref byte[] byteTempletData)
         {
-            if (SystemContext.Instance.TempletAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (base.StorageMode == StorageMode.Unknown)
+                {
+                    LogManager.Instance.WriteLog("TempletAccess.GetFormTemplet", new string[] { "szDocTypeID" }, new object[] { szDocTypeID }, "配置字典表中文档存储模式配置不正确!");
+                    return ServerData.ExecuteResult.EXCEPTION;
+                }
 
-            return SystemContext.Instance.TempletAccess.GetFormTemplet(szDocTypeID, ref byteTempletData);
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                return RestHandler.Instance.Get<byte[]>("TempletAccess/GetFormTemplet1", ref byteTempletData);
+            }
+            else
+            {
+                if (SystemContext.Instance.TempletAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+
+                return SystemContext.Instance.TempletAccess.GetFormTemplet(szDocTypeID, ref byteTempletData);
+            }
         }
 
         /// <summary>
@@ -55,10 +72,24 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetFormTemplet(ref List<DocTypeData> lstDocTypeData)
         {
-            if (SystemContext.Instance.TempletAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (base.StorageMode == StorageMode.Unknown)
+                {
+                    LogManager.Instance.WriteLog("TempletAccess.GetFormTemplet", "配置字典表中文档存储模式配置不正确!");
+                    return ServerData.ExecuteResult.EXCEPTION;
+                }
 
-            return SystemContext.Instance.TempletAccess.GetFormTemplet(ref  lstDocTypeData);
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<DocTypeData>("TempletAccess/GetFormTemplet2", ref lstDocTypeData);
+            }
+            else
+            {
+                if (SystemContext.Instance.TempletAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+
+                return SystemContext.Instance.TempletAccess.GetFormTemplet(ref lstDocTypeData);
+            }
         }
 
         /// <summary>
@@ -69,10 +100,26 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short SaveFormTemplet(string szDocTypeID, byte[] byteTempletData)
         {
-            if (SystemContext.Instance.TempletAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (base.StorageMode == StorageMode.Unknown)
+                {
+                    LogManager.Instance.WriteLog("TempletAccess.SaveFormTemplet", new string[] { "szDocTypeID" }, new object[] { szDocTypeID }, "配置字典表中文档存储模式配置不正确!");
+                    return ServerData.ExecuteResult.EXCEPTION;
+                }
 
-            return SystemContext.Instance.TempletAccess.SaveFormTemplet(szDocTypeID, byteTempletData);
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter(byteTempletData);
+                return RestHandler.Instance.Post("TempletAccess/SaveFormTemplet");
+            }
+            else
+            {
+                if (SystemContext.Instance.TempletAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+
+                return SystemContext.Instance.TempletAccess.SaveFormTemplet(szDocTypeID, byteTempletData);
+            }
         }
         #endregion
 
@@ -85,10 +132,24 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetReportTemplet(string szTempletID, ref byte[] byteTempletData)
         {
-            if (SystemContext.Instance.TempletAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (base.StorageMode == StorageMode.Unknown)
+                {
+                    LogManager.Instance.WriteLog("TempletAccess.GetReportTemplet", new string[] { "szTempletID" }, new object[] { szTempletID }, "配置字典表中文档存储模式配置不正确!");
+                    return ServerData.ExecuteResult.EXCEPTION;
+                }
 
-            return SystemContext.Instance.TempletAccess.GetReportTemplet(szTempletID, ref byteTempletData);
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTempletID", szTempletID);
+                return RestHandler.Instance.Get<byte[]>("TempletAccess/GetReportTemplet1",ref byteTempletData);
+            }
+            else
+            {
+                if (SystemContext.Instance.TempletAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+                return SystemContext.Instance.TempletAccess.GetReportTemplet(szTempletID, ref byteTempletData);
+            }
         }
 
         /// <summary>
@@ -98,10 +159,24 @@ namespace Heren.NurDoc.Data
         /// <returns>ServerData.ExecuteResult</returns>
         public short GetReportTemplet(ref List<ReportTypeData> lstReportTypeData)
         {
-            if (SystemContext.Instance.TempletAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (base.StorageMode == StorageMode.Unknown)
+                {
+                    LogManager.Instance.WriteLog("TempletAccess.GetReportTemplet", "配置字典表中文档存储模式配置不正确!");
+                    return ServerData.ExecuteResult.EXCEPTION;
+                }
 
-            return SystemContext.Instance.TempletAccess.GetReportTemplet(ref lstReportTypeData);
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<ReportTypeData>("TempletAccess/GetReportTemplet2", ref lstReportTypeData);
+            }
+            else
+            {
+                if (SystemContext.Instance.TempletAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+
+                return SystemContext.Instance.TempletAccess.GetReportTemplet(ref lstReportTypeData);
+            }
         }
 
         /// <summary>
@@ -112,7 +187,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetReportTypeInfo(string szReportTypeID, ref ReportTypeInfo reportTypeInfo)
         {
-            short shRet = SystemContext.Instance.TempletAccess.GetReportTypeInfo(szReportTypeID, ref reportTypeInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szReportTypeID", szReportTypeID);
+                shRet = RestHandler.Instance.Get<ReportTypeInfo>("TempletAccess/GetReportTypeInfo", ref reportTypeInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.GetReportTypeInfo(szReportTypeID, ref reportTypeInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -126,7 +211,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetReportTypeInfos(string szApplyEnv, ref List<ReportTypeInfo> lstReportTypeInfos)
         {
-            short shRet = SystemContext.Instance.TempletAccess.GetReportTypeInfos(szApplyEnv, ref lstReportTypeInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szApplyEnv", szApplyEnv);
+                shRet = RestHandler.Instance.Get<ReportTypeInfo>("TempletAccess/GetReportTypeInfos", ref lstReportTypeInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.GetReportTypeInfos(szApplyEnv, ref lstReportTypeInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -140,10 +235,25 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveReportTemplet(string szDocTypeID, byte[] byteTempletData)
         {
-            if (SystemContext.Instance.TempletAccess == null)
-                return SystemConst.ReturnValue.FAILED;
-
-            return SystemContext.Instance.TempletAccess.SaveReportTemplet(szDocTypeID, byteTempletData);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                if (base.StorageMode == StorageMode.Unknown)
+                {
+                    LogManager.Instance.WriteLog("TempletAccess.SaveReportTemplet"
+                        , new string[] { "szDocTypeID" }, new object[] { szDocTypeID }, "配置字典表中文档存储模式配置不正确!");
+                    return ServerData.ExecuteResult.EXCEPTION;
+                }
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter(byteTempletData);
+                return RestHandler.Instance.Post("TempletAccess/SaveReportTemplet");
+            }
+            else
+            {
+                if (SystemContext.Instance.TempletAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+                return SystemContext.Instance.TempletAccess.SaveReportTemplet(szDocTypeID, byteTempletData);
+            }
         }
 
         /// <summary>
@@ -153,7 +263,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveReportTypeInfo(ReportTypeInfo reportTypeInfo)
         {
-            return SystemContext.Instance.TempletAccess.SaveReportTypeInfo(reportTypeInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            { 
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(reportTypeInfo);
+                return RestHandler.Instance.Post("TempletAccess/SaveReportTypeInfo");
+            }
+            else
+            {
+                return SystemContext.Instance.TempletAccess.SaveReportTypeInfo(reportTypeInfo);
+            }
         }
 
         /// <summary>
@@ -164,7 +283,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short ModifyReportTypeInfo(string szDocTypeID, ReportTypeInfo reportTypeInfo)
         {
-            return SystemContext.Instance.TempletAccess.ModifyReportTypeInfo(szDocTypeID, reportTypeInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter(reportTypeInfo);
+                return RestHandler.Instance.Post("TempletAccess/ModifyReportTypeInfo");
+            }
+            else
+            {
+                return SystemContext.Instance.TempletAccess.ModifyReportTypeInfo(szDocTypeID, reportTypeInfo);
+            }
         }
 
         /// <summary>
@@ -174,7 +303,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteReportTypeInfos(List<string> lstDocTypeID)
         {
-            return SystemContext.Instance.TempletAccess.DeleteReportTypeInfos(lstDocTypeID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("lstDocTypeID", lstDocTypeID);
+                return RestHandler.Instance.Put("TempletAccess/DeleteReportTypeInfos");
+            }
+            else
+            {
+                return SystemContext.Instance.TempletAccess.DeleteReportTypeInfos(lstDocTypeID);
+            }
         }
 
         #endregion
@@ -188,7 +326,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetWardReportTypeList(string szDeptCode, ref List<WardReportType> lstWardReportTypes)
         {
-            return SystemContext.Instance.TempletAccess.GetWardReportTypeList(szDeptCode, ref lstWardReportTypes);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDeptCode", szDeptCode);
+                return RestHandler.Instance.Get<WardReportType>("TempletAccess/GetWardReportTypeList", ref lstWardReportTypes);
+            }
+            else
+            {
+                return SystemContext.Instance.TempletAccess.GetWardReportTypeList(szDeptCode, ref lstWardReportTypes);
+            }
         }
 
         /// <summary>
@@ -199,7 +346,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short GetReportTypeDeptList(string szDocTypeID, ref List<WardReportType> lstWardReportTypes)
         {
-            return SystemContext.Instance.TempletAccess.GetReportTypeDeptList(szDocTypeID, ref lstWardReportTypes);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                return RestHandler.Instance.Get<WardReportType>("TempletAccess/GetReportTypeDeptList", ref lstWardReportTypes);
+            }
+            else
+            {
+                return SystemContext.Instance.TempletAccess.GetReportTypeDeptList(szDocTypeID, ref lstWardReportTypes);
+            }
         }
 
         /// <summary>
@@ -210,7 +366,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short SaveWardReportTypes(string szDocTypeID, List<WardReportType> lstWardReportTypes)
         {
-            return SystemContext.Instance.TempletAccess.SaveWardReportTypes(szDocTypeID, lstWardReportTypes);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocTypeID", szDocTypeID);
+                RestHandler.Instance.AddParameter(lstWardReportTypes);
+                return RestHandler.Instance.Post("TempletAccess/SaveWardReportTypes");
+            }
+            else
+            {
+                return SystemContext.Instance.TempletAccess.SaveWardReportTypes(szDocTypeID, lstWardReportTypes);
+            }
         }
         #endregion
 
@@ -223,7 +389,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetTextTemplet(string szTempletID, ref byte[] byteTempletData)
         {
-            short shRet = SystemContext.Instance.TempletAccess.GetTextTemplet(szTempletID, ref byteTempletData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTempletID", szTempletID);
+                return RestHandler.Instance.Get<byte[]>("TempletAccess/GetTextTemplet", ref byteTempletData);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.GetTextTemplet(szTempletID, ref byteTempletData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -237,7 +413,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short SaveTextTemplet(TextTempletInfo textTempletInfo, byte[] byteTempletData)
         {
-            short shRet = SystemContext.Instance.TempletAccess.SaveTextTemplet(textTempletInfo, byteTempletData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(textTempletInfo);
+                RestHandler.Instance.AddParameter(byteTempletData);
+                return RestHandler.Instance.Post("TempletAccess/SaveTextTemplet");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.SaveTextTemplet(textTempletInfo, byteTempletData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -251,7 +438,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short UpdateTextTemplet(TextTempletInfo textTempletInfo, byte[] byteTempletData)
         {
-            short shRet = SystemContext.Instance.TempletAccess.UpdateTextTemplet(textTempletInfo, byteTempletData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(textTempletInfo);
+                RestHandler.Instance.AddParameter(byteTempletData);
+                return RestHandler.Instance.Put("TempletAccess/UpdateTextTemplet");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.UpdateTextTemplet(textTempletInfo, byteTempletData);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -265,7 +463,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short ModifyTextTempletShareLevel(string szTempletID, string szShareLevel)
         {
-            short shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletShareLevel(szTempletID, szShareLevel);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTempletID", szTempletID);
+                RestHandler.Instance.AddParameter("szShareLevel", szShareLevel);
+                return RestHandler.Instance.Put("TempletAccess/ModifyTextTempletShareLevel1");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletShareLevel(szTempletID, szShareLevel);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -279,7 +488,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short ModifyTextTempletShareLevel(List<string> lstTempletID, string szShareLevel)
         {
-            short shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletShareLevel(lstTempletID, szShareLevel);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("lstTempletID", lstTempletID);
+                RestHandler.Instance.AddParameter("szShareLevel", szShareLevel);
+                return RestHandler.Instance.Put("TempletAccess/ModifyTextTempletShareLevel2");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletShareLevel(lstTempletID, szShareLevel);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -293,7 +513,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short ModifyTextTempletParentID(string szTempletID, string szParentID)
         {
-            short shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletParentID(szTempletID, szParentID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTempletID", szTempletID);
+                RestHandler.Instance.AddParameter("szParentID", szParentID);
+                return RestHandler.Instance.Put("TempletAccess/ModifyTextTempletParentID");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletParentID(szTempletID, szParentID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -307,7 +538,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short ModifyTextTempletName(string szTempletID, string szTempletName)
         {
-            short shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletName(szTempletID, szTempletName);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTempletID", szTempletID);
+                RestHandler.Instance.AddParameter("szTempletName", szTempletName);
+                return RestHandler.Instance.Put("TempletAccess/ModifyTextTempletName");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.ModifyTextTempletName(szTempletID, szTempletName);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -320,7 +562,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short DeleteTextTemplet(string szTempletID)
         {
-            short shRet = SystemContext.Instance.TempletAccess.DeleteTextTemplet(szTempletID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szTempletID", szTempletID);
+                return RestHandler.Instance.Post("TempletAccess/DeleteTextTemplet");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.DeleteTextTemplet(szTempletID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -333,7 +585,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short DeleteTextTemplet(List<string> lstTempletID)
         {
-            short shRet = SystemContext.Instance.TempletAccess.DeleteTextTemplet(lstTempletID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("lstTempletID", lstTempletID);
+                return RestHandler.Instance.Post("TempletAccess/DeleteTextTemplet");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.DeleteTextTemplet(lstTempletID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -346,7 +608,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetHospitalTextTempletInfos(ref List<TextTempletInfo> lstTempletInfos)
         {
-            short shRet = SystemContext.Instance.TempletAccess.GetHospitalTextTempletInfos(ref lstTempletInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                return RestHandler.Instance.Get<TextTempletInfo>("TempletAccess/GetHospitalTextTempletInfos", ref lstTempletInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.GetHospitalTextTempletInfos(ref lstTempletInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -360,7 +631,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetPersonalTextTempletInfos(string szUserID, ref List<TextTempletInfo> lstTempletInfos)
         {
-            short shRet = SystemContext.Instance.TempletAccess.GetPersonalTextTempletInfos(szUserID, ref lstTempletInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szUserID", szUserID);
+                return RestHandler.Instance.Get<TextTempletInfo>("TempletAccess/GetPersonalTextTempletInfos", ref lstTempletInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.GetPersonalTextTempletInfos(szUserID, ref lstTempletInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;
@@ -375,7 +656,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ReturnValue</returns>
         public short GetDeptTextTempletInfos(string szDeptCode, bool bOnlyDeptShare, ref List<TextTempletInfo> lstTempletInfos)
         {
-            short shRet = SystemContext.Instance.TempletAccess.GetDeptTextTempletInfos(szDeptCode, bOnlyDeptShare, ref lstTempletInfos);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDeptCode", szDeptCode);
+                RestHandler.Instance.AddParameter("bOnlyDeptShare", bOnlyDeptShare);
+                return RestHandler.Instance.Get<TextTempletInfo>("TempletAccess/GetDeptTextTempletInfos", ref lstTempletInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.TempletAccess.GetDeptTextTempletInfos(szDeptCode, bOnlyDeptShare, ref lstTempletInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             return shRet;

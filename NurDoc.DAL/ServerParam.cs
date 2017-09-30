@@ -318,7 +318,7 @@ namespace Heren.NurDoc.DAL
             szDBType = GlobalMethods.Security.DecryptText(szDBType, ServerData.ConfigFile.CONFIG_ENCRYPT_KEY);
             szDBDriverType = GlobalMethods.Security.DecryptText(szDBDriverType, ServerData.ConfigFile.CONFIG_ENCRYPT_KEY);
             szConnectionString = GlobalMethods.Security.DecryptText(szConnectionString, ServerData.ConfigFile.CONFIG_ENCRYPT_KEY);
-            szConnectionMode = GlobalMethods.Security.DecryptText(szConnectionMode, ServerData.ConfigFile.CONFIG_ENCRYPT_KEY);
+            szConnectionMode = GlobalMethods.Security.DecryptText(szConnectionMode, ServerData.ConfigFile.NUR_CONN_MODE);
             if (GlobalMethods.Misc.IsEmptyString(szDBType) || GlobalMethods.Misc.IsEmptyString(szDBDriverType)
                 || GlobalMethods.Misc.IsEmptyString(szConnectionString))
             {
@@ -344,7 +344,7 @@ namespace Heren.NurDoc.DAL
         {
             string szRestString = SystemConfig.Instance.Get(ServerData.ConfigFile.NRS_CONN_STRING, string.Empty);
             string szConnectionMode = SystemConfig.Instance.Get(ServerData.ConfigFile.NUR_CONN_MODE, string.Empty);
-            szRestString = GlobalMethods.Security.DecryptText(szRestString, ServerData.ConfigFile.NRS_CONN_STRING);
+            szRestString = GlobalMethods.Security.DecryptText(szRestString, ServerData.ConfigFile.CONFIG_ENCRYPT_KEY);
             szConnectionMode = GlobalMethods.Security.DecryptText(szConnectionMode, ServerData.ConfigFile.NUR_CONN_MODE);
             this.m_RestAccess = szRestString;
             this.m_ConnectionMode = this.GetConnectionMode(szConnectionMode);

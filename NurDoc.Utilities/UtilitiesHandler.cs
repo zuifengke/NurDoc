@@ -159,8 +159,8 @@ namespace Heren.NurDoc.Utilities
             ShiftPatient shiftPatient = new ShiftPatient();
             if (PatientTable.Instance.ActivePatient != null)
             {
-                shiftPatient.PatientID = PatientTable.Instance.ActivePatient.PatientID;
-                shiftPatient.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+                shiftPatient.PatientID = PatientTable.Instance.ActivePatient.PatientId;
+                shiftPatient.VisitID = PatientTable.Instance.ActivePatient.VisitId;
                 shiftPatient.SubID = PatientTable.Instance.ActivePatient.SubID;
                 shiftPatient.PatientName = PatientTable.Instance.ActivePatient.PatientName;
                 shiftPatient.PatientAge = GlobalMethods.SysTime.GetAgeText(PatientTable.Instance.ActivePatient.BirthTime);

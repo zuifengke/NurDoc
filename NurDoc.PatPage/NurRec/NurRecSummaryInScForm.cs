@@ -130,8 +130,8 @@ namespace Heren.NurDoc.PatPage.NurRec
             nursingRecInfo.ModifierID = nursingRecInfo.CreatorID;
             nursingRecInfo.ModifierName = nursingRecInfo.CreatorName;
             nursingRecInfo.ModifyTime = nursingRecInfo.CreateTime;
-            nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientID;
-            nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitID;
+            nursingRecInfo.PatientID = PatientTable.Instance.ActivePatient.PatientId;
+            nursingRecInfo.VisitID = PatientTable.Instance.ActivePatient.VisitId;
             nursingRecInfo.SubID = PatientTable.Instance.ActivePatient.SubID;
             nursingRecInfo.Recorder1Name = nursingRecInfo.CreatorName;
 

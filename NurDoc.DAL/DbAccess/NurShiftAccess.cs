@@ -904,9 +904,42 @@ namespace Heren.NurDoc.DAL.DbAccess
                 lstShiftPatients = new List<ShiftPatient>();
             lstShiftPatients.Clear();
 
+            //string szField = string.Format("B.{0},B.{1},B.{2},B.{3},B.{4},B.{5},B.{6},B.{7},B.{8},B.{9},B.{10},B.{11}"
+            //    + ",B.{12},B.{13},B.{14},B.{15},B.{16},B.{17},B.{18},B.{19},B.{20},B.{21},B.{22},A.{23},B.{24},C.{25}"
+            //    + ",B.{26},NVL(D.{27},'') {27},B.{28},B.{29},B.{30},B.{31},B.{32}"
+            //    , ServerData.ShiftPatientTable.SHIFT_RECORD_ID, ServerData.ShiftPatientTable.SHIFT_ITEM_NAME
+            //    , ServerData.ShiftPatientTable.PATIENT_ID, ServerData.ShiftPatientTable.PATIENT_NO
+            //    , ServerData.ShiftPatientTable.VISIT_ID, ServerData.ShiftPatientTable.SUB_ID
+            //    , ServerData.ShiftPatientTable.PATIENT_NAME, ServerData.ShiftPatientTable.PATIENT_AGE
+            //    , ServerData.ShiftPatientTable.WARD_CODE, ServerData.ShiftPatientTable.WARD_NAME
+            //    , ServerData.ShiftPatientTable.BED_CODE, ServerData.ShiftPatientTable.DIAGNOSIS
+            //    , ServerData.ShiftPatientTable.TEMPERATURE_VALUE, ServerData.ShiftPatientTable.TEMPERATURE_TYPE
+            //    , ServerData.ShiftPatientTable.PULSE_VALUE, ServerData.ShiftPatientTable.BREATH_VALUE
+            //    , ServerData.ShiftPatientTable.VITAL_TIME, ServerData.ShiftPatientTable.SPECIAL_ITEM1
+            //    , ServerData.ShiftPatientTable.SPECIAL_ITEM2, ServerData.ShiftPatientTable.SPECIAL_ITEM3
+            //    , ServerData.ShiftPatientTable.SPECIAL_ITEM4, ServerData.ShiftPatientTable.SPECIAL_ITEM5
+            //    , ServerData.ShiftPatientTable.SHIFT_CONTENT, ServerData.ShiftRecordTable.MODIFIER_NAME
+            //    , ServerData.ShiftPatientTable.SHOW_VALUE, ServerData.PatVisitView.VISIT_TIME
+            //    , ServerData.ShiftPatientTable.SHIFT_ITEM_ALIAS, ServerData.CommonDictTable.ITEM_NO
+            //    , ServerData.ShiftPatientTable.BLOODPRESSURE_VALUE, ServerData.ShiftPatientTable.DIET
+            //    , ServerData.ShiftPatientTable.ADVERSEREACTION, ServerData.ShiftPatientTable.REQUESTDOCTOR_NAME
+            //    , ServerData.ShiftPatientTable.PARENTDOCTOR_NAME);
+            //string szTable = string.Format("{0} A,{1} B,{2} C,{3} D", ServerData.DataTable.NUR_SHIFT_INDEX
+            //    , ServerData.DataTable.NUR_SHIFT_PATIENT, ServerData.DataView.PAT_VISIT, ServerData.DataTable.NUR_COMMON_DICT);
+            //string szCondition = string.Format("A.{0}='{1}' AND A.{2}={3} AND A.{4}=B.{5} AND B.{6}=C.{7} AND B.{8}=C.{9} AND (B.{10}=+D.{11} or B.{10} is null ) AND D.{12}='SHIFT_ITEM' AND (D.{13} = '{1}' OR D.{13} = 'ALL')"
+            //    , ServerData.ShiftRecordTable.WARD_CODE, szWardCode
+            //    , ServerData.ShiftRecordTable.SHIFT_RECORD_DATE, base.DataAccess.GetSqlTimeFormat(dtShiftDate)
+            //    , ServerData.ShiftRecordTable.SHIFT_RECORD_ID, ServerData.ShiftPatientTable.SHIFT_RECORD_ID
+            //    , ServerData.ShiftPatientTable.PATIENT_ID, ServerData.PatVisitView.PATIENT_ID
+            //    , ServerData.ShiftPatientTable.VISIT_ID, ServerData.PatVisitView.VISIT_ID
+            //    , ServerData.ShiftPatientTable.SHIFT_ITEM_NAME, ServerData.CommonDictTable.ITEM_NAME
+            //    , ServerData.CommonDictTable.ITEM_TYPE, ServerData.CommonDictTable.WARD_CODE);
+            //string szOrder = string.Format("{0}, {1}, {2}, {3}", ServerData.ShiftPatientTable.SHIFT_RECORD_ID, ServerData.CommonDictTable.ITEM_NO
+            //    , ServerData.ShiftPatientTable.SHIFT_ITEM_ALIAS, ServerData.ShiftPatientTable.BED_CODE);
+
             string szField = string.Format("B.{0},B.{1},B.{2},B.{3},B.{4},B.{5},B.{6},B.{7},B.{8},B.{9},B.{10},B.{11}"
                 + ",B.{12},B.{13},B.{14},B.{15},B.{16},B.{17},B.{18},B.{19},B.{20},B.{21},B.{22},A.{23},B.{24},C.{25}"
-                + ",B.{26},NVL(D.{27},'') {27},B.{28},B.{29},B.{30},B.{31},B.{32}"
+                + ",B.{26}, '0' as ITEM_NO,B.{27},B.{28},B.{29},B.{30},B.{31}"
                 , ServerData.ShiftPatientTable.SHIFT_RECORD_ID, ServerData.ShiftPatientTable.SHIFT_ITEM_NAME
                 , ServerData.ShiftPatientTable.PATIENT_ID, ServerData.ShiftPatientTable.PATIENT_NO
                 , ServerData.ShiftPatientTable.VISIT_ID, ServerData.ShiftPatientTable.SUB_ID
@@ -920,22 +953,21 @@ namespace Heren.NurDoc.DAL.DbAccess
                 , ServerData.ShiftPatientTable.SPECIAL_ITEM4, ServerData.ShiftPatientTable.SPECIAL_ITEM5
                 , ServerData.ShiftPatientTable.SHIFT_CONTENT, ServerData.ShiftRecordTable.MODIFIER_NAME
                 , ServerData.ShiftPatientTable.SHOW_VALUE, ServerData.PatVisitView.VISIT_TIME
-                , ServerData.ShiftPatientTable.SHIFT_ITEM_ALIAS, ServerData.CommonDictTable.ITEM_NO
+                , ServerData.ShiftPatientTable.SHIFT_ITEM_ALIAS
                 , ServerData.ShiftPatientTable.BLOODPRESSURE_VALUE, ServerData.ShiftPatientTable.DIET
                 , ServerData.ShiftPatientTable.ADVERSEREACTION, ServerData.ShiftPatientTable.REQUESTDOCTOR_NAME
                 , ServerData.ShiftPatientTable.PARENTDOCTOR_NAME);
-            string szTable = string.Format("{0} A,{1} B,{2} C,{3} D", ServerData.DataTable.NUR_SHIFT_INDEX
-                , ServerData.DataTable.NUR_SHIFT_PATIENT, ServerData.DataView.PAT_VISIT, ServerData.DataTable.NUR_COMMON_DICT);
-            string szCondition = string.Format("A.{0}='{1}' AND A.{2}={3} AND A.{4}=B.{5} AND B.{6}=C.{7} AND B.{8}=C.{9} AND (B.{10}=+D.{11} or B.{10} is null ) AND D.{12}='SHIFT_ITEM' AND (D.{13} = '{1}' OR D.{13} = 'ALL')"
+            string szTable = string.Format("{0} A,{1} B,{2} C", ServerData.DataTable.NUR_SHIFT_INDEX
+                , ServerData.DataTable.NUR_SHIFT_PATIENT, ServerData.DataView.PAT_VISIT);
+            string szCondition = string.Format("A.{0}='{1}' AND A.{2}={3} AND A.{4}=B.{5} AND B.{6}=C.{7} AND B.{8}=C.{9} "
                 , ServerData.ShiftRecordTable.WARD_CODE, szWardCode
                 , ServerData.ShiftRecordTable.SHIFT_RECORD_DATE, base.DataAccess.GetSqlTimeFormat(dtShiftDate)
                 , ServerData.ShiftRecordTable.SHIFT_RECORD_ID, ServerData.ShiftPatientTable.SHIFT_RECORD_ID
                 , ServerData.ShiftPatientTable.PATIENT_ID, ServerData.PatVisitView.PATIENT_ID
-                , ServerData.ShiftPatientTable.VISIT_ID, ServerData.PatVisitView.VISIT_ID
-                , ServerData.ShiftPatientTable.SHIFT_ITEM_NAME, ServerData.CommonDictTable.ITEM_NAME
-                , ServerData.CommonDictTable.ITEM_TYPE, ServerData.CommonDictTable.WARD_CODE);
-            string szOrder = string.Format("{0}, {1}, {2}, {3}", ServerData.ShiftPatientTable.SHIFT_RECORD_ID, ServerData.CommonDictTable.ITEM_NO
+                , ServerData.ShiftPatientTable.VISIT_ID, ServerData.PatVisitView.VISIT_ID);
+            string szOrder = string.Format("{0}, {1}, {2}, {3}", ServerData.ShiftPatientTable.SHIFT_RECORD_ID, ServerData.ShiftPatientTable.PATIENT_NO
                 , ServerData.ShiftPatientTable.SHIFT_ITEM_ALIAS, ServerData.ShiftPatientTable.BED_CODE);
+
             string szSQL = string.Format(ServerData.SQL.SELECT_WHERE_ORDER_ASC, szField, szTable, szCondition, szOrder);
             
             IDataReader dataReader = null;
@@ -1894,5 +1926,66 @@ namespace Heren.NurDoc.DAL.DbAccess
 
 
         #endregion
+
+        /// <summary>
+        /// 删除指定病区的指定交班索引信息
+        /// </summary>
+        /// <param name="szShiftRecordID">交班索引代码</param>
+        /// <param name="szWardCode">病区代码</param>
+        /// <returns>ServerData.ExecuteResult</returns>
+        public short DeleteShiftIndexInfo(string szShiftRecordID, string szWardCode)
+        {
+            if (base.DataAccess == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            if (string.IsNullOrEmpty(szShiftRecordID))
+                return ServerData.ExecuteResult.PARAM_ERROR;
+
+            string szTable = ServerData.DataTable.NUR_SHIFT_INDEX;
+            string szCondition = string.Format("{0}='{1}' and {2}='{3}'"
+                , ServerData.ShiftRecordTable.SHIFT_RECORD_ID, szShiftRecordID
+                , ServerData.ShiftItemAliasTable.WARD_CODE, szWardCode);
+
+            string szSQL = string.Format(ServerData.SQL.DELETE, szTable, szCondition);
+
+            try
+            {
+                base.DataAccess.ExecuteNonQuery(szSQL, CommandType.Text);
+                return ServerData.ExecuteResult.OK;
+            }
+            catch (Exception ex)
+            {
+                return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL语句执行失败!");
+            }
+            finally { base.DataAccess.CloseConnnection(false); }
+        }
+
+        /// <summary>
+        /// 删除指定病区的指定交班动态信息
+        /// </summary>
+        /// <param name="szShiftRecordID">交班索引代码</param>
+        /// <returns>ServerData.ExecuteResult</returns>
+        public short DeleteShiftWardStatusInfo(string szShiftRecordID)
+        {
+            if (base.DataAccess == null)
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            if(string.IsNullOrEmpty(szShiftRecordID))
+                return ServerData.ExecuteResult.PARAM_ERROR;
+            string szTable = ServerData.DataTable.NUR_SHIFT_INDEX;
+            string szCondition = string.Format("{0}='{1}'"
+                , ServerData.ShiftWardStatusTable.SHIFT_RECORD_ID, szShiftRecordID);
+
+            string szSQL = string.Format(ServerData.SQL.DELETE, szTable, szCondition);
+
+            try
+            {
+                base.DataAccess.ExecuteNonQuery(szSQL, CommandType.Text);
+                return ServerData.ExecuteResult.OK;
+            }
+            catch (Exception ex)
+            {
+                return this.HandleException(ex, System.Reflection.MethodInfo.GetCurrentMethod(), szSQL, "SQL语句执行失败!");
+            }
+            finally { base.DataAccess.CloseConnnection(false); }
+        }
     }
 }

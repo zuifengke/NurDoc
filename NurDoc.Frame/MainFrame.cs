@@ -458,7 +458,7 @@ namespace Heren.NurDoc.Frame
         {
             if (patVisit == null)
                 return null;
-            return this.GetPatientPageForm(patVisit.PatientID, patVisit.VisitID);
+            return this.GetPatientPageForm(patVisit.PatientId, patVisit.VisitId);
         }
 
         /// <summary>
@@ -476,8 +476,8 @@ namespace Heren.NurDoc.Frame
                     continue;
                 if (patientPageForm.PatVisitInfo == null)
                     continue;
-                if (patientPageForm.PatVisitInfo.PatientID == szPatientID
-                    && patientPageForm.PatVisitInfo.VisitID == szVisitID)
+                if (patientPageForm.PatVisitInfo.PatientId == szPatientID
+                    && patientPageForm.PatVisitInfo.VisitId == szVisitID)
                     return patientPageForm;
             }
             return null;
@@ -721,6 +721,7 @@ namespace Heren.NurDoc.Frame
                 return true;
             }
             short shRet = PatVisitService.Instance.GetPatVisitInfo(szPatientID, szVisitID, ref patVisit);
+            
             if (shRet == SystemConst.ReturnValue.FAILED)
                 MessageBoxEx.ShowErrorFormat("没有找到病历号={0},就诊号={1}的病人!", null, szPatientID, szVisitID);
             else if (shRet != SystemConst.ReturnValue.OK)

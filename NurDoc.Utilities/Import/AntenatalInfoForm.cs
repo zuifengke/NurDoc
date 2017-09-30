@@ -67,8 +67,8 @@ namespace Heren.NurDoc.Utilities.Import
             //如果外部没有设置病人,那么默认
             if (PatientTable.Instance.ActivePatient != null)
             {
-                m_patientID = PatientTable.Instance.ActivePatient.PatientID;
-                m_visitID = PatientTable.Instance.ActivePatient.VisitID;
+                m_patientID = PatientTable.Instance.ActivePatient.PatientId;
+                m_visitID = PatientTable.Instance.ActivePatient.VisitId;
             }
 
             //如果已经加载,那么不再重复加载

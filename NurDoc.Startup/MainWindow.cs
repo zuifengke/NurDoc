@@ -113,7 +113,7 @@ namespace Heren.NurDoc.Startup
             //更新系统用户信息
             if (StartupArgs.Instance.UserInfo == null)
                 return false;
-
+            
             bool isFirst = (SystemContext.Instance.LoginUser == null);
             if (StartupArgs.Instance.SinglePatMod)
             {
@@ -122,9 +122,10 @@ namespace Heren.NurDoc.Startup
             }
             else if (!this.m_mainFrame.SwitchSystemUser(StartupArgs.Instance.UserInfo, false))
                 return false;
-
+            
             //打开传入的病人对应的病人窗口
-            this.m_mainFrame.ShowPatientPageForm(StartupArgs.Instance.PatientID, StartupArgs.Instance.VisitID);
+            //this.m_mainFrame.ShowPatientPageForm(StartupArgs.Instance.PatientID, StartupArgs.Instance.VisitID);
+            this.m_mainFrame.ShowPatientPageForm(StartupArgs.Instance.PatientID, StartupArgs.Instance.VisitID, StartupArgs.Instance.DoctypeID, StartupArgs.Instance.DocID);
             return true;
         }
     }

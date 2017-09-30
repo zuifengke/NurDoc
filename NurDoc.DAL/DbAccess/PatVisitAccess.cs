@@ -48,7 +48,7 @@ namespace Heren.NurDoc.DAL.DbAccess
                 , ServerData.PatVisitView.VISIT_ID, szVisitID);
 
             string szSQL = string.Format(ServerData.SQL.SELECT_WHERE, szField, ServerData.DataView.PAT_VISIT, szCondition);
-
+            
             IDataReader dataReader = null;
             try
             {
@@ -59,12 +59,12 @@ namespace Heren.NurDoc.DAL.DbAccess
                 }
                 if (patVisitInfo == null)
                     patVisitInfo = new PatVisitInfo();
-                if (!dataReader.IsDBNull(0)) patVisitInfo.PatientID = dataReader.GetString(0);
+                if (!dataReader.IsDBNull(0)) patVisitInfo.PatientId = dataReader.GetString(0);
                 if (!dataReader.IsDBNull(1)) patVisitInfo.PatientName = dataReader.GetString(1);
                 if (!dataReader.IsDBNull(2)) patVisitInfo.PatientSex = dataReader.GetString(2);
                 if (!dataReader.IsDBNull(3)) patVisitInfo.BirthTime = dataReader.GetDateTime(3);
                 if (!dataReader.IsDBNull(4)) patVisitInfo.ChargeType = dataReader.GetString(4);
-                if (!dataReader.IsDBNull(5)) patVisitInfo.VisitID = dataReader.GetString(5);
+                if (!dataReader.IsDBNull(5)) patVisitInfo.VisitId = dataReader.GetString(5);
                 if (!dataReader.IsDBNull(6)) patVisitInfo.VisitTime = dataReader.GetDateTime(6);
                 if (!dataReader.IsDBNull(7)) patVisitInfo.BedCode = dataReader.GetValue(7).ToString();
                 if (!dataReader.IsDBNull(8)) patVisitInfo.DeptCode = dataReader.GetString(8);
@@ -168,12 +168,12 @@ namespace Heren.NurDoc.DAL.DbAccess
                 do
                 {
                     PatVisitInfo patVisitInfo = new PatVisitInfo();
-                    if (!dataReader.IsDBNull(0)) patVisitInfo.PatientID = dataReader.GetString(0);
+                    if (!dataReader.IsDBNull(0)) patVisitInfo.PatientId = dataReader.GetString(0);
                     if (!dataReader.IsDBNull(1)) patVisitInfo.PatientName = dataReader.GetString(1);
                     if (!dataReader.IsDBNull(2)) patVisitInfo.PatientSex = dataReader.GetString(2);
                     if (!dataReader.IsDBNull(3)) patVisitInfo.BirthTime = dataReader.GetDateTime(3);
                     if (!dataReader.IsDBNull(4)) patVisitInfo.ChargeType = dataReader.GetString(4);
-                    if (!dataReader.IsDBNull(5)) patVisitInfo.VisitID = dataReader.GetString(5);
+                    if (!dataReader.IsDBNull(5)) patVisitInfo.VisitId = dataReader.GetString(5);
                     if (!dataReader.IsDBNull(6)) patVisitInfo.VisitTime = dataReader.GetDateTime(6);
                     if (!dataReader.IsDBNull(7)) patVisitInfo.BedCode = dataReader.GetValue(7).ToString();
                     if (!dataReader.IsDBNull(8)) patVisitInfo.DeptCode = dataReader.GetString(8);
@@ -358,12 +358,12 @@ namespace Heren.NurDoc.DAL.DbAccess
                 do
                 {
                     PatVisitInfo patVisitInfo = new PatVisitInfo();
-                    if (!dataReader.IsDBNull(0)) patVisitInfo.PatientID = dataReader.GetString(0);
+                    if (!dataReader.IsDBNull(0)) patVisitInfo.PatientId = dataReader.GetString(0);
                     if (!dataReader.IsDBNull(1)) patVisitInfo.PatientName = dataReader.GetString(1);
                     if (!dataReader.IsDBNull(2)) patVisitInfo.PatientSex = dataReader.GetString(2);
                     if (!dataReader.IsDBNull(3)) patVisitInfo.BirthTime = dataReader.GetDateTime(3);
                     if (!dataReader.IsDBNull(4)) patVisitInfo.ChargeType = dataReader.GetString(4);
-                    if (!dataReader.IsDBNull(5)) patVisitInfo.VisitID = dataReader.GetString(5);
+                    if (!dataReader.IsDBNull(5)) patVisitInfo.VisitId = dataReader.GetString(5);
                     if (!dataReader.IsDBNull(6)) patVisitInfo.VisitTime = dataReader.GetDateTime(6);
                     if (!dataReader.IsDBNull(7)) patVisitInfo.BedCode = dataReader.GetValue(7).ToString();
                     if (!dataReader.IsDBNull(8)) patVisitInfo.DeptCode = dataReader.GetString(8);

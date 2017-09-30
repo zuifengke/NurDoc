@@ -91,6 +91,15 @@ namespace Heren.NurDoc.PatPage.Document
         }
 
         /// <summary>
+        /// 是否允许显示另存为按钮
+        /// </summary>
+        [Browsable(false)]
+        public Boolean SaveAsButtonVisible
+        {
+            get { return SystemContext.Instance.SystemOption.SaveAsButtonVisible; }
+        }
+
+        /// <summary>
         /// 获取当前窗口数据是否已经被修改
         /// </summary>
         [Browsable(false)]
@@ -632,7 +641,7 @@ namespace Heren.NurDoc.PatPage.Document
             bool bIsRepeatable = FormCache.Instance.IsFormRepeatable(szDocTypeID);
             if (this.toolbtnSaveAs.Visible != bIsRepeatable)
                 this.toolbtnSaveAs.Visible = bIsRepeatable;
-            this.toolbtnSaveAs.Visible = RightController.Instance.CanShowSaveAsButton();
+            this.toolbtnSaveAs.Visible = SaveAsButtonVisible;
 
             DocTypeInfo docTypeInfo = FormCache.Instance.GetDocTypeInfo(szDocTypeID);
             if (docTypeInfo == null)
@@ -912,8 +921,8 @@ namespace Heren.NurDoc.PatPage.Document
                         }
                     }
                     DataRow row = dtPatientInfo.Rows.Add();
-                    row["PATIENT_ID"] = PatientTable.Instance.ActivePatient.PatientID;
-                    row["VISIT_ID"] = PatientTable.Instance.ActivePatient.VisitID;
+                    row["PATIENT_ID"] = PatientTable.Instance.ActivePatient.PatientId;
+                    row["VISIT_ID"] = PatientTable.Instance.ActivePatient.VisitId;
                     row["BeginTime"] = shiftRankInfo.StartTime;
                     row["EndTime"] = shiftRankInfo.EndTime;
                 }

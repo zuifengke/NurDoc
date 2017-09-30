@@ -1500,6 +1500,11 @@ namespace Heren.NurDoc.DAL
             /// 护理记录单打印最大预览页数 防止内存不够问题
             /// </summary>
             public const string NUR_REC_MAX_PREVIEWPAGES = "NUR_REC_MAX_PREVIEWPAGES";
+
+            /// <summary>
+            /// 是否允许显示另存为按钮，1允许，0不允许，默认不允许
+            /// </summary>
+            public const string SYSTEM_OPTINT_SAVEASBUTTONVISIBLE = "SYSTEM_OPTINT_SAVEASBUTTONVISIBLE";
         }
 
         /// <summary>
@@ -2921,10 +2926,16 @@ namespace Heren.NurDoc.DAL
             /// 质量与安全管理记录文档状态表
             /// </summary>
             public const string QC_DOC_STATUS = "QC_DOC_STATUS";
+
             /// <summary>
             /// 评估任务表
             /// </summary>
             public const string ASSESSMENT_CYCLE = "ASSESSMENT_CYCLE";
+
+            /// <summary>
+            /// 医嘱回写表
+            /// </summary>
+            public const string ORDERS_WRITE_BACK = "ORDERS_WRITE_BACK";
         }
 
         /// <summary>
@@ -3347,6 +3358,57 @@ namespace Heren.NurDoc.DAL
             /// 所属文档类型ID
             /// </summary>
             public const string DOCTYPE_ID = "DOCTYPE_ID";
+        }
+
+        /// <summary>
+        /// 病历摘要数据表
+        /// </summary>
+        internal struct OrdersWriteBackDataTable
+        {         
+            /// <summary>
+            /// 病人ID
+            /// </summary>
+            public const string PATIENT_ID = "PATIENT_ID";
+
+            /// <summary>
+            /// 就诊ID
+            /// </summary>
+            public const string VISIT_ID = "VISIT_ID";
+
+            /// <summary>
+            /// 医嘱序号
+            /// </summary>
+            public const string ORDER_NO = "ORDER_NO";
+
+            /// <summary>
+            /// 子医嘱序号
+            /// </summary>
+            public const string ORDER_SUB_NO = "ORDER_SUB_NO";
+
+            /// <summary>
+            /// 记录时间
+            /// </summary>
+            public const string RECORD_TIME = "RECORD_TIME";
+
+            /// <summary>
+            /// 记录ID
+            /// </summary>
+            public const string RECORD_ID = "RECORD_ID";
+
+            /// <summary>
+            /// 数据名称
+            /// </summary>
+            public const string DATA_NAME = "DATA_NAME";
+
+            /// <summary>
+            /// 管道状态
+            /// </summary>
+            public const string STATUS = "STATUS";
+
+            /// <summary>
+            /// 文档ID
+            /// </summary>
+            public const string DOC_ID = "DOC_ID";
         }
 
         /// <summary>
@@ -5746,6 +5808,21 @@ namespace Heren.NurDoc.DAL
             /// "SELECT {0} FROM {1} WHERE {2} GROUP BY {3} ORDER BY {4} DESC"
             /// </summary>
             public const string SELECT_FROM_WHERE_GROUP_ORDER_DESC = "SELECT {0} FROM {1} WHERE {2} GROUP BY {3} ORDER BY {4} DESC";
+
+            /// <summary>
+            /// SELECT COUNT(*) FROM {0}
+            /// </summary>
+            public const string SELECT_COUNT = "SELECT COUNT(*) FROM {0} WHERE {1}";
+
+            /// <summary>
+            ///  {0} =  '{1}', 
+            /// </summary>
+            public const string UpdateNameValue = " {0} =  '{1}', ";
+
+            /// <summary>
+            ///  {0} =  '{1}'
+            /// </summary>
+            public const string NameValue = " {0} =  '{1}' ";
 
             /// <summary>
             /// "Create {0} ({1}) tablespace {2}"

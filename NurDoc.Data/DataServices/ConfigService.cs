@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.Text;
 using Heren.Common.Libraries;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class ConfigService
+    public class ConfigService : DBAccessBase
     {
         private static ConfigService m_instance = null;
 
@@ -42,10 +43,20 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short GetConfigData(string szGroupName, string szConfigName, ref List<ConfigInfo> lstConfigInfos)
         {
-            if (SystemContext.Instance.ConfigAccess == null)
-                return SystemConst.ReturnValue.FAILED;
-
-            short shRet = SystemContext.Instance.ConfigAccess.GetConfigData(szGroupName, szConfigName, ref lstConfigInfos);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szGroupName", szGroupName);
+                RestHandler.Instance.AddParameter("szConfigName", szConfigName);
+                shRet = RestHandler.Instance.Get<ConfigInfo>("ConfigAccess/GetConfigData", ref lstConfigInfos);
+            }
+            else
+            {
+                if (SystemContext.Instance.ConfigAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
+                shRet = SystemContext.Instance.ConfigAccess.GetConfigData(szGroupName, szConfigName, ref lstConfigInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != SystemConst.ReturnValue.OK)
@@ -60,10 +71,20 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short SaveConfigData(ConfigInfo configInfo)
         {
-            if (SystemContext.Instance.ConfigAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(configInfo);
+                shRet = RestHandler.Instance.Post("ConfigAccess/SaveConfigData");
+            }
+            else
+            {
+                if (SystemContext.Instance.ConfigAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
 
-            short shRet = SystemContext.Instance.ConfigAccess.SaveConfigData(configInfo);
+                shRet = SystemContext.Instance.ConfigAccess.SaveConfigData(configInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
             {
                 return SystemConst.ReturnValue.FAILED;
@@ -80,10 +101,22 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short UpdateConfigData(string szGroupName, string szConfigName, ConfigInfo configInfo)
         {
-            if (SystemContext.Instance.ConfigAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szGroupName", szGroupName);
+                RestHandler.Instance.AddParameter("szConfigName", szConfigName);
+                RestHandler.Instance.AddParameter(configInfo);
+                shRet = RestHandler.Instance.Post("ConfigAccess/UpdateConfigData");
+            }
+            else
+            {
+                if (SystemContext.Instance.ConfigAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
 
-            short shRet = SystemContext.Instance.ConfigAccess.UpdateConfigData(szGroupName, szConfigName, configInfo);
+                shRet = SystemContext.Instance.ConfigAccess.UpdateConfigData(szGroupName, szConfigName, configInfo);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
             {
                 return SystemConst.ReturnValue.FAILED;
@@ -99,10 +132,21 @@ namespace Heren.NurDoc.Data
         /// <returns>DataLayer.SystemData.ReturnValue</returns>
         public short DeleteConfigData(string szGroupName, string szConfigName)
         {
-            if (SystemContext.Instance.ConfigAccess == null)
-                return SystemConst.ReturnValue.FAILED;
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szGroupName", szGroupName);
+                RestHandler.Instance.AddParameter("szConfigName", szConfigName);
+                shRet = RestHandler.Instance.Put("ConfigAccess/DeleteConfigData");
+            }
+            else
+            {
+                if (SystemContext.Instance.ConfigAccess == null)
+                    return SystemConst.ReturnValue.FAILED;
 
-            short shRet = SystemContext.Instance.ConfigAccess.DeleteConfigData(szGroupName, szConfigName);
+                shRet = SystemContext.Instance.ConfigAccess.DeleteConfigData(szGroupName, szConfigName);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -183,7 +227,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetGridViewSchemas(string szSchemaType, string szDeptCode, ref List<GridViewSchema> lstGridViewSchemas)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.GetGridViewSchemas(szSchemaType, szDeptCode, ref lstGridViewSchemas);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaType", szSchemaType);
+                RestHandler.Instance.AddParameter("szDeptCode", szDeptCode);
+                shRet = RestHandler.Instance.Get<GridViewSchema>("ConfigAccess/GetGridViewSchemas", ref lstGridViewSchemas);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.GetGridViewSchemas(szSchemaType, szDeptCode, ref lstGridViewSchemas);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -198,7 +253,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveGridViewSchema(GridViewSchema gridViewSchema)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.SaveGridViewSchema(gridViewSchema);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(gridViewSchema);
+                shRet = RestHandler.Instance.Post("ConfigAccess/SaveGridViewSchema");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.SaveGridViewSchema(gridViewSchema);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -214,7 +279,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short UpdateGridViewSchema(string szSchemaID, GridViewSchema gridViewSchema)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.UpdateGridViewSchema(szSchemaID, gridViewSchema);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                RestHandler.Instance.AddParameter(gridViewSchema);
+                shRet = RestHandler.Instance.Post("ConfigAccess/UpdateGridViewSchema");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.UpdateGridViewSchema(szSchemaID, gridViewSchema);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -231,7 +307,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SetDefaultGridViewSchema(string szSchemaID, string szSchemaType, string szWardCode)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.SetDefaultGridViewSchema(szSchemaID, szSchemaType, szWardCode);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                RestHandler.Instance.AddParameter("szSchemaType", szSchemaType);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode); 
+                shRet = RestHandler.Instance.Put("ConfigAccess/SetDefaultGridViewSchema");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.SetDefaultGridViewSchema(szSchemaID, szSchemaType, szWardCode);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -246,7 +334,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short DeleteGridViewSchema(string szSchemaID)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.DeleteGridViewSchema(szSchemaID);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                shRet = RestHandler.Instance.Put("ConfigAccess/DeleteGridViewSchema");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.DeleteGridViewSchema(szSchemaID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -262,7 +360,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetGridViewColumns(string szSchemaID, ref List<GridViewColumn> lstGridViewColumns)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.GetGridViewColumns(szSchemaID, ref lstGridViewColumns);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                shRet = RestHandler.Instance.Get<GridViewColumn>("ConfigAccess/GetGridViewColumns", ref lstGridViewColumns);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.GetGridViewColumns(szSchemaID, ref lstGridViewColumns);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -278,7 +386,18 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveGridViewColumns(string szSchemaID, List<GridViewColumn> lstGridViewColumns)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.SaveGridViewColumns(szSchemaID, lstGridViewColumns);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                RestHandler.Instance.AddParameter(lstGridViewColumns);
+                shRet = RestHandler.Instance.Post("ConfigAccess/SaveGridViewColumns");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.SaveGridViewColumns(szSchemaID, lstGridViewColumns);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -293,7 +412,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveGridViewColumn(GridViewColumn gridViewColumn)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.SaveGridViewColumn(gridViewColumn);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(gridViewColumn);
+                shRet = RestHandler.Instance.Post("ConfigAccess/SaveGridViewColumn");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.SaveGridViewColumn(gridViewColumn);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -308,7 +437,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short DeleteGridViewColumns(string szSchemaID)
         {
-            short shRet = SystemContext.Instance.ConfigAccess.DeleteGridViewColumns(szSchemaID);
+            short shRet = SystemConst.ReturnValue.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                shRet = RestHandler.Instance.Put("ConfigAccess/DeleteGridViewColumns");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.ConfigAccess.DeleteGridViewColumns(szSchemaID);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)

@@ -86,8 +86,8 @@ namespace Heren.NurDoc.PatPage.Controls
                     PatVisitInfo patVisit = item as PatVisitInfo;
                     if (patVisit == null)
                         continue;
-                    if (patVisit.PatientID == this.m_patVisit.PatientID
-                        && patVisit.VisitID == this.m_patVisit.VisitID)
+                    if (patVisit.PatientId == this.m_patVisit.PatientId
+                        && patVisit.VisitId == this.m_patVisit.VisitId)
                     {
                         this.m_PatientListBox.SelectedItem = patVisit;
                         break;

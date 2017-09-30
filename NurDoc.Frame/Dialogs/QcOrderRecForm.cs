@@ -100,9 +100,9 @@ namespace Heren.NurDoc.Frame
             if (this.m_patVisitInfo == null)
                 return false;
             this.Update();
-            string szPatientID = this.m_patVisitInfo.PatientID;
-            string szVisitID = this.m_patVisitInfo.VisitID;
-            this.toollblPatientID.Text = this.m_patVisitInfo.PatientID;
+            string szPatientID = this.m_patVisitInfo.PatientId;
+            string szVisitID = this.m_patVisitInfo.VisitId;
+            this.toollblPatientID.Text = this.m_patVisitInfo.PatientId;
             this.toollblPatientName.Text = this.m_patVisitInfo.PatientName;
             DateTime dtBeginDate = SysTimeService.Instance.Now.AddDays(-1).Date;
             if (this.m_patVisitInfo != null)
@@ -262,7 +262,7 @@ namespace Heren.NurDoc.Frame
             }
             List<QCExamineInfo> lstQCExamineInfo = new List<QCExamineInfo>();
             short shRet = QCExamineService.Instance.GetQcExamineInfos(ServerData.ExamineType.ORDERS,
-                this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref lstQCExamineInfo);
+                this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref lstQCExamineInfo);
             if (shRet != ServerData.ExecuteResult.OK)
             {
                 return;
@@ -422,7 +422,7 @@ namespace Heren.NurDoc.Frame
             else if (szCurrentRowStatus == ServerData.ExamineStatus.QC_MARK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("…Û∫À ˝æ›≤È—Ø ß∞‹£°");
@@ -455,7 +455,7 @@ namespace Heren.NurDoc.Frame
             if (szCurrentRowStatus == ServerData.ExamineStatus.QC_OK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("…Û∫À ˝æ›≤È—Ø ß∞‹£°");
@@ -512,7 +512,7 @@ namespace Heren.NurDoc.Frame
             else if (szCurrentRowStatus == ServerData.ExamineStatus.QC_MARK)
             {
                 QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                 if (shRet != ServerData.ExecuteResult.OK)
                 {
                     MessageBoxEx.Show("…Û∫À ˝æ›≤È—Ø ß∞‹£°");
@@ -586,7 +586,7 @@ namespace Heren.NurDoc.Frame
                 else if (szRowStatus == ServerData.ExamineStatus.QC_MARK)
                 {
                     QCExamineInfo qcExamineInfo = new QCExamineInfo();
-                    short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientID, this.m_patVisitInfo.VisitID, ref qcExamineInfo);
+                    short shRet = QCExamineService.Instance.GetQcExamineInfo(key, ServerData.ExamineType.ORDERS, this.m_patVisitInfo.PatientId, this.m_patVisitInfo.VisitId, ref qcExamineInfo);
                     if (shRet != ServerData.ExecuteResult.OK)
                     {
                         ErrorCount++;

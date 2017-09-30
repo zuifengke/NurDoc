@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Text;
 using Heren.Common.Libraries;
 using Heren.NurDoc.DAL;
+using Heren.NurDoc.DAL.DbAccess;
+using Heren.Common.Libraries.DbAccess;
 
 namespace Heren.NurDoc.Data
 {
-    public class NurRecService
+    public class NurRecService : DBAccessBase
     {
         private static NurRecService m_instance = null;
 
@@ -41,7 +43,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short GetNursingRec(string szRecordID, string PatientID, string VisitID, ref NursingRecInfo nursingRecInfo)
         {
-            short shRet = SystemContext.Instance.NurRecAccess.GetNursingRec(szRecordID, PatientID, VisitID, ref nursingRecInfo);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szRecordID", szRecordID);
+                RestHandler.Instance.AddParameter("szPatientID", PatientID);
+                RestHandler.Instance.AddParameter("szVisitID", VisitID);
+                shRet = RestHandler.Instance.Get<NursingRecInfo>("NurRecAccess/GetNursingRec", ref nursingRecInfo);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.GetNursingRec(szRecordID, PatientID, VisitID, ref nursingRecInfo);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -62,8 +76,63 @@ namespace Heren.NurDoc.Data
         public short GetNursingRecList(string szPatientID, string szVisitID, string szSubID
             , DateTime dtBeginTime, DateTime dtEndTime, ref List<NursingRecInfo> lstNursingRecInfos)
         {
-            short shRet = SystemContext.Instance.NurRecAccess.GetNursingRecList(szPatientID, szVisitID, szSubID
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                shRet = RestHandler.Instance.Get<NursingRecInfo>("NurRecAccess/GetNursingRecList1", ref lstNursingRecInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.GetNursingRecList(szPatientID, szVisitID, szSubID
                 , dtBeginTime, dtEndTime, ref lstNursingRecInfos);
+            }
+            if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
+                return SystemConst.ReturnValue.OK;
+            if (shRet != ServerData.ExecuteResult.OK)
+                return SystemConst.ReturnValue.FAILED;
+            return SystemConst.ReturnValue.OK;
+        }
+
+        /// <summary>
+        /// 获取病人护理记录数据数量
+        /// </summary>
+        /// <param name="szPatientID">病人ID</param>
+        /// <param name="szVisitID">就诊ID</param>
+        /// <param name="szSubID">就诊子ID</param>
+        /// <param name="dtBeginTime">记录时间</param>
+        /// <param name="dtEndTime">记录时间</param>
+        /// <param name="count">体征数据</param>
+        /// <returns>ServerData.ExecuteResult</returns>
+        public short GetNursingRecCount(string szPatientID, string szVisitID, string szSubID
+            , DateTime dtBeginTime, DateTime dtEndTime, ref int count)
+        {
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                List<NursingRecInfo> lstNursingRecInfos = new List<NursingRecInfo>();
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                shRet = RestHandler.Instance.Get<NursingRecInfo>("NurRecAccess/GetNursingRecCount", ref lstNursingRecInfos);
+                if (lstNursingRecInfos != null)
+                    count = lstNursingRecInfos.Count;
+                else
+                    count = 0;
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.GetNursingRecCount(szPatientID, szVisitID, szSubID
+               , dtBeginTime, dtEndTime, ref count);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -85,8 +154,23 @@ namespace Heren.NurDoc.Data
         public short GetNursingRecList(string szPatientID, string szVisitID, string szSubID, string szSchemaID
             , DateTime dtBeginTime, DateTime dtEndTime, ref List<NursingRecInfo> lstNursingRecInfos)
         {
-            short shRet = SystemContext.Instance.NurRecAccess.GetNursingRecList(szPatientID, szVisitID, szSubID, szSchemaID
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                RestHandler.Instance.AddParameter("dtBeginTime", dtBeginTime);
+                RestHandler.Instance.AddParameter("dtEndTime", dtEndTime);
+                shRet = RestHandler.Instance.Get<NursingRecInfo>("NurRecAccess/GetNursingRecList2", ref lstNursingRecInfos);
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.GetNursingRecList(szPatientID, szVisitID, szSubID, szSchemaID
                 , dtBeginTime, dtEndTime, ref lstNursingRecInfos);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -102,7 +186,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short SaveNursingRec(NursingRecInfo nursingRecInfo)
         {
-            return SystemContext.Instance.NurRecAccess.SaveNursingRec(nursingRecInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(nursingRecInfo);
+                return RestHandler.Instance.Post("NurRecAccess/SaveNursingRec");
+            }
+            else
+            {
+                return SystemContext.Instance.NurRecAccess.SaveNursingRec(nursingRecInfo);
+            }
         }
 
         /// <summary>
@@ -112,7 +205,16 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short UpdateNursingRec(NursingRecInfo nursingRecInfo)
         {
-            return SystemContext.Instance.NurRecAccess.UpdateNursingRec(nursingRecInfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(nursingRecInfo);
+                return RestHandler.Instance.Post("NurRecAccess/UpdateNursingRec");
+            }
+            else
+            {
+                return SystemContext.Instance.NurRecAccess.UpdateNursingRec(nursingRecInfo);
+            }
         }
 
         /// <summary>
@@ -122,17 +224,47 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short UpdatePrintState(string RecordID)
         {
-            return SystemContext.Instance.NurRecAccess.UpdatePrintState(RecordID);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("RecordID", RecordID);
+                return RestHandler.Instance.Put("NurRecAccess/UpdatePrintState");
+            }
+            else
+            {
+                return SystemContext.Instance.NurRecAccess.UpdatePrintState(RecordID);
+            }
         }
 
         public short GetPrintLog(string szPatientID, string szVisitID, string szWardCode, string szSchemaID, ref RecPrintinfo RecPrintinfo)
         {
-            return SystemContext.Instance.NurRecAccess.GetPrintLog(szPatientID, szVisitID, szWardCode, szSchemaID, ref RecPrintinfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szWardCode", szWardCode);
+                RestHandler.Instance.AddParameter("szSchemaID", szSchemaID);
+                return RestHandler.Instance.Get<RecPrintinfo>("NurRecAccess/GetPrintLog", ref RecPrintinfo);
+            }
+            else
+            {
+                return SystemContext.Instance.NurRecAccess.GetPrintLog(szPatientID, szVisitID, szWardCode, szSchemaID, ref RecPrintinfo);
+            }
         }
 
         public short SavePrintLog(RecPrintinfo RecPrintinfo)
         {
-            return SystemContext.Instance.NurRecAccess.SavePrintLog(RecPrintinfo);
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter(RecPrintinfo);
+                return RestHandler.Instance.Post("NurRecAccess/SavePrintLog");
+            }
+            else
+            {
+                return SystemContext.Instance.NurRecAccess.SavePrintLog(RecPrintinfo);
+            }
         }
 
         /// <summary>
@@ -210,7 +342,18 @@ namespace Heren.NurDoc.Data
                 summaryData.SubID = nursingRecInfo.SubID;
                 summaryData.WardCode = nursingRecInfo.WardCode;
             }
-            short shRet = SystemContext.Instance.DocumentAccess.SaveSummaryData(szRecordID, lstSummaryData);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szDocID", szRecordID);
+                RestHandler.Instance.AddParameter(lstSummaryData);
+                shRet = RestHandler.Instance.Post("DocumentAccess/SaveSummaryData");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.DocumentAccess.SaveSummaryData(szRecordID, lstSummaryData);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
@@ -263,8 +406,23 @@ namespace Heren.NurDoc.Data
         public short DeleteNursingRec(string szPatientID, string szVisitID, string szSubID
             , DateTime dtRecordTime, string szModifierID, string szModifierName)
         {
-            short shRet = SystemContext.Instance.NurRecAccess.DeleteNursingRec(szPatientID, szVisitID, szSubID
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szPatientID", szPatientID);
+                RestHandler.Instance.AddParameter("szVisitID", szVisitID);
+                RestHandler.Instance.AddParameter("szSubID", szSubID);
+                RestHandler.Instance.AddParameter("dtRecordTime", dtRecordTime);
+                RestHandler.Instance.AddParameter("szModifierID", szModifierID);
+                RestHandler.Instance.AddParameter("szModifierName", szModifierName);
+                shRet = RestHandler.Instance.Put("NurRecAccess/DeleteNursingRec1");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.DeleteNursingRec(szPatientID, szVisitID, szSubID
                 , dtRecordTime, szModifierID, szModifierName);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -281,7 +439,19 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemData.ExecuteResult</returns>
         public short DeleteNursingRec(string szRecordID, string szModifierID, string szModifierName)
         {
-            short shRet = SystemContext.Instance.NurRecAccess.DeleteNursingRec(szRecordID, szModifierID, szModifierName);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szRecordID", szRecordID);
+                RestHandler.Instance.AddParameter("szModifierID", szModifierID);
+                RestHandler.Instance.AddParameter("szModifierName", szModifierName);
+                shRet = RestHandler.Instance.Put("NurRecAccess/DeleteNursingRec2");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.DeleteNursingRec(szRecordID, szModifierID, szModifierName);
+            }
             if (shRet == ServerData.ExecuteResult.RES_NO_FOUND)
                 return SystemConst.ReturnValue.OK;
             if (shRet != ServerData.ExecuteResult.OK)
@@ -296,7 +466,17 @@ namespace Heren.NurDoc.Data
         /// <returns>SystemConst.ReturnValue</returns>
         public short DeleteSummaryData(string szRecordID)
         {
-            short shRet = SystemContext.Instance.NurRecAccess.DeleteSummaryData(szRecordID);
+            short shRet = ServerData.ExecuteResult.OK;
+            if (base.ConnectionMode == ConnectionMode.Rest)
+            {
+                RestHandler.Instance.ClearParameters();
+                RestHandler.Instance.AddParameter("szRecordID", szRecordID);
+                shRet = RestHandler.Instance.Put("NurRecAccess/DeleteSummaryData");
+            }
+            else
+            {
+                shRet = SystemContext.Instance.NurRecAccess.DeleteSummaryData(szRecordID);
+            }
             if (shRet != ServerData.ExecuteResult.OK)
                 return SystemConst.ReturnValue.FAILED;
             return SystemConst.ReturnValue.OK;
